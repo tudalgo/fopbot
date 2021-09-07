@@ -1,3 +1,6 @@
+.idea
+*.iml
+
 #### JAVA GITIGNORE
 # Compiled class file
 *.class
