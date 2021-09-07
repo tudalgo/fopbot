@@ -20,6 +20,8 @@ public class AnimatedWorld implements foshbot.World {
 
     private double updateTimeout = 0.0;
 
+    private boolean running = true;
+
     private final Grid grid;
 
     public AnimatedWorld(int width, int height) {
@@ -172,5 +174,14 @@ public class AnimatedWorld implements foshbot.World {
         } finally {
             lock.unlock();
         }
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    @Override
+    public void stop() {
+        running = false;
     }
 }

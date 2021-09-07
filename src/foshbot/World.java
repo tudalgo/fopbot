@@ -49,7 +49,6 @@ public interface World {
 
     /**
      * Set or remove a wall at field (x, y) in direction dir
-     * true
      */
     void placeWall(int x, int y, Direction dir, boolean wall);
 
@@ -57,4 +56,14 @@ public interface World {
      * Reset the world (remove all entities and walls)
      */
     void reset();
+
+    /**
+     * @return If the world is still running a script
+     */
+    boolean isRunning();
+
+    /**
+     * Indicate that the controlling script as finished executing
+     */
+    void stop();
 }
