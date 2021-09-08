@@ -50,7 +50,7 @@ public abstract class AbstractWorld implements World {
     }
 
     @Override
-    public void placeCoinStack(int x, int y, int numberOfCoins) {
+    public void placeCoins(int x, int y, int numberOfCoins) {
 
     }
 

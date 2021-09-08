@@ -39,7 +39,7 @@ public interface World {
     /**
      * Puts down N coins at field (x, y)
      */
-    void placeCoinStack(int x, int y, int numberOfCoins);
+    void placeCoins(int x, int y, int numberOfCoins);
 
     /**
      * Places a block at field (x, y)
