@@ -1,5 +1,7 @@
 package foshbot;
 
+import java.util.Collection;
+
 public interface World {
 
     /**
@@ -12,10 +14,12 @@ public interface World {
      */
     int getHeight();
 
+    Collection<Entity> getEntities(int x, int y);
+
     /**
      * @return true if a block is in field (x, y)
      */
-    boolean isBlockInField(int x, int y);
+    boolean hasBlockInField(int x, int y);
 
     /**
      * @return true if there is a wall at field (x, y) in direction dir
