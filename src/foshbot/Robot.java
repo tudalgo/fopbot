@@ -1,7 +1,5 @@
 package foshbot;
 
-import fopbot.Direction;
-
 public interface Robot {
 
     /**
@@ -30,7 +28,7 @@ public interface Robot {
     /**
      * @return the current direction of the robot
      */
-    Direction getDirection();
+    foshbot.Direction getDirection();
 
 
     /**
@@ -49,28 +47,28 @@ public interface Robot {
      * @return true if the robot is facing up
      */
     default boolean isFacingUp() {
-        return getDirection() == Direction.UP;
+        return getDirection() == Direction.NORTH;
     }
 
     /**
      * @return true if the robot is facing down
      */
     default boolean isFacingDown() {
-        return getDirection() == Direction.DOWN;
+        return getDirection() == Direction.SOUTH;
     }
 
     /**
      * @return true if the robot is facing left
      */
     default boolean isFacingLeft() {
-        return getDirection() == Direction.LEFT;
+        return getDirection() == Direction.EAST;
     }
 
     /**
      * @return true if the robot is facing right
      */
     default boolean isFacingRight() {
-        return getDirection() == Direction.RIGHT;
+        return getDirection() == Direction.WEST;
     }
 
     /**
