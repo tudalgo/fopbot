@@ -1,26 +1,28 @@
 package foshbot.anim;
 
 import foshbot.Direction;
-import foshbot.Robot;
-import foshbot.Entity;
 import foshbot.anim.resources.Resources;
+import foshbot.impl.AbstractRobot;
 
-public class AnimatedRobot extends Entity implements Robot {
+public class AnimatedRobot extends AbstractRobot implements Animatable {
 
     public static final String RESOURCE = "/fopbot/trianglebot.png";
 
     private static final double UPDATE_EPSILON = 0.01;
-    private static final double ANGLE_VEL_SCALAR = 0.01;
+    private static final double ANGLE_VEL_SCALAR = 0.006;
+    private static final double VEL_SCALAR = 0.01;
 
     private final AnimatedWorld world;
 
-    private Direction dir;
-    private double angle;
+    private double currentAngle;
+    private double currentX;
+    private double currentY;
 
     public AnimatedRobot(int x, int y, Direction dir, int numberOfCoins, AnimatedWorld world) {
-        super(x, y);
-        this.dir = dir;
-        this.angle = getAngleOfDir(dir);
+        super(x, y, dir, numberOfCoins, world);
+        this.currentAngle = getAngleOfDir(dir);
+        this.currentX = x;
+        this.currentY = y;
         this.world = world;
     }
 
@@ -40,103 +42,104 @@ public class AnimatedRobot extends Entity implements Robot {
     @Override
     public void turnLeft() {
         world.awaitUpdateFinish();
-
-        switch (dir) {
-            case NORTH:
-                dir = Direction.WEST;
-                break;
-            case EAST:
-                dir = Direction.NORTH;
-                break;
-            case SOUTH:
-                dir = Direction.EAST;
-                break;
-            case WEST:
-                dir = Direction.SOUTH;
-                break;
-        }
+        super.turnLeft();
     }
 
     @Override
     public void move() {
-
+        world.awaitUpdateFinish();
+        super.move();
     }
 
     @Override
     public void putCoin() {
-
+        world.awaitUpdateFinish();
+        super.putCoin();
     }
 
     @Override
     public void pickCoin() {
-
+        world.awaitUpdateFinish();
+        super.pickCoin();
     }
 
     @Override
     public Direction getDirection() {
-        return dir;
+        world.awaitUpdateFinish();
+        return super.getDirection();
     }
 
     @Override
     public int getNumberOfCoins() {
-        return 0;
+        world.awaitUpdateFinish();
+        return super.getNumberOfCoins();
     }
 
     @Override
     public void turnOff() {
-
+        world.awaitUpdateFinish();
+        super.turnOff();
     }
 
     @Override
     public boolean isTurnedOff() {
-        return false;
+        world.awaitUpdateFinish();
+        return super.isTurnedOff();
     }
 
     @Override
     public boolean isNextToACoin() {
-        return false;
+        world.awaitUpdateFinish();
+        return super.isNextToACoin();
     }
 
     @Override
     public boolean isNextToARobot() {
-        return false;
-    }
-
-    @Override
-    public void setField(int x, int y) {
-
+        world.awaitUpdateFinish();
+        return super.isNextToARobot();
     }
 
     @Override
     public boolean isFrontClear() {
-        return false;
+        world.awaitUpdateFinish();
+        return super.isFrontClear();
     }
 
     @Override
     public boolean update(double dt) {
-        return updateAngle(dt);
+        boolean finished = updateAngle(dt);
+        finished &= updatePos(dt);
+        return finished;
+    }
+
+    private boolean updatePos(double dt) {
+        currentX += (x - currentX) * VEL_SCALAR * dt;
+        currentY += (y - currentY) * VEL_SCALAR * dt;
+
+        return Math.abs(x - currentX) < UPDATE_EPSILON
+            && Math.abs(y - currentY) < UPDATE_EPSILON;
     }
 
     private boolean updateAngle(double dt) {
         var target = getAngleOfDir(dir);
-        while (target > angle) {
-            angle += Math.PI * 2;
+        while (target > currentAngle) {
+            currentAngle += Math.PI * 2;
         }
 
-        angle += (target - angle) * ANGLE_VEL_SCALAR * dt;
-        return Math.abs(target - angle) < UPDATE_EPSILON;
+        currentAngle += (target - currentAngle) * ANGLE_VEL_SCALAR * dt;
+        return Math.abs(target - currentAngle) < UPDATE_EPSILON;
     }
 
     @Override
     public void draw(Drawable d) {
         d.rotated(
-            angle,
-            (x+0.5)*Frame.CELL_SIZE,
-            (y+0.5)*Frame.CELL_SIZE,
+            currentAngle,
+        (currentX+0.5)*Frame.CELL_SIZE,
+        (currentY+0.5)*Frame.CELL_SIZE,
             () -> d.image(
                 Resources.getImages().get(RESOURCE),
-                x * Frame.CELL_SIZE + Frame.CELL_PADDING,
-                y * Frame.CELL_SIZE + Frame.CELL_PADDING,
+                currentX * Frame.CELL_SIZE + Frame.CELL_PADDING,
+                currentY * Frame.CELL_SIZE + Frame.CELL_PADDING,
                 Frame.CELL_SIZE - Frame.CELL_PADDING * 2,
                 Frame.CELL_SIZE - Frame.CELL_PADDING * 2));
     }
