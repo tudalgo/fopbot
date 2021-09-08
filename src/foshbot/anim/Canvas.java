@@ -25,7 +25,7 @@ public class Canvas extends JPanel {
 
             @Override
             public void strokeWeight(double w) {
-                g.setStroke(new BasicStroke((int) w));
+                g.setStroke(new BasicStroke(round(w)));
             }
 
             @Override
