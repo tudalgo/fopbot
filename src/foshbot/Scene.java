@@ -1,10 +1,10 @@
 package foshbot;
 
+import foshbot.impl.Grid;
+
 public interface Scene {
 
-    int getWidth();
-
-    int getHeight();
+    Grid getGrid();
 
     void init(World world);
 

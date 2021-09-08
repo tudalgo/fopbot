@@ -3,19 +3,15 @@ import foshbot.Scene;
 import foshbot.World;
 import foshbot.anim.AnimatedSceneRunner;
 import foshbot.anim.resources.Resources;
+import foshbot.impl.Grid;
 
 import java.io.IOException;
 import java.util.List;
 
 public class TestAnimatedTurning implements Scene {
     @Override
-    public int getWidth() {
-        return 20;
-    }
-
-    @Override
-    public int getHeight() {
-        return 10;
+    public Grid getGrid() {
+        return new Grid(20, 10);
     }
 
     @Override

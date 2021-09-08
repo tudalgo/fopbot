@@ -1,4 +1,4 @@
-package foshbot.grid;
+package foshbot.impl;
 
 import foshbot.*;
 import foshbot.Entity;
