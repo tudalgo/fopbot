@@ -1,7 +1,10 @@
 package foshbot.impl;
 
 import foshbot.Direction;
+import foshbot.Entity;
 import foshbot.World;
+
+import java.util.Collection;
 
 public abstract class AbstractWorld implements World {
 
@@ -22,7 +25,12 @@ public abstract class AbstractWorld implements World {
     }
 
     @Override
-    public boolean isBlockInField(int x, int y) {
+    public Collection<Entity> getEntities(int x, int y) {
+        return grid.getEntities(x, y);
+    }
+
+    @Override
+    public boolean hasBlockInField(int x, int y) {
         return false;
     }
 
@@ -53,6 +61,10 @@ public abstract class AbstractWorld implements World {
 
     @Override
     public void reset() {
-
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                grid.getEntities(x, y).clear();
+            }
+        }
     }
 }
