@@ -22,7 +22,7 @@ public class AnimatedWorld extends AbstractWorld {
 
     private double updateTimeout = 0.0;
 
-    private boolean running = true;
+    private boolean running = false;
 
     public AnimatedWorld(Grid grid) {
         super(grid);
@@ -97,6 +97,11 @@ public class AnimatedWorld extends AbstractWorld {
         return r;
     }
 
+    @Override
+    public void start() {
+        running = true;
+    }
+
     void update(double dt) {
         if (updateTimeout > 0) {
             updateTimeout -= dt;
@@ -130,6 +135,10 @@ public class AnimatedWorld extends AbstractWorld {
     }
 
     public void awaitUpdateFinish() {
+        if (!running) {
+            return;
+        }
+
         lock.lock();
         try {
             updateFinished.await();

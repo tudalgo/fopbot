@@ -57,6 +57,11 @@ public interface World {
     void reset();
 
     /**
+     * Indicate that the controlling script starts action in this world
+     */
+    void start();
+
+    /**
      * @return If the world is still running a script
      */
     boolean isRunning();
