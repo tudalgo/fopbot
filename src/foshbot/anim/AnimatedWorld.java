@@ -3,6 +3,7 @@ package foshbot.anim;
 import foshbot.Direction;
 import foshbot.Robot;
 import foshbot.impl.AbstractWorld;
+import foshbot.impl.CoinStack;
 import foshbot.impl.Grid;
 
 import java.awt.*;
@@ -75,6 +76,18 @@ public class AnimatedWorld extends AbstractWorld {
                 }
             }
         }
+    }
+
+    @Override
+    protected CoinStack newCoinStack(int x, int y) {
+        var c = new AnimatedCoinStack(x, y);
+        getEntities(x, y).add(c);
+        return c;
+    }
+
+    @Override
+    public void placeBlock(int x, int y) {
+
     }
 
     @Override

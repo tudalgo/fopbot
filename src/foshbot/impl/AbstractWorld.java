@@ -1,8 +1,6 @@
 package foshbot.impl;
 
-import foshbot.Direction;
-import foshbot.Entity;
-import foshbot.World;
+import foshbot.*;
 
 import java.util.Collection;
 
@@ -30,8 +28,24 @@ public abstract class AbstractWorld implements World {
     }
 
     @Override
+    public void placeCoins(int x, int y, int numberOfCoins) {
+        var c = getEntities(x, y)
+            .stream()
+            .filter(CoinStack.class::isInstance)
+            .map(CoinStack.class::cast)
+            .findFirst()
+            .orElseGet(() -> newCoinStack(x, y));
+
+        c.numberOfCoins += numberOfCoins;
+    }
+
+    protected abstract CoinStack newCoinStack(int x, int y);
+
+    @Override
     public boolean hasBlockInField(int x, int y) {
-        return false;
+        return getEntities(x, y)
+            .stream()
+            .anyMatch(Block.class::isInstance);
     }
 
     @Override
@@ -41,22 +55,17 @@ public abstract class AbstractWorld implements World {
 
     @Override
     public boolean isCoinInField(int x, int y) {
-        return false;
+        return getEntities(x, y)
+            .stream()
+            .anyMatch(CoinStack.class::isInstance);
     }
 
     @Override
-    public boolean isAnotherRobotInField(int x, int y, foshbot.Robot robot) {
-        return false;
-    }
-
-    @Override
-    public void placeCoins(int x, int y, int numberOfCoins) {
-
-    }
-
-    @Override
-    public void placeBlock(int x, int y) {
-
+    public boolean isAnotherRobotInField(int x, int y, Robot robot) {
+        return getEntities(x, y)
+            .stream()
+            .anyMatch(r ->
+               r instanceof Robot && r != robot);
     }
 
     @Override

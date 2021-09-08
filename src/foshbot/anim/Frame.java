@@ -9,7 +9,7 @@ import java.awt.*;
 public class Frame extends JFrame {
 
     public static final int CELL_SIZE = 80;
-    public static final int CELL_PADDING = 10;
+    public static final int CELL_PADDING = 20;
     private static final int FRAME_DELAY = 1000 / 30;
 
     private final AnimatedWorld world;
