@@ -48,12 +48,7 @@ public interface World {
     Robot newRobot(int x, int y, Direction dir, int numberOfCoins);
 
     /**
-     * Set or remove a wall at field (x, y) in direction dir
-     */
-    void placeWall(int x, int y, Direction dir, boolean wall);
-
-    /**
-     * Reset the world (remove all entities and walls)
+     * Reset the world (remove all entities)
      */
     void reset();
 
