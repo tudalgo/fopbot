@@ -2,7 +2,8 @@ package foshbot.anim;
 
 import foshbot.Direction;
 import foshbot.Robot;
-import foshbot.grid.Grid;
+import foshbot.impl.AbstractWorld;
+import foshbot.impl.Grid;
 
 import java.awt.*;
 import java.util.concurrent.locks.Condition;
@@ -11,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static foshbot.anim.Frame.CELL_SIZE;
 
-public class AnimatedWorld implements foshbot.World {
+public class AnimatedWorld extends AbstractWorld {
 
     private static final double UPDATE_TIMEOUT = 0.2;
 
@@ -22,15 +23,13 @@ public class AnimatedWorld implements foshbot.World {
 
     private boolean running = true;
 
-    private final Grid grid;
-
-    public AnimatedWorld(int width, int height) {
-        grid = new Grid(width, height);
+    public AnimatedWorld(Grid grid) {
+        super(grid);
     }
 
     public void drawEntities(Drawable d) {
-        for (int x = 0; x < grid.getWidth(); x++) {
-            for (int y = 0; y < grid.getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
                 for (var e : grid.getEntities(x, y)) {
                     e.draw(d);
                 }
@@ -42,8 +41,8 @@ public class AnimatedWorld implements foshbot.World {
         d.fill(Color.BLACK);
         d.strokeWeight(8);
 
-        for (int x = 0; x < grid.getWidth(); x++) {
-            for (int y = 0; y < grid.getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
                 if (grid.hasNorthWall(x, y)) {
                     d.line(
                         x*CELL_SIZE,
@@ -77,60 +76,10 @@ public class AnimatedWorld implements foshbot.World {
     }
 
     @Override
-    public int getWidth() {
-        return grid.getWidth();
-    }
-
-    @Override
-    public int getHeight() {
-        return grid.getHeight();
-    }
-
-    @Override
-    public boolean isBlockInField(int x, int y) {
-        return false;
-    }
-
-    @Override
-    public boolean fieldHasWallInDirection(int x, int y, Direction dir) {
-        return false;
-    }
-
-    @Override
-    public boolean isCoinInField(int x, int y) {
-        return false;
-    }
-
-    @Override
-    public boolean isAnotherRobotInField(int x, int y, Robot robot) {
-        return false;
-    }
-
-    @Override
-    public void placeCoinStack(int x, int y, int numberOfCoins) {
-
-    }
-
-    @Override
-    public void placeBlock(int x, int y) {
-
-    }
-
-    @Override
     public Robot newRobot(int x, int y, Direction dir, int numberOfCoins) {
         var r = new AnimatedRobot(x, y, dir, numberOfCoins, this);
         grid.getEntities(x, y).add(r);
         return r;
-    }
-
-    @Override
-    public void placeWall(int x, int y, Direction dir, boolean wall) {
-
-    }
-
-    @Override
-    public void reset() {
-
     }
 
     void update(double dt) {

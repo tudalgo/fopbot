@@ -1,6 +1,7 @@
 package foshbot.anim;
 
 import foshbot.World;
+import foshbot.impl.Grid;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +14,8 @@ public class Frame extends JFrame {
 
     private final AnimatedWorld world;
 
-    public Frame(int width, int height) {
-        this.world = new AnimatedWorld(width, height);
+    public Frame(Grid grid) {
+        this.world = new AnimatedWorld(grid);
 
         setSize(world.getWidth() * CELL_SIZE, world.getHeight() * CELL_SIZE);
         setPreferredSize(getSize());
