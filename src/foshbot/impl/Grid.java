@@ -25,57 +25,57 @@ public class Grid {
     }
 
     public boolean hasNorthWall(int x, int y) {
-        return hasWall(x, y, Direction.NORTH.ordinal());
+        return hasWall(x, y, Direction.NORTH);
     }
 
     public void setNorthWall(int x, int y, boolean wall) {
-        setWall(x, y, Direction.NORTH.ordinal(), wall);
+        setWall(x, y, Direction.NORTH, wall);
         if (y > 0) {
-            setWall(x, y-1, Direction.SOUTH.ordinal(), wall);
+            setWall(x, y-1, Direction.SOUTH, wall);
         }
     }
 
     public boolean hasSouthWall(int x, int y) {
-        return hasWall(x, y, Direction.SOUTH.ordinal());
+        return hasWall(x, y, Direction.SOUTH);
     }
 
     public void setSouthWall(int x, int y, boolean wall) {
-        setWall(x, y, Direction.SOUTH.ordinal(), wall);
+        setWall(x, y, Direction.SOUTH, wall);
         if (y < height-2) {
-            setWall(x, y+1, Direction.NORTH.ordinal(), wall);
+            setWall(x, y+1, Direction.NORTH, wall);
         }
     }
 
     public boolean hasEastWall(int x, int y) {
-        return hasWall(x, y, Direction.EAST.ordinal());
+        return hasWall(x, y, Direction.EAST);
     }
 
     public void setEastWall(int x, int y, boolean wall) {
-        setWall(x, y, Direction.EAST.ordinal(), wall);
+        setWall(x, y, Direction.EAST, wall);
         if (x < width-2) {
-            setWall(x+1, y, Direction.WEST.ordinal(), wall);
+            setWall(x+1, y, Direction.WEST, wall);
         }
     }
 
     public boolean hasWestWall(int x, int y) {
-        return hasWall(x, y, Direction.WEST.ordinal());
+        return hasWall(x, y, Direction.WEST);
     }
 
     public void setWestWall(int x, int y, boolean wall) {
-        setWall(x, y, Direction.WEST.ordinal(), wall);
+        setWall(x, y, Direction.WEST, wall);
         if (x > 0) {
-            setWall(x-1, y, Direction.EAST.ordinal(), wall);
+            setWall(x-1, y, Direction.EAST, wall);
         }
     }
 
-    private boolean hasWall(int x, int y, int side) {
+    public boolean hasWall(int x, int y, Direction dir) {
         checkCoords(x, y);
-        return grid[x][y].walls[side];
+        return grid[x][y].walls[dir.ordinal()];
     }
 
-    private void setWall(int x, int y, int side, boolean wall) {
+    private void setWall(int x, int y, Direction dir, boolean wall) {
         checkCoords(x, y);
-        grid[x][y].walls[side] = wall;
+        grid[x][y].walls[dir.ordinal()] = wall;
     }
 
     public int getWidth() {
