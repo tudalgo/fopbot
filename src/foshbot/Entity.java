@@ -1,7 +1,5 @@
 package foshbot;
 
-import foshbot.anim.Drawable;
-
 public abstract class Entity {
 
     protected int x;
@@ -10,18 +8,6 @@ public abstract class Entity {
     public Entity(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    public abstract void draw(Drawable d);
-
-    /**
-     * Update internal state
-     *
-     * @param dt Times passed since last update
-     * @return True iff done updating
-     */
-    public boolean update(double dt) {
-        return true;
     }
 
     public void setX(int x) {
