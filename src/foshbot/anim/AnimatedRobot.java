@@ -27,13 +27,13 @@ public class AnimatedRobot extends Entity implements Robot {
     private double getAngleOfDir(Direction dir) {
         switch (dir) {
             case NORTH:
-                return Math.PI / 2;
-            case SOUTH:
-                return -Math.PI / 2;
+                return Math.PI * 2;
             case WEST:
+                return 3 * Math.PI / 2;
+            case SOUTH:
                 return Math.PI;
             default:
-                return 0;
+                return Math.PI / 2;
         }
     }
 
@@ -73,8 +73,8 @@ public class AnimatedRobot extends Entity implements Robot {
     }
 
     @Override
-    public fopbot.Direction getDirection() {
-        return null;
+    public Direction getDirection() {
+        return dir;
     }
 
     @Override
@@ -119,14 +119,21 @@ public class AnimatedRobot extends Entity implements Robot {
 
     private boolean updateAngle(double dt) {
         var target = getAngleOfDir(dir);
+        while (target > angle) {
+            angle += Math.PI * 2;
+        }
+
         angle += (target - angle) * ANGLE_VEL_SCALAR * dt;
         return Math.abs(target - angle) < UPDATE_EPSILON;
     }
 
     @Override
     public void draw(Drawable d) {
-        d.rotated(angle, (x+0.5)*Frame.CELL_SIZE, (y+0.5)*Frame.CELL_SIZE, () ->
-            d.image(
+        d.rotated(
+            angle,
+            (x+0.5)*Frame.CELL_SIZE,
+            (y+0.5)*Frame.CELL_SIZE,
+            () -> d.image(
                 Resources.getImages().get(RESOURCE),
                 x * Frame.CELL_SIZE + Frame.CELL_PADDING,
                 y * Frame.CELL_SIZE + Frame.CELL_PADDING,
