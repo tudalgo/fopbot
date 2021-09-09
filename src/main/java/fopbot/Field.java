@@ -5,12 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Field implements Iterable<FieldEntity> {
-  private List<FieldEntity> entities = new LinkedList<>();
+  private List<FieldEntity> entities;
 
   public Field() {
+    entities = new LinkedList<>();
   }
 
-  public Field(LinkedList<FieldEntity> entities) {
+  public Field(List<FieldEntity> entities) {
     this.entities = entities;
   }
 
@@ -18,7 +19,7 @@ public class Field implements Iterable<FieldEntity> {
     return entities;
   }
 
-  public void setEntities(LinkedList<FieldEntity> entities) {
+  public void setEntities(List<FieldEntity> entities) {
     this.entities = entities;
   }
 

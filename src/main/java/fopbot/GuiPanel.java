@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static fopbot.PaintUtils.*;
@@ -95,8 +96,8 @@ public class GuiPanel extends JPanel {
   protected void draw(Graphics g) {
     drawBoard(g);
 
-    LinkedList<FieldEntity> entities = world.getAllFieldEntities();
-    LinkedList<Robot> robots = new LinkedList<Robot>();
+    List<FieldEntity> entities = world.getAllFieldEntities();
+    List<Robot> robots = new LinkedList<>();
     for (FieldEntity ce : entities) {
       if (ce instanceof Robot) {
         // collect robots, so they can be drawn last

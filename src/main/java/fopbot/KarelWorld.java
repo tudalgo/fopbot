@@ -98,8 +98,8 @@ public class KarelWorld {
   /**
    * @return a list of all field entities in the world
    */
-  public LinkedList<FieldEntity> getAllFieldEntities() {
-    LinkedList<FieldEntity> all = new LinkedList<>();
+  public List<FieldEntity> getAllFieldEntities() {
+    List<FieldEntity> all = new LinkedList<>();
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
         Field field = entities[i][j];
@@ -319,8 +319,8 @@ public class KarelWorld {
       entityStates = new LinkedList<>();
     }
     // copy entities
-    LinkedList<FieldEntity> allEntities = getAllFieldEntities();
-    LinkedList<FieldEntity> allEntitiesCopy = new LinkedList<FieldEntity>();
+    List<FieldEntity> allEntities = getAllFieldEntities();
+    List<FieldEntity> allEntitiesCopy = new LinkedList<>();
     for (FieldEntity fe : allEntities) {
       if (fe instanceof Robot) {
         Robot r = (Robot) fe;
