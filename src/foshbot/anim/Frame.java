@@ -23,7 +23,7 @@ public class Frame extends JFrame implements PanningAndZoomingTarget {
 
         this.panningAndZooming = new PanningAndZooming(this);
         panningAndZooming.setMaxScale(4);
-        panningAndZooming.setMinScale(0.6);
+        panningAndZooming.setMinScale(0.01);
 
         addMouseListener(panningAndZooming);
         addMouseMotionListener(panningAndZooming);
