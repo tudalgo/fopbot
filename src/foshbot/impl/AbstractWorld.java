@@ -2,7 +2,7 @@ package foshbot.impl;
 
 import foshbot.*;
 
-import java.util.Collection;
+import java.util.*;
 
 public abstract class AbstractWorld implements World {
 
@@ -29,14 +29,33 @@ public abstract class AbstractWorld implements World {
 
     @Override
     public void putCoins(int x, int y, int numberOfCoins) {
-        var c = getEntities(x, y)
-            .stream()
-            .filter(CoinStack.class::isInstance)
-            .map(CoinStack.class::cast)
-            .findFirst()
+        var c = getCoinStack(x, y)
             .orElseGet(() -> newCoinStack(x, y));
 
         c.numberOfCoins += numberOfCoins;
+    }
+
+    private Optional<CoinStack> getCoinStack(int x, int y) {
+        return getEntities(x, y)
+            .stream()
+            .filter(CoinStack.class::isInstance)
+            .map(CoinStack.class::cast)
+            .findFirst();
+    }
+
+    @Override
+    public boolean pickCoin(int x, int y) {
+        var o = getCoinStack(x, y);
+        if (o.isEmpty()) {
+            return false;
+        }
+
+        var c = o.get();
+        c.numberOfCoins--;
+        if (c.numberOfCoins == 0) {
+            getEntities(x, y).remove(c);
+        }
+        return true;
     }
 
     protected abstract CoinStack newCoinStack(int x, int y);

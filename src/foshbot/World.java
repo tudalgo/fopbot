@@ -42,6 +42,13 @@ public interface World {
     void putCoins(int x, int y, int numberOfCoins);
 
     /**
+     * Tries to remove one coin from the field (x,y)
+     *
+	 * @return true if a  coin got removed
+	 */
+    boolean pickCoin(int x, int y);
+
+    /**
      * Places a block at field (x, y)
      */
     void putBlock(int x, int y);
