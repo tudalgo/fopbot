@@ -86,7 +86,7 @@ public class AnimatedWorld extends AbstractWorld {
     }
 
     @Override
-    public void placeBlock(int x, int y) {
+    public void putBlock(int x, int y) {
 
     }
 

@@ -28,7 +28,7 @@ public abstract class AbstractWorld implements World {
     }
 
     @Override
-    public void placeCoins(int x, int y, int numberOfCoins) {
+    public void putCoins(int x, int y, int numberOfCoins) {
         var c = getEntities(x, y)
             .stream()
             .filter(CoinStack.class::isInstance)
@@ -54,14 +54,14 @@ public abstract class AbstractWorld implements World {
     }
 
     @Override
-    public boolean isCoinInField(int x, int y) {
+    public boolean hasCoinInField(int x, int y) {
         return getEntities(x, y)
             .stream()
             .anyMatch(CoinStack.class::isInstance);
     }
 
     @Override
-    public boolean isAnotherRobotInField(int x, int y, Robot robot) {
+    public boolean hasAnotherRobotInField(int x, int y, Robot robot) {
         return getEntities(x, y)
             .stream()
             .anyMatch(r ->

@@ -18,7 +18,7 @@ public class TestAnimatedTurning implements Scene {
     public void init(World world) {
         var r = world.newRobot(0, 0, Direction.NORTH, 2);
         for (int i = 0; i < 10; i++) {
-            world.placeCoins(i, i, i*i);
+            world.putCoins(i, i, i*i);
         }
     }
 
