@@ -32,7 +32,7 @@ public abstract class AbstractWorld implements World {
         var c = getCoinStack(x, y)
             .orElseGet(() -> newCoinStack(x, y));
 
-        c.numberOfCoins += numberOfCoins;
+        c.putCoins(numberOfCoins);
     }
 
     private Optional<CoinStack> getCoinStack(int x, int y) {
@@ -51,10 +51,11 @@ public abstract class AbstractWorld implements World {
         }
 
         var c = o.get();
-        c.numberOfCoins--;
-        if (c.numberOfCoins == 0) {
-            getEntities(x, y).remove(c);
+        if (c.getNumberOfCoins() == 0) {
+            return false;
         }
+
+        c.pickCoins(1);
         return true;
     }
 
@@ -74,9 +75,8 @@ public abstract class AbstractWorld implements World {
 
     @Override
     public boolean hasCoinInField(int x, int y) {
-        return getEntities(x, y)
-            .stream()
-            .anyMatch(CoinStack.class::isInstance);
+        var o = getCoinStack(x, y);
+        return o.isPresent() && o.get().getNumberOfCoins() > 0;
     }
 
     @Override

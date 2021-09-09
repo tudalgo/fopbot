@@ -13,7 +13,7 @@ public class Frame extends JFrame implements PanningAndZoomingTarget {
 
     public static final double CELL_SIZE = 120;
     public static final double CELL_PADDING = 32;
-    private static final double  FRAME_DELAY = 1000.0 / 30;
+    private static final double  FRAME_DELAY = 1000.0 / 60;
 
     private final AnimatedWorld world;
     private final PanningAndZooming panningAndZooming;

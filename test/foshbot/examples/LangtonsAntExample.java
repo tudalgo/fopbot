@@ -21,12 +21,22 @@ public class LangtonsAntExample implements Scene {
 
         while (ant.getNumberOfCoins() > 0 && ant.isFrontClear()) {
             if (ant.isNextToACoin()) {
-                ant.turnLeft();
-                ant.turnLeft();
-                ant.turnLeft();
                 ant.pickCoin();
-            } else {
+                ant.pickCoin();
+
                 ant.turnLeft();
+                ant.turnLeft();
+                ant.turnLeft();
+            } else {
+                ant.putCoin();
+                ant.putCoin();
+
+                ant.turnLeft();
+
+                ant.pickCoin();
+                ant.pickCoin();
+
+                ant.putCoin();
                 ant.putCoin();
             }
             ant.move();
