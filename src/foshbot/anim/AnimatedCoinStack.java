@@ -1,10 +1,13 @@
 package foshbot.anim;
 
+import foshbot.anim.resources.Resources;
 import foshbot.impl.CoinStack;
 
 import java.awt.*;
 
 public class AnimatedCoinStack extends CoinStack implements Animatable {
+
+    public static final String RESOURCE = "/fopbot/coin.png";
 
     public AnimatedCoinStack(int x, int y) {
         super(x, y);
@@ -12,16 +15,18 @@ public class AnimatedCoinStack extends CoinStack implements Animatable {
 
     @Override
     public void draw(Drawable d) {
-        var r = Frame.CELL_PADDING / 2.0;
-        var x = this.x * Frame.CELL_SIZE + r;
-        var y = this.y * Frame.CELL_SIZE + r;
+        var w = Frame.CELL_PADDING * 0.8;
+        var x = this.x * Frame.CELL_SIZE + (Frame.CELL_PADDING - w);
+        var y = this.y * Frame.CELL_SIZE + (Frame.CELL_PADDING - w);
 
-        d.fill(Color.YELLOW);
-        d.ellipse(x, y, r*2, r*2);
+        d.image(
+            Resources.getImages().get(RESOURCE),
+            x, y,
+            w, w);
 
         d.textSize(18);
         d.fill(Color.BLACK);
-        d.text(x-r, y+r, String.valueOf(numberOfCoins));
+        d.text(x+w, y, "x" + numberOfCoins);
     }
 
     @Override
