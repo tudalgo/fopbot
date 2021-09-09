@@ -19,6 +19,10 @@ public abstract class AbstractRobot extends Entity implements Robot {
 
     @Override
     public void turnLeft() {
+        if (!on) {
+            return;
+        }
+
         switch (dir) {
             case NORTH:
                 dir = Direction.WEST;
@@ -45,22 +49,34 @@ public abstract class AbstractRobot extends Entity implements Robot {
             throw new RobotException("Robot crashed!");
         }
 
-        world.getEntities(x, y).remove(this);
-
-        x += getDx();
-        y += getDy();
-
-        world.getEntities(x, y).add(this);
+        setField(x+getDx(), y+getDy());
     }
 
     @Override
     public void putCoin() {
+        if (!on) {
+            return;
+        }
 
+        if (numberOfCoins > 0) {
+            numberOfCoins--;
+            world.putCoins(x, y, 1);
+        } else {
+            throw new RobotException("Robot went bankrupt!");
+        }
     }
 
     @Override
     public void pickCoin() {
+        if (!on) {
+            return;
+        }
 
+        if (world.pickCoin(getX(), getY())) {
+            numberOfCoins++;
+        } else {
+            throw new RobotException("Robot tried to counterfeit money!");
+        }
     }
 
     @Override
@@ -85,17 +101,32 @@ public abstract class AbstractRobot extends Entity implements Robot {
 
     @Override
     public boolean isNextToACoin() {
-        return false;
+        return world.hasCoinInField(x, y);
     }
 
     @Override
     public boolean isNextToARobot() {
-        return false;
+        return world.hasAnotherRobotInField(x, y, this);
     }
 
     @Override
     public void setField(int x, int y) {
+        world.getEntities(x, y).remove(this);
 
+        this.x = x;
+        this.y = y;
+
+        world.getEntities(x, y).add(this);
+    }
+
+    @Override
+    public void setX(int x) {
+        setField(x, this.y);
+    }
+
+    @Override
+    public void setY(int y) {
+        setField(this.x, y);
     }
 
     @Override
