@@ -1,10 +1,23 @@
 package fopbot;
 
+import fopbot.Transition.RobotAction;
+
 public class Robot extends FieldEntity {
 
   private String id;
   private String imageId;
   private int numberOfCoins = 0;
+
+  @Override
+  public String toString() {
+    return "Robot{" +
+      "id='" + id + '\'' +
+      ", at=[" + getX() + '/' + getY() +
+      "], numberOfCoins=" + numberOfCoins +
+      ", direction=" + direction +
+      '}';
+  }
+
   private Direction direction = Direction.UP;
   private boolean printTrace;
   private boolean off = false;
@@ -71,6 +84,20 @@ public class Robot extends FieldEntity {
   /**
    * Copy constructor
    */
+  protected Robot(Robot robot) {
+    super(robot.getX(), robot.getY());
+    this.numberOfCoins = robot.numberOfCoins;
+    this.direction = robot.direction;
+    this.id = robot.id;
+    this.imageId = robot.imageId;
+    this.printTrace = robot.printTrace;
+    this.off = robot.off;
+    this.world = robot.world;
+  }
+
+  /**
+   * Copy constructor
+   */
   protected Robot(boolean copy, int x, int y, Direction direction, int numberOfCoins) {
     super(x, y);
     this.numberOfCoins = numberOfCoins;
@@ -81,6 +108,7 @@ public class Robot extends FieldEntity {
    * Turns the robots body to the left
    */
   public void turnLeft() {
+    world.trace(this, RobotAction.TURN_LEFT);
     if (off) {
       return;
     }
@@ -110,6 +138,7 @@ public class Robot extends FieldEntity {
    * Move the robot one step forward in the current direction
    */
   public void move() {
+    world.trace(this, RobotAction.MOVE);
     if (off) {
       return;
     }
@@ -125,16 +154,16 @@ public class Robot extends FieldEntity {
 
     switch (direction) {
       case UP:
-        setY(getY() + 1);
+        setYRobot(getY() + 1);
         break;
       case LEFT:
-        setX(getX() - 1);
+        setXRobot(getX() - 1);
         break;
       case DOWN:
-        setY(getY() - 1);
+        setYRobot(getY() - 1);
         break;
       case RIGHT:
-        setX(getX() + 1);
+        setXRobot(getX() + 1);
         break;
     }
 
@@ -150,6 +179,7 @@ public class Robot extends FieldEntity {
    * Puts down one coin at the current position
    */
   public void putCoin() {
+    world.trace(this, RobotAction.PUT_COIN);
     if (off) {
       return;
     }
@@ -168,6 +198,7 @@ public class Robot extends FieldEntity {
    * Picks up one coin at the current position
    */
   public void pickCoin() {
+    world.trace(this, RobotAction.PICK_COIN);
     if (off) {
       return;
     }
@@ -259,6 +290,7 @@ public class Robot extends FieldEntity {
    * Turn off the robot
    */
   public void turnOff() {
+    world.trace(this, RobotAction.TURN_OFF);
     off = true;
     world.triggerUpdate();
   }
@@ -321,34 +353,38 @@ public class Robot extends FieldEntity {
     return imageId;
   }
 
+  public void setX(int x) {
+    world.trace(this, RobotAction.SET_X);
+    setXRobot(x);
+  }
+
   /**
    * Sets the robot's x-coordinate
    */
-  public void setX(int x) {
+  private void setXRobot(int x) {
     world.checkXCoordinate(x);
-
     if (off) {
       return;
     }
-
     int oldX = getX();
-
     super.setX(x);
-
     if (printTrace) {
       printTrace();
     }
-
     world.updateRobotField(this, oldX, getY());
-
     world.triggerUpdate();
     world.sleep();
+  }
+
+  public void setY(int y) {
+    world.trace(this, RobotAction.SET_Y);
+    setYRobot(y);
   }
 
   /**
    * Sets the robot's y-coordinate
    */
-  public void setY(int y) {
+  private void setYRobot(int y) {
     world.checkYCoordinate(y);
 
     if (off) {
