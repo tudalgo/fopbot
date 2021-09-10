@@ -5,6 +5,8 @@ import fopbot.impl.Block;
 
 import java.awt.*;
 
+import static fopbot.anim.AnimatedWorldFrame.CELL_SIZE;
+
 public class AnimatedBlock extends Block implements Animatable {
 
   public static final String RESOURCE = "/fopbot/wall.png";
@@ -18,10 +20,10 @@ public class AnimatedBlock extends Block implements Animatable {
     d.fill(Color.BLACK);
     d.image(
       Resources.getImages().get(RESOURCE),
-      x * Frame.CELL_SIZE,
-      y * Frame.CELL_SIZE,
-      Frame.CELL_SIZE,
-      Frame.CELL_SIZE);
+      x * CELL_SIZE,
+      y * CELL_SIZE,
+      CELL_SIZE,
+      CELL_SIZE);
   }
 
   @Override

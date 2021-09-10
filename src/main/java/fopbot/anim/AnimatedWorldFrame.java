@@ -9,7 +9,7 @@ import fopbot.impl.Grid;
 import javax.swing.*;
 import java.awt.*;
 
-public class Frame extends JFrame implements PanningAndZoomingTarget {
+public class AnimatedWorldFrame extends JFrame implements PanningAndZoomingTarget {
 
   public static final double CELL_SIZE = 120;
   public static final double CELL_PADDING = 32;
@@ -18,7 +18,7 @@ public class Frame extends JFrame implements PanningAndZoomingTarget {
   private final AnimatedWorld world;
   private final PanningAndZooming panningAndZooming;
 
-  public Frame(Grid grid) {
+  public AnimatedWorldFrame(Grid grid) {
     this.world = new AnimatedWorld(grid);
 
     this.panningAndZooming = new PanningAndZooming(this);
@@ -36,8 +36,8 @@ public class Frame extends JFrame implements PanningAndZoomingTarget {
 
     panningAndZooming.setMinTopLeft(new Vector(-CELL_SIZE, -CELL_SIZE));
     panningAndZooming.setMaxTopLeft(new Vector(
-      CELL_SIZE * (grid.getWidth() - 1),
-      CELL_SIZE * (grid.getHeight() - 1)));
+      CELL_SIZE * (world.getWidth() - 1),
+      CELL_SIZE * (world.getHeight() - 1)));
   }
 
   private void draw(Drawable d) {

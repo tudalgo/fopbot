@@ -5,11 +5,13 @@ import fopbot.anim.paz.Vector;
 import fopbot.anim.resources.Resources;
 import fopbot.impl.AbstractRobot;
 
+import static fopbot.anim.AnimatedWorldFrame.*;
+
 public class AnimatedRobot extends AbstractRobot implements Animatable {
 
   public static final String RESOURCE = "/fopbot/trianglebot.png";
 
-  private static final double UPDATE_EPSILON = 0.01;
+  private static final double UPDATE_EPSILON = 0.05;
   private static final double ANGLE_VEL_SCALAR = 0.003;
   private static final double VEL_SCALAR = 0.001;
 
@@ -28,8 +30,8 @@ public class AnimatedRobot extends AbstractRobot implements Animatable {
 
   private void setTarget(int x, int y) {
     this.target = new Vector(x, y)
-      .mul(Frame.CELL_SIZE)
-      .add(Frame.CELL_PADDING, Frame.CELL_PADDING);
+      .mul(CELL_SIZE)
+      .add(CELL_PADDING, CELL_PADDING);
   }
 
   private double getAngleOfDir(Direction dir) {
@@ -145,7 +147,7 @@ public class AnimatedRobot extends AbstractRobot implements Animatable {
 
   @Override
   public void draw(Drawable d) {
-    var w = Frame.CELL_SIZE - Frame.CELL_PADDING * 2;
+    var w = CELL_SIZE - CELL_PADDING * 2;
     d.rotated(
       currentAngle,
       pos.x + w / 2,

@@ -6,6 +6,9 @@ import fopbot.impl.CoinStack;
 
 import java.awt.*;
 
+import static fopbot.anim.AnimatedWorldFrame.CELL_PADDING;
+import static fopbot.anim.AnimatedWorldFrame.CELL_SIZE;
+
 public class AnimatedCoinStack extends CoinStack implements Animatable {
 
   public static final String RESOURCE = "/fopbot/coin.png";
@@ -13,7 +16,7 @@ public class AnimatedCoinStack extends CoinStack implements Animatable {
   private static final double UPDATE_EPSILON = 0.5;
   private static final double VEL_SCALAR = 0.007;
 
-  private static final double WIDTH = Frame.CELL_PADDING * 0.8;
+  private static final double WIDTH = CELL_PADDING * 0.8;
   private final Vector stack;
   private final Vector spawn;
   private int currentNumberOfCoins;
@@ -23,11 +26,11 @@ public class AnimatedCoinStack extends CoinStack implements Animatable {
     super(x, y);
     currentNumberOfCoins = 0;
     stack = new Vector(
-      x * Frame.CELL_SIZE + (Frame.CELL_PADDING - WIDTH),
-      y * Frame.CELL_SIZE + (Frame.CELL_PADDING - WIDTH));
+      x * CELL_SIZE + (CELL_PADDING - WIDTH),
+      y * CELL_SIZE + (CELL_PADDING - WIDTH));
     spawn = new Vector(x, y)
-      .mul(Frame.CELL_SIZE)
-      .add(Frame.CELL_SIZE / 2, Frame.CELL_SIZE / 2);
+      .mul(CELL_SIZE)
+      .add(CELL_SIZE / 2, CELL_SIZE / 2);
   }
 
   @Override

@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static fopbot.anim.Frame.CELL_SIZE;
+import static fopbot.anim.AnimatedWorldFrame.CELL_SIZE;
 
 public class AnimatedWorld extends AbstractWorld {
 
