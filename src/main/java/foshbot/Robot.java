@@ -46,28 +46,28 @@ public interface Robot {
     /**
      * @return true if the robot is facing up
      */
-    default boolean isFacingUp() {
+    default boolean isFacingNorth() {
         return getDirection() == Direction.NORTH;
     }
 
     /**
      * @return true if the robot is facing down
      */
-    default boolean isFacingDown() {
+    default boolean isFacingSouth() {
         return getDirection() == Direction.SOUTH;
     }
 
     /**
      * @return true if the robot is facing left
      */
-    default boolean isFacingLeft() {
+    default boolean isFacingEast() {
         return getDirection() == Direction.EAST;
     }
 
     /**
      * @return true if the robot is facing right
      */
-    default boolean isFacingRight() {
+    default boolean isFacingWest() {
         return getDirection() == Direction.WEST;
     }
 
