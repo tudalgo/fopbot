@@ -106,9 +106,19 @@ public interface Robot {
     void setX(int x);
 
     /**
+     * @return The robot's x-coordinate
+     */
+    int getX();
+
+    /**
      * Sets the robot's y-coordinate
      */
     void setY(int y);
+
+    /**
+     * @return The robot's y-coordinate
+     */
+    int getY();
 
     /**
      * Sets the robot's field (x,y)
