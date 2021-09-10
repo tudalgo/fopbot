@@ -120,16 +120,6 @@ public abstract class AbstractRobot extends Entity implements Robot {
   }
 
   @Override
-  public void setX(int x) {
-    setField(x, this.y);
-  }
-
-  @Override
-  public void setY(int y) {
-    setField(this.x, y);
-  }
-
-  @Override
   public boolean isFrontClear() {
     var dx = getDx();
     var dy = getDy();

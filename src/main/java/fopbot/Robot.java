@@ -108,7 +108,9 @@ public interface Robot {
   /**
    * Sets the robot's x-coordinate
    */
-  void setX(int x);
+  default void setX(int x) {
+    setField(x, getY());
+  }
 
   /**
    * @return The robot's y-coordinate
@@ -118,7 +120,9 @@ public interface Robot {
   /**
    * Sets the robot's y-coordinate
    */
-  void setY(int y);
+  default void setY(int y) {
+    setField(getX(), y);
+  }
 
   /**
    * Sets the robot's field (x,y)
