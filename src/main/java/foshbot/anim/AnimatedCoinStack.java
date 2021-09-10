@@ -27,7 +27,9 @@ public class AnimatedCoinStack extends CoinStack implements Animatable {
         stack = new Vector(
             x * Frame.CELL_SIZE + (Frame.CELL_PADDING - WIDTH),
             y * Frame.CELL_SIZE + (Frame.CELL_PADDING - WIDTH));
-        spawn = new Vector(x, y).mul(Frame.CELL_SIZE + 1);
+        spawn = new Vector(x, y)
+            .mul(Frame.CELL_SIZE)
+            .add(Frame.CELL_SIZE/2, Frame.CELL_SIZE/2);
     }
 
     @Override
@@ -45,10 +47,11 @@ public class AnimatedCoinStack extends CoinStack implements Animatable {
     @Override
     public void draw(Drawable d) {
         if (currentNumberOfCoins != getNumberOfCoins()) {
+            var w = WIDTH * (spawn.dist(pos) / spawn.dist(stack));
             d.image(
                 Resources.getImages().get(RESOURCE),
                 pos.x, pos.y,
-                WIDTH, WIDTH);
+                w, w);
         }
 
         if (getNumberOfCoins() > 0 && currentNumberOfCoins > 0) {
