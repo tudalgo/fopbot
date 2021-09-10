@@ -1,7 +1,8 @@
 package fopbot.examples;
 
-import fopbot.anim.AnimatedSceneRunner;
+import fopbot.anim.AnimatedWorldFrame;
 import fopbot.anim.resources.Resources;
+import fopbot.trace.TracingWorld;
 
 import java.io.IOException;
 
@@ -9,7 +10,29 @@ public class Main {
 
   public static void main(String[] args) throws IOException {
     Resources.loadAll();
-    var example = new BlockMazeExample();
-    new AnimatedSceneRunner().run(example);
+    var example = new BasicExample();
+    var frame = new AnimatedWorldFrame(example.getGrid());
+
+    var world = new TracingWorld(frame.getWorld());
+
+    example.init(world);
+    world.start();
+
+    frame.startUpdateThread();
+    example.run(world);
+
+    var trace = world.getTraces().get(0);
+    for (var state : trace) {
+      switch (state.getLastAction()) {
+        case SPAWNED:
+          System.out.printf("Robot spawned at (%d,%d)%n", state.getX(), state.getY());
+          break;
+        case MOVED:
+          System.out.printf("Robot moved to (%d,%d)%n", state.getX(), state.getY());
+          break;
+        default:
+          break;
+      }
+    }
   }
 }
