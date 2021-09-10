@@ -1,6 +1,7 @@
 package foshbot.anim;
 
 import foshbot.Direction;
+import foshbot.anim.paz.Vector;
 import foshbot.anim.resources.Resources;
 import foshbot.impl.AbstractRobot;
 
@@ -15,15 +16,21 @@ public class AnimatedRobot extends AbstractRobot implements Animatable {
     private final AnimatedWorld world;
 
     private double currentAngle;
-    private double currentX;
-    private double currentY;
+    private final Vector pos;
+    private Vector target;
 
     public AnimatedRobot(int x, int y, Direction dir, int numberOfCoins, AnimatedWorld world) {
         super(x, y, dir, numberOfCoins, world);
         this.currentAngle = getAngleOfDir(dir);
-        this.currentX = x;
-        this.currentY = y;
+        setTarget(x, y);
+        this.pos = target.copy();
         this.world = world;
+    }
+
+    private void setTarget(int x, int y) {
+        this.target = new Vector(x, y)
+            .mul(Frame.CELL_SIZE)
+            .add(Frame.CELL_PADDING, Frame.CELL_PADDING);
     }
 
     private double getAngleOfDir(Direction dir) {
@@ -106,6 +113,12 @@ public class AnimatedRobot extends AbstractRobot implements Animatable {
     }
 
     @Override
+    public void setField(int x, int y) {
+        setTarget(x, y);
+        super.setField(x, y);
+    }
+
+    @Override
     public boolean update(double dt) {
         boolean finished = updateAngle(dt);
         finished &= updatePos(dt);
@@ -113,11 +126,12 @@ public class AnimatedRobot extends AbstractRobot implements Animatable {
     }
 
     private boolean updatePos(double dt) {
-        currentX += (x - currentX) * VEL_SCALAR * dt;
-        currentY += (y - currentY) * VEL_SCALAR * dt;
-
-        return Math.abs(x - currentX) < UPDATE_EPSILON
-            && Math.abs(y - currentY) < UPDATE_EPSILON;
+        var vel = target
+            .copy()
+            .sub(pos)
+            .mul(VEL_SCALAR * dt);
+        pos.add(vel);
+        return target.dist(pos) < UPDATE_EPSILON;
     }
 
     private boolean updateAngle(double dt) {
@@ -132,15 +146,14 @@ public class AnimatedRobot extends AbstractRobot implements Animatable {
 
     @Override
     public void draw(Drawable d) {
+        var w = Frame.CELL_SIZE - Frame.CELL_PADDING * 2;
         d.rotated(
             currentAngle,
-        (currentX+0.5)*Frame.CELL_SIZE,
-        (currentY+0.5)*Frame.CELL_SIZE,
+            pos.x + w / 2,
+            pos.y + w / 2,
             () -> d.image(
                 Resources.getImages().get(RESOURCE),
-                currentX * Frame.CELL_SIZE + Frame.CELL_PADDING,
-                currentY * Frame.CELL_SIZE + Frame.CELL_PADDING,
-                Frame.CELL_SIZE - Frame.CELL_PADDING * 2,
-                Frame.CELL_SIZE - Frame.CELL_PADDING * 2));
+                pos.x, pos.y,
+                w, w));
     }
 }
