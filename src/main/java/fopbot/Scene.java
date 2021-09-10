@@ -4,9 +4,9 @@ import fopbot.impl.Grid;
 
 public interface Scene {
 
-    Grid getGrid();
+  Grid getGrid();
 
-    void init(World world);
+  void init(World world);
 
-    void run(World world);
+  void run(World world);
 }

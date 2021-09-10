@@ -2,9 +2,9 @@ package fopbot.anim.paz;
 
 public interface PanningAndZoomingTarget {
 
-    int getWidth();
+  int getWidth();
 
-    int getHeight();
+  int getHeight();
 
-    void onMousePressed(int button, Vector v);
+  void onMousePressed(int button, Vector v);
 }

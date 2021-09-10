@@ -7,9 +7,9 @@ import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        Resources.loadAll();
-        var example = new BlockMazeExample();
-        new AnimatedSceneRunner().run(example);
-    }
+  public static void main(String[] args) throws IOException {
+    Resources.loadAll();
+    var example = new BlockMazeExample();
+    new AnimatedSceneRunner().run(example);
+  }
 }

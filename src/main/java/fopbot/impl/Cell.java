@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 class Cell {
 
-    boolean[] walls = new boolean[4];
+  boolean[] walls = new boolean[4];
 
-    Collection<Entity> entities = new HashSet<>();
+  Collection<Entity> entities = new HashSet<>();
 }

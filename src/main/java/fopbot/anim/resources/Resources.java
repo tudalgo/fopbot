@@ -10,16 +10,16 @@ import java.io.IOException;
 
 public class Resources {
 
-    private static ResourceCache<Image> images;
+  private static ResourceCache<Image> images;
 
-    public static void loadAll() throws IOException {
-        images = new ImageResourceCache(
-            AnimatedRobot.RESOURCE,
-            AnimatedCoinStack.RESOURCE,
-            AnimatedBlock.RESOURCE);
-    }
+  public static void loadAll() throws IOException {
+    images = new ImageResourceCache(
+      AnimatedRobot.RESOURCE,
+      AnimatedCoinStack.RESOURCE,
+      AnimatedBlock.RESOURCE);
+  }
 
-    public static ResourceCache<Image> getImages() {
-        return images;
-    }
+  public static ResourceCache<Image> getImages() {
+    return images;
+  }
 }
