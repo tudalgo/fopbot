@@ -41,7 +41,7 @@ public class Grid {
 
     public void setSouthWall(int x, int y, boolean wall) {
         setWall(x, y, Direction.SOUTH, wall);
-        if (y < height-2) {
+        if (y < height-1) {
             setWall(x, y+1, Direction.NORTH, wall);
         }
     }
@@ -52,7 +52,7 @@ public class Grid {
 
     public void setEastWall(int x, int y, boolean wall) {
         setWall(x, y, Direction.EAST, wall);
-        if (x < width-2) {
+        if (x < width-1) {
             setWall(x+1, y, Direction.WEST, wall);
         }
     }
