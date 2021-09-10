@@ -19,7 +19,7 @@ public class LangtonsAntExample implements Scene {
     public void run(World world) {
         var ant = world.newRobot(world.getWidth() / 2, world.getHeight() / 2, Direction.NORTH, 999);
 
-        while (ant.getNumberOfCoins() > 0 && ant.isFrontClear()) {
+        while (ant.hasAnyCoins() && ant.isFrontClear()) {
             if (ant.isNextToACoin()) {
                 ant.pickCoin();
                 ant.pickCoin();
