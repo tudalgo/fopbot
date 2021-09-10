@@ -81,19 +81,21 @@ public class Frame extends JFrame implements PanningAndZoomingTarget {
     }
 
     public void updateLoop() {
-        var last = System.currentTimeMillis();
-        var acc = 0;
+        double last = System.currentTimeMillis();
 
         while (world.isRunning()) {
-            while (acc > FRAME_DELAY) {
-                world.update(FRAME_DELAY);
-                acc -= FRAME_DELAY;
-            }
+            double current = System.currentTimeMillis();
+            double dt = current - last;
+            last = current;
+
+            world.update(dt);
             repaint();
 
-            var current = System.currentTimeMillis();
-            acc += current - last;
-            last = current;
+            try {
+                Thread.sleep((long) FRAME_DELAY);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
