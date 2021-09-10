@@ -87,7 +87,7 @@ public class AnimatedWorld extends AbstractWorld {
 
     @Override
     public void putBlock(int x, int y) {
-
+        getEntities(x, y).add(new AnimatedBlock(x, y));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package foshbot.anim.resources;
 
 
+import foshbot.anim.AnimatedBlock;
 import foshbot.anim.AnimatedCoinStack;
 import foshbot.anim.AnimatedRobot;
 
@@ -14,7 +15,8 @@ public class Resources {
     public static void loadAll() throws IOException {
         images = new ImageResourceCache(
             AnimatedRobot.RESOURCE,
-            AnimatedCoinStack.RESOURCE);
+            AnimatedCoinStack.RESOURCE,
+            AnimatedBlock.RESOURCE);
     }
 
     public static ResourceCache<Image> getImages() {

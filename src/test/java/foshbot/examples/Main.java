@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Resources.loadAll();
-        var example = new WallMazeExample();
+        var example = new BlockMazeExample();
         new AnimatedSceneRunner().run(example);
     }
 }
