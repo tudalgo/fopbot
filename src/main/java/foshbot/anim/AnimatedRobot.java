@@ -9,7 +9,7 @@ public class AnimatedRobot extends AbstractRobot implements Animatable {
     public static final String RESOURCE = "/fopbot/trianglebot.png";
 
     private static final double UPDATE_EPSILON = 0.01;
-    private static final double ANGLE_VEL_SCALAR = 0.006;
+    private static final double ANGLE_VEL_SCALAR = 0.003;
     private static final double VEL_SCALAR = 0.001;
 
     private final AnimatedWorld world;
