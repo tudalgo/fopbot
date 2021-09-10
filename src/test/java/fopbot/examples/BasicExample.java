@@ -17,10 +17,12 @@ public class BasicExample implements Scene {
 
   @Override
   public void run(World world) {
-    var r = world.newRobot(0, 0, Direction.EAST, 5);
-    while (r.hasAnyCoins()) {
-      r.putCoin();
-      r.move();
+    for (int i = 0; i < 3; i++) {
+      var r = world.newRobot(i, i, Direction.EAST, 2);
+      while (r.hasAnyCoins()) {
+        r.putCoin();
+        r.move();
+      }
     }
   }
 }

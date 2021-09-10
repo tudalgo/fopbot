@@ -21,17 +21,19 @@ public class Main {
     frame.startUpdateThread();
     example.run(world);
 
-    var trace = world.getTraces().get(0);
-    for (var state : trace) {
-      switch (state.getLastAction()) {
-        case SPAWNED:
-          System.out.printf("Robot spawned at (%d,%d)%n", state.getX(), state.getY());
-          break;
-        case MOVED:
-          System.out.printf("Robot moved to (%d,%d)%n", state.getX(), state.getY());
-          break;
-        default:
-          break;
+    for (int i = 0; i < world.getTraces().size(); i++) {
+      var trace = world.getTraces().get(i);
+      for (var state : trace) {
+        switch (state.getLastAction()) {
+          case SPAWNED:
+            System.out.printf("Robot #%d spawned at (%d,%d)%n", i, state.getX(), state.getY());
+            break;
+          case MOVED:
+            System.out.printf("Robot #%d moved to (%d,%d)%n", i, state.getX(), state.getY());
+            break;
+          default:
+            break;
+        }
       }
     }
   }
