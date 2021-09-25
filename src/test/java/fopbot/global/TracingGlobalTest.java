@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TracingGlobalExample {
+public class TracingGlobalTest {
 
   private static List<TracingRobot> traces;
 
