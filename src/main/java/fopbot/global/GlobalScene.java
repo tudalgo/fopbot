@@ -1,15 +1,13 @@
 package fopbot.global;
 
 import fopbot.World;
-import fopbot.anim.AnimatedWorldFrame;
-import fopbot.anim.resources.Resources;
 import fopbot.impl.Grid;
-
-import java.io.IOException;
 
 public class GlobalScene {
 
   public static final GlobalScene INSTANCE = new GlobalScene();
+
+  private GlobalRunner runner;
 
   private Grid grid;
 
@@ -20,30 +18,26 @@ public class GlobalScene {
       throw new IllegalStateException("Cannot create multiple worlds");
     }
     grid = new Grid(width, height);
-
     return getWorld();
   }
 
   public World getWorld() {
     if (world == null) {
-
-      try {
-        Resources.loadAll();
-      } catch (IOException e) {
-        e.printStackTrace();
+      if (runner == null) {
+        runner = new GUIRunner();
       }
 
       if (grid == null) {
         grid = new Grid(10, 10);
       }
 
-      var frame = new AnimatedWorldFrame(grid);
-      world = frame.getWorld();
-
-      world.start();
-      frame.startUpdateThread();
+      world = runner.createWorld(grid);
     }
 
     return world;
+  }
+
+  public void setRunner(GlobalRunner runner) {
+    this.runner = runner;
   }
 }
