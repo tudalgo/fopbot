@@ -11,7 +11,18 @@ public class GlobalScene {
 
   public static final GlobalScene INSTANCE = new GlobalScene();
 
+  private Grid grid;
+
   private World world;
+
+  public World createWorld(int width, int height) {
+    if (world != null) {
+      throw new IllegalStateException("Cannot create multiple worlds");
+    }
+    grid = new Grid(width, height);
+
+    return getWorld();
+  }
 
   public World getWorld() {
     if (world == null) {
@@ -22,7 +33,11 @@ public class GlobalScene {
         e.printStackTrace();
       }
 
-      var frame = new AnimatedWorldFrame(new Grid(10, 10));
+      if (grid == null) {
+        grid = new Grid(10, 10);
+      }
+
+      var frame = new AnimatedWorldFrame(grid);
       world = frame.getWorld();
 
       world.start();
