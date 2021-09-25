@@ -1,5 +1,6 @@
 package fopbot.global;
 
+import fopbot.examples.TracingExample;
 import fopbot.trace.RobotAction;
 import fopbot.trace.TracingRobot;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,6 +22,11 @@ public class TracingGlobalExample {
     SimpleExample.main(new String[0]);
 
     traces = tracer.getTraces();
+  }
+
+  @Test
+  void showTraces() {
+    TracingExample.showTraces(traces);
   }
 
   @Test
