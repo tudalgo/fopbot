@@ -6,7 +6,7 @@ import fopbot.trace.TracingWorld;
 
 import java.io.IOException;
 
-public class Main {
+public class TracingExample {
 
   public static void main(String[] args) throws IOException {
     Resources.loadAll();
@@ -25,12 +25,12 @@ public class Main {
       var trace = world.getTraces().get(i);
       for (var state : trace) {
         switch (state.getLastAction()) {
-          case SPAWNED:
-            System.out.printf("Robot #%d spawned at (%d,%d)%n", i, state.getX(), state.getY());
-            break;
-          case MOVED:
-            System.out.printf("Robot #%d moved to (%d,%d)%n", i, state.getX(), state.getY());
-            break;
+         case SPAWNED:
+           System.out.printf("Robot #%d spawned at (%d,%d)%n", i, state.getX(), state.getY());
+           break;
+         case MOVED:
+           System.out.printf("Robot #%d moved to (%d,%d)%n", i, state.getX(), state.getY());
+           break;
           default:
             break;
         }
