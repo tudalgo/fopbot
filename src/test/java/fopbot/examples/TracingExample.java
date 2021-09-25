@@ -2,9 +2,11 @@ package fopbot.examples;
 
 import fopbot.anim.AnimatedWorldFrame;
 import fopbot.anim.resources.Resources;
+import fopbot.trace.TracingRobot;
 import fopbot.trace.TracingWorld;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TracingExample {
 
@@ -21,8 +23,12 @@ public class TracingExample {
     frame.startUpdateThread();
     example.run(world);
 
-    for (int i = 0; i < world.getTraces().size(); i++) {
-      var trace = world.getTraces().get(i);
+    showTraces(world.getTraces());
+  }
+
+  public static void showTraces(List<TracingRobot> traces) {
+    for (int i = 0; i < traces.size(); i++) {
+      var trace = traces.get(i);
       for (var state : trace) {
         switch (state.getLastAction()) {
          case SPAWNED:
