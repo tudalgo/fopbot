@@ -1,4 +1,4 @@
-package fopbot.examples;
+package fopbot.global;
 
 import fopbot.Direction;
 import fopbot.global.Robot;
