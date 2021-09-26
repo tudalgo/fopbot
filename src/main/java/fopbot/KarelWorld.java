@@ -46,8 +46,8 @@ public class KarelWorld {
     this.width = width;
 
     robotImages = new HashMap<>();
-    setAndLoadRobotImages(Robot.class, getClass().getResourceAsStream("/res/trianglebot.png"),
-      getClass().getResourceAsStream("/res/trianglebot.png"), 0, 0);
+    setAndLoadRobotImages(Robot.class, getClass().getResourceAsStream("/trianglebot.png"),
+      getClass().getResourceAsStream("/trianglebot.png"), 0, 0);
     robotImagesById = new HashMap<>();
 
     entities = new Field[width][height];
