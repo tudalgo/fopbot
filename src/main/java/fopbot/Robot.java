@@ -202,9 +202,9 @@ public class Robot extends FieldEntity {
     if (off) {
       return;
     }
-    numberOfCoins++;
-    if (!world.pickCoin(getX(), getY())) {
-      numberOfCoins--;
+    if (world.pickCoin(getX(), getY())) {
+      numberOfCoins++;
+    } else {
       turnOff();
       System.err.println("Robot crashed!");
       throw new RuntimeException("Robot crashed!");
