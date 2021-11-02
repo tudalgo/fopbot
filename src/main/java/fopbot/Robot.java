@@ -144,9 +144,7 @@ public class Robot extends FieldEntity {
     }
 
     if (!isFrontClear()) {
-      turnOff();
-      System.err.println("Robot crashed!");
-      throw new RuntimeException("Robot crashed!");
+      crash();
     }
 
     int oldX = getX();
@@ -187,9 +185,7 @@ public class Robot extends FieldEntity {
       numberOfCoins--;
       world.putCoins(getX(), getY(), 1);
     } else {
-      turnOff();
-      System.err.println("Robot crashed!");
-      throw new RuntimeException("Robot crashed!");
+      crash();
     }
     world.sleep();
   }
@@ -205,9 +201,7 @@ public class Robot extends FieldEntity {
     if (world.pickCoin(getX(), getY())) {
       numberOfCoins++;
     } else {
-      turnOff();
-      System.err.println("Robot crashed!");
-      throw new RuntimeException("Robot crashed!");
+      crash();
     }
     world.sleep();
   }
@@ -293,6 +287,15 @@ public class Robot extends FieldEntity {
     world.trace(this, RobotAction.TURN_OFF);
     off = true;
     world.triggerUpdate();
+  }
+
+  /**
+   * Crashes the robot. Never terminates normally and always throws an exception.
+   */
+  protected void crash() {
+    turnOff();
+    System.err.println("Robot crashed!");
+    throw new RuntimeException("Robot crashed!");
   }
 
   /**
