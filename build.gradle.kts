@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.sourcegrade"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.0"
 
 apply<FOPBotPublishPlugin>()
 
