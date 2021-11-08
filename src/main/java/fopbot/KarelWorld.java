@@ -2,9 +2,7 @@ package fopbot;
 
 import fopbot.Transition.RobotAction;
 
-import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.*;
@@ -19,16 +17,10 @@ public class KarelWorld {
 
   private final int height;
   private final int width;
-  private int delay = 100;
   private int robotCount;
-
-  private JFrame guiFrame;
-  private GuiPanel guiGp;
 
   private final Field[][] entities;
 
-  private final Map<Class<? extends Robot>, Map<String, Image[]>> robotImages;
-  private final Map<String, Map<String, Image[]>> robotImagesById;
   private final Map<String, RobotTrace> traces = new HashMap<>();
 
   /**
@@ -44,11 +36,6 @@ public class KarelWorld {
 
     this.height = height;
     this.width = width;
-
-    robotImages = new HashMap<>();
-    setAndLoadRobotImages(Robot.class, getClass().getResourceAsStream("/trianglebot.png"),
-      getClass().getResourceAsStream("/trianglebot.png"), 0, 0);
-    robotImagesById = new HashMap<>();
 
     entities = new Field[width][height];
     for (int i = 0; i < width; i++) {
@@ -78,14 +65,13 @@ public class KarelWorld {
    * @param delay (in ms)
    */
   public void setDelay(int delay) {
-    this.delay = delay;
   }
 
   /**
    * @return the current delay (in ms)
    */
   public int getDelay() {
-    return delay;
+    return 0;
   }
 
   /**
@@ -297,11 +283,6 @@ public class KarelWorld {
    * Sleep for delay ms
    */
   protected void sleep() {
-    try {
-      Thread.sleep(delay);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -365,15 +346,6 @@ public class KarelWorld {
    * Updates the gui's window
    */
   protected void updateGui() {
-    if (!isVisible()) {
-      return;
-    }
-
-    if (doScreenshots) {
-      guiGp.saveStateAsPng();
-    }
-
-    guiGp.updateGui();
   }
 
   /**
@@ -392,53 +364,13 @@ public class KarelWorld {
    * If true, show the world's gui
    */
   public void setVisible(boolean visible) {
-
-    if (visible && guiFrame == null) {
-      guiFrame = new JFrame("FopBot");
-      guiFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-      if (guiGp == null) {
-        guiGp = new GuiPanel(this);
-      }
-      guiFrame.add(guiGp);
-      guiFrame.pack();
-      guiFrame.setVisible(true);
-      triggerUpdate();
-    } else if (!visible && guiFrame != null && guiFrame.isVisible()) {
-      guiFrame.setVisible(false);
-      guiFrame.dispose();
-      guiFrame = null;
-      guiGp = null;
-    }
   }
 
   /**
    * @return true if the gui is visible
    */
   public boolean isVisible() {
-    return guiFrame != null && guiFrame.isVisible();
-  }
-
-  private Map<String, Image[]> setAndLoadRobotImages(InputStream turnedOn, InputStream turnedOff,
-                                                     int rotationOffsetOn, int rotationOffsetOff) {
-    Image[] turnedOnImages = null;
-    Image[] turnedOffImages = null;
-
-    try {
-      turnedOnImages = PaintUtils.loadScaleRotateFieldImage(turnedOn, rotationOffsetOn);
-    } catch (IOException e) {
-      System.err.println("Could not load robot image! " + turnedOn);
-    }
-
-    try {
-      turnedOffImages = PaintUtils.loadScaleRotateFieldImage(turnedOff, rotationOffsetOff);
-    } catch (IOException e) {
-      System.err.println("Could not load robot image! " + turnedOff);
-    }
-
-    Map<String, Image[]> imageMap = new HashMap<>();
-    imageMap.put("on", turnedOnImages);
-    imageMap.put("off", turnedOffImages);
-    return imageMap;
+    return false;
   }
 
   /**
@@ -446,7 +378,6 @@ public class KarelWorld {
    */
   public void setAndLoadRobotImages(Class<? extends Robot> robotClass, InputStream turnedOn, InputStream turnedOff,
                                     int rotationOffsetOn, int rotationOffsetOff) {
-    robotImages.put(robotClass, setAndLoadRobotImages(turnedOn, turnedOff, rotationOffsetOn, rotationOffsetOff));
   }
 
   /**
@@ -454,21 +385,20 @@ public class KarelWorld {
    */
   public void setAndLoadRobotImagesById(String imageId, InputStream turnedOn, InputStream turnedOff,
                                         int rotationOffsetOn, int rotationOffsetOff) {
-    robotImagesById.put(imageId, setAndLoadRobotImages(turnedOn, turnedOff, rotationOffsetOn, rotationOffsetOff));
   }
 
   /**
    * @return a robot image map for a specific robot class
    */
   protected Map<String, Image[]> getRobotImageMap(Class<? extends Robot> robotClass) {
-    return robotImages.get(robotClass);
+    return Collections.emptyMap();
   }
 
   /**
    * @return a robot image map for a specific image id
    */
   protected Map<String, Image[]> getRobotImageMapById(String imageId) {
-    return robotImagesById.get(imageId);
+    return Collections.emptyMap();
   }
 
   /**
@@ -499,11 +429,10 @@ public class KarelWorld {
   }
 
   public GuiPanel getGuiPanel() {
-    return guiGp;
+    return null;
   }
 
   public void setGuiPanel(GuiPanel guiPanel) {
-    this.guiGp = guiPanel;
   }
 
   void trace(Robot r, RobotAction robotAction) {
