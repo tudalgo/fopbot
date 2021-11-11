@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static fopbot.PaintUtils.*;
 
-public class GuiPanel extends JPanel {
+class GuiPanel extends JPanel {
 
   protected KarelWorld world;
 

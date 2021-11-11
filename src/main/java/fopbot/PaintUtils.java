@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class PaintUtils {
+class PaintUtils {
 
   public static final int FIELD_INNER_SIZE = 60;
   public static final int FIELD_BORDER_THICKNESS = 4;
