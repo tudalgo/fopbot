@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class KarelWorld {
 
@@ -25,7 +26,7 @@ public class KarelWorld {
   private JFrame guiFrame;
   private GuiPanel guiGp;
 
-  private final Field[][] entities;
+  private final Field[][] fields;
 
   private final Map<Class<? extends Robot>, Map<String, Image[]>> robotImages;
   private final Map<String, Map<String, Image[]>> robotImagesById;
@@ -50,10 +51,10 @@ public class KarelWorld {
       getClass().getResourceAsStream("/trianglebot.png"), 0, 0);
     robotImagesById = new HashMap<>();
 
-    entities = new Field[width][height];
+    fields = new Field[width][height];
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
-        entities[i][j] = new Field();
+        fields[i][j] = new Field();
       }
     }
   }
@@ -91,8 +92,8 @@ public class KarelWorld {
   /**
    * @return a list of all field entities at field (x,y)
    */
-  protected Field getFieldEntities(int x, int y) {
-    return entities[x][y];
+  protected Field getField(int x, int y) {
+    return fields[x][y];
   }
 
   /**
@@ -102,10 +103,7 @@ public class KarelWorld {
     List<FieldEntity> all = new LinkedList<>();
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
-        Field field = entities[i][j];
-        if (field.size() > 0) {
-          all.addAll(field.getEntities());
-        }
+        all.addAll(fields[i][j].getEntities());
       }
     }
     return all;
@@ -115,8 +113,8 @@ public class KarelWorld {
    * @return true if a block is in field (x,y)
    */
   protected boolean isBlockInField(int x, int y) {
-    for (FieldEntity ce : entities[x][y]) {
-      if (ce instanceof Block) {
+    for (FieldEntity entity : fields[x][y].getEntities()) {
+      if (entity instanceof Block) {
         return true;
       }
     }
@@ -127,9 +125,9 @@ public class KarelWorld {
    * @return true if a wall is in field (x,y) and if wall.isHorizontal() == horizontal
    */
   protected boolean isWallInField(int x, int y, boolean horizontal) {
-    for (FieldEntity ce : entities[x][y]) {
-      if (ce instanceof Wall) {
-        Wall w = (Wall) ce;
+    for (FieldEntity entity : fields[x][y].getEntities()) {
+      if (entity instanceof Wall) {
+        Wall w = (Wall) entity;
         if (w.isHorizontal() == horizontal) {
           return true;
         }
@@ -142,42 +140,30 @@ public class KarelWorld {
    * @return true if at least one coin is in field (x,y)
    */
   protected boolean isCoinInField(int x, int y) {
-    for (FieldEntity ce : entities[x][y]) {
-      if (ce instanceof Coin) {
-        return true;
-      }
-    }
-    return false;
+    return fields[x][y].getEntities().stream().anyMatch(Coin.class::isInstance);
   }
 
   /**
    * @return true if another robot is in field (x,y)
    */
   protected boolean isAnotherRobotInField(int x, int y, Robot r) {
-    for (FieldEntity ce : entities[x][y]) {
-      if (ce instanceof Robot) {
-        Robot a = (Robot) ce;
-        if (a != r) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return fields[x][y].getEntities().stream().anyMatch(e -> e instanceof Robot && e != r);
   }
 
   /**
    * @return Tries to remove one coin from the field (x,y) and returns true if a coin got removed
    */
   protected boolean pickCoin(int x, int y) {
-    Field field = entities[x][y];
-    for (FieldEntity ce : field) {
-      if (ce instanceof Coin) {
+    Iterator<FieldEntity> iterator = fields[x][y].getEntities().iterator();
+    while (iterator.hasNext()) {
+      FieldEntity entity = iterator.next();
+      if (entity instanceof Coin) {
         // if coins already placed in this field, decrease number
-        Coin c = (Coin) ce;
+        Coin c = (Coin) entity;
         if (c.getCount() > 1) {
           c.setCount(c.getCount() - 1);
         } else {
-          field.remove(ce);
+          iterator.remove();
         }
         triggerUpdate();
         return true;
@@ -197,8 +183,7 @@ public class KarelWorld {
       throw new RuntimeException("Number of coins must be greater than 0!");
     }
 
-    Field field = entities[x][y];
-    for (FieldEntity ce : field) {
+    for (FieldEntity ce : fields[x][y].getEntities()) {
       if (ce instanceof Coin) {
         // if coins already placed in this field, increase number
         Coin c = (Coin) ce;
@@ -209,7 +194,7 @@ public class KarelWorld {
     }
     // else place first coin
     Coin c = new Coin(x, y, numberOfCoins);
-    field.add(c);
+    fields[x][y].getEntities().add(c);
     triggerUpdate();
   }
 
@@ -217,12 +202,8 @@ public class KarelWorld {
    * Updates the entity array to be in sync with the robots x- and y-Coordinates
    */
   protected void updateRobotField(Robot r, int oldX, int oldY) {
-    for (int i = 0; i < entities[oldX][oldY].size(); i++) {
-      if (entities[oldX][oldY].get(i) == r) {
-        entities[oldX][oldY].remove(i);
-        entities[r.getX()][r.getY()].add(r);
-        return;
-      }
+    if (fields[oldX][oldY].getEntities().removeIf(entity -> entity == r)) {
+      fields[r.getX()][r.getY()].getEntities().add(r);
     }
   }
 
@@ -232,15 +213,10 @@ public class KarelWorld {
   public void placeBlock(int x, int y) {
     checkXCoordinate(x);
     checkYCoordinate(y);
-
-    Field field = entities[x][y];
-    for (FieldEntity ce : field) {
-      if (ce instanceof Block) {
-        return;
-      }
+    if (fields[x][y].getEntities().stream().anyMatch(Block.class::isInstance)) {
+      return;
     }
-    Block b = new Block(x, y);
-    field.add(b);
+    fields[x][y].getEntities().add(new Block(x, y));
     triggerUpdate();
   }
 
@@ -248,8 +224,7 @@ public class KarelWorld {
    * Adds a robot to the world
    */
   public void addRobot(Robot r) {
-    Field field = entities[r.getX()][r.getY()];
-    field.add(r);
+    fields[r.getX()][r.getY()].getEntities().add(r);
     r.setId(Integer.toString(robotCount));
     robotCount++;
     traces.put(r.getId(), new RobotTrace());
@@ -264,18 +239,11 @@ public class KarelWorld {
   private void placeWall(int x, int y, boolean horizontal) {
     checkXCoordinate(x);
     checkYCoordinate(y);
-
-    Field field = entities[x][y];
-    for (FieldEntity ce : field) {
-      if (ce instanceof Wall) {
-        Wall cew = (Wall) ce;
-        if (cew.isHorizontal() == horizontal) {
-          return;
-        }
-      }
+    if (fields[x][y].getEntities().stream()
+      .anyMatch(e -> e instanceof Wall && ((Wall) e).isHorizontal() == horizontal)) {
+      return;
     }
-    Wall w = new Wall(x, y, horizontal);
-    field.add(w);
+    fields[x][y].getEntities().add(new Wall(x, y, horizontal));
     triggerUpdate();
   }
 
@@ -380,11 +348,7 @@ public class KarelWorld {
    * Reset the world (remove all entities)
    */
   public void reset() {
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
-        entities[i][j].clear();
-      }
-    }
+    Stream.of(fields).flatMap(Stream::of).map(Field::getEntities).forEach(Collection::clear);
     triggerUpdate();
   }
 
