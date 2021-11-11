@@ -49,18 +49,7 @@ class PaintUtils {
       // scale image
       Image scaledImage = rotatedImage.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
 
-      if (i == 0) {
-        rotations[Direction.UP.ordinal()] = scaledImage;
-      }
-      if (i == 1) {
-        rotations[Direction.RIGHT.ordinal()] = scaledImage;
-      }
-      if (i == 2) {
-        rotations[Direction.DOWN.ordinal()] = scaledImage;
-      }
-      if (i == 3) {
-        rotations[Direction.LEFT.ordinal()] = scaledImage;
-      }
+      rotations[i] = scaledImage;
     }
 
     return rotations;
