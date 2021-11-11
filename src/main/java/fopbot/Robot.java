@@ -316,16 +316,35 @@ public class Robot extends FieldEntity {
    * @return true if the robot is standing on a coin/if at least one coin is at
    * the same position as the robot's position
    */
-  public boolean isNextToACoin() {
+  public boolean isOnACoin() {
     return world.isCoinInField(getX(), getY());
+  }
+
+  /**
+   * @return true if the robot is standing on a coin/if at least one coin is at
+   * the same position as the robot's position
+   * @deprecated Confusing name, use {@link #isOnACoin()} instead.
+   */
+  @Deprecated(since = "0.3.0", forRemoval = true)
+  public boolean isNextToACoin() {
+    return isOnACoin();
+  }
+
+  /**
+   * @return true if at least another robot is at the same position as the robot's position
+   */
+  public boolean isOnAnotherRobot() {
+    return world.isAnotherRobotInField(getX(), getY(), this);
   }
 
   /**
    * @return true if at least another robot is at the same position as the robot's
    * position
+   * @deprecated Confusing name, use {@link #isOnAnotherRobot()} instead.
    */
+  @Deprecated(since = "0.3.0", forRemoval = true)
   public boolean isNextToARobot() {
-    return world.isAnotherRobotInField(getX(), getY(), this);
+    return isOnAnotherRobot();
   }
 
   /**
