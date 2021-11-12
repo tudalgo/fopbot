@@ -451,14 +451,6 @@ public class KarelWorld {
     }
   }
 
-  public GuiPanel getGuiPanel() {
-    return guiGp;
-  }
-
-  public void setGuiPanel(GuiPanel guiPanel) {
-    this.guiGp = guiPanel;
-  }
-
   void trace(Robot r, RobotAction robotAction) {
     var robotTrace = this.traces.get(r.getId());
     robotTrace.trace(r, robotAction);
