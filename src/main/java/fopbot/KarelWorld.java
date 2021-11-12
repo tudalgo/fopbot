@@ -100,13 +100,10 @@ public class KarelWorld {
    * @return a list of all field entities in the world
    */
   public List<FieldEntity> getAllFieldEntities() {
-    List<FieldEntity> all = new LinkedList<>();
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < height; x++) {
-        all.addAll(fields[y][x].getEntities());
-      }
-    }
-    return all;
+    return Stream.of(fields).flatMap(Stream::of)
+      .map(Field::getEntities)
+      .flatMap(Collection::stream)
+      .collect(Collectors.toUnmodifiableList());
   }
 
   /**
