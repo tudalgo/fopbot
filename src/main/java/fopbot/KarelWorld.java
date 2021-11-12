@@ -1,6 +1,6 @@
 package fopbot;
 
-import fopbot.Transition.*;
+import fopbot.Transition.RobotAction;
 
 import javax.swing.*;
 import java.awt.*;
