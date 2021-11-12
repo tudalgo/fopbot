@@ -325,7 +325,7 @@ public class Robot extends FieldEntity {
    * the same position as the robot's position
    * @deprecated Confusing name, use {@link #isOnACoin()} instead.
    */
-  @Deprecated(since = "0.3.0", forRemoval = true)
+  @Deprecated(since = "0.3.0")
   public boolean isNextToACoin() {
     return isOnACoin();
   }
@@ -342,7 +342,7 @@ public class Robot extends FieldEntity {
    * position
    * @deprecated Confusing name, use {@link #isOnAnotherRobot()} instead.
    */
-  @Deprecated(since = "0.3.0", forRemoval = true)
+  @Deprecated(since = "0.3.0")
   public boolean isNextToARobot() {
     return isOnAnotherRobot();
   }
