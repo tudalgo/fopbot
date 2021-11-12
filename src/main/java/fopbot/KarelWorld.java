@@ -1,6 +1,6 @@
 package fopbot;
 
-import fopbot.Transition.RobotAction;
+import fopbot.Transition.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -110,41 +110,32 @@ public class KarelWorld {
    * @return true if a block is in field (x,y)
    */
   protected boolean isBlockInField(int x, int y) {
-    for (FieldEntity entity : fields[y][x].getEntities()) {
-      if (entity instanceof Block) {
-        return true;
-      }
-    }
-    return false;
+    return fields[y][x].getEntities().stream()
+      .anyMatch(Block.class::isInstance);
   }
 
   /**
    * @return true if a wall is in field (x,y) and if wall.isHorizontal() == horizontal
    */
   protected boolean isWallInField(int x, int y, boolean horizontal) {
-    for (FieldEntity entity : fields[y][x].getEntities()) {
-      if (entity instanceof Wall) {
-        Wall w = (Wall) entity;
-        if (w.isHorizontal() == horizontal) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return fields[y][x].getEntities().stream()
+      .anyMatch(e -> e instanceof Wall && ((Wall) e).isHorizontal() == horizontal);
   }
 
   /**
    * @return true if at least one coin is in field (x,y)
    */
   protected boolean isCoinInField(int x, int y) {
-    return fields[y][x].getEntities().stream().anyMatch(Coin.class::isInstance);
+    return fields[y][x].getEntities().stream()
+      .anyMatch(Coin.class::isInstance);
   }
 
   /**
    * @return true if another robot is in field (x,y)
    */
   protected boolean isAnotherRobotInField(int x, int y, Robot r) {
-    return fields[y][x].getEntities().stream().anyMatch(e -> e instanceof Robot && e != r);
+    return fields[y][x].getEntities().stream()
+      .anyMatch(e -> e instanceof Robot && e != r);
   }
 
   /**
@@ -236,8 +227,7 @@ public class KarelWorld {
   private void placeWall(int x, int y, boolean horizontal) {
     checkXCoordinate(x);
     checkYCoordinate(y);
-    if (fields[y][x].getEntities().stream()
-      .anyMatch(e -> e instanceof Wall && ((Wall) e).isHorizontal() == horizontal)) {
+    if (isWallInField(x, y, horizontal)) {
       return;
     }
     fields[y][x].getEntities().add(new Wall(x, y, horizontal));
@@ -345,7 +335,9 @@ public class KarelWorld {
    * Reset the world (remove all entities)
    */
   public void reset() {
-    Stream.of(fields).flatMap(Stream::of).map(Field::getEntities).forEach(Collection::clear);
+    Stream.of(fields).flatMap(Stream::of)
+      .map(Field::getEntities)
+      .forEach(Collection::clear);
     triggerUpdate();
   }
 
