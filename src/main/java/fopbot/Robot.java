@@ -429,6 +429,9 @@ public class Robot extends FieldEntity {
    * Sets the robot's field (x,y)
    */
   public void setField(int x, int y) {
+    world.trace(this, RobotAction.SET_X);
+    world.trace(this, RobotAction.SET_Y);
+    
     world.checkXCoordinate(x);
     world.checkYCoordinate(y);
 
