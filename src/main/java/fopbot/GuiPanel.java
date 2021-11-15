@@ -1,8 +1,19 @@
 package fopbot;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import static fopbot.PaintUtils.BOARD_OFFSET;
+import static fopbot.PaintUtils.FIELD_BORDER_THICKNESS;
+import static fopbot.PaintUtils.FIELD_INNER_OFFSET;
+import static fopbot.PaintUtils.FIELD_INNER_SIZE;
+import static fopbot.PaintUtils.getBoardSize;
+import static fopbot.PaintUtils.getUpperLeftCornerInField;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,22 +24,46 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import static fopbot.PaintUtils.*;
-
+/**
+ * The graphical user interface in which the FOPBot world is represented.
+ */
 class GuiPanel extends JPanel {
 
+  /**
+   * The world that is to be displayed on the graphical user interface.
+   */
   protected KarelWorld world;
 
+  /**
+   * The counter of how many screenshots were made.
+   */
   protected long screenshotCounter = 0L;
+
+  /**
+   * The date of the first saved world as an image.
+   */
   protected String startDate;
 
+  /**
+   * Constructs and initializes graphical use interface to represent the FOP Bot world.
+   *
+   * @param world the FOP Bot world to represent on the graphical user interface
+   */
   public GuiPanel(KarelWorld world) {
     this.world = world;
 
     setSize(getPreferredSize());
   }
 
+  /**
+   * Returns the unscaled size of world board size.
+   *
+   * @return the unscaled size of world board size
+   */
   protected Dimension getUnscaledSize() {
     Point p = getBoardSize(world);
     int width = p.x;
@@ -44,7 +79,9 @@ class GuiPanel extends JPanel {
   }
 
   /**
-   * Saves the current world to an image (png)
+   * Saves the current world to an image (.png).
+   *
+   * @throws RuntimeException if the screenshot directory could not be created
    */
   protected void saveStateAsPng() {
     if (screenshotCounter == 0L) {
@@ -65,10 +102,12 @@ class GuiPanel extends JPanel {
     String imagePath = "screenshots/" + startDate + "/karel_" + state + ".png";
     screenshotCounter++;
 
-    BufferedImage image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height, BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height,
+      BufferedImage.TYPE_INT_ARGB);
     Graphics g = image.getGraphics();
     draw(g);
-    image = image.getSubimage(BOARD_OFFSET, BOARD_OFFSET, getUnscaledSize().width - BOARD_OFFSET * 2,
+    image = image.getSubimage(BOARD_OFFSET, BOARD_OFFSET,
+      getUnscaledSize().width - BOARD_OFFSET * 2,
       getUnscaledSize().height - BOARD_OFFSET * 2);
     try {
       ImageIO.write(image, "png", new File(imagePath));
@@ -79,7 +118,8 @@ class GuiPanel extends JPanel {
 
   @Override
   public void paintComponent(Graphics g) {
-    Image image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height, BufferedImage.TYPE_INT_ARGB);
+    Image image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height,
+      BufferedImage.TYPE_INT_ARGB);
     Graphics gImage = image.getGraphics();
     draw(gImage);
 
@@ -91,7 +131,14 @@ class GuiPanel extends JPanel {
   }
 
   /**
-   * Main draw method
+   * Draws all {@code FieldEntity} objects on the graphical user interface.
+   *
+   * @param g the {@code Graphics} context in which to paint
+   * @see #drawBoard(Graphics)
+   * @see #drawCoin(Coin, Graphics)
+   * @see #drawBlock(Block, Graphics)
+   * @see #drawWall(Wall, Graphics)
+   * @see #drawRobot(Robot, Graphics)
    */
   protected void draw(Graphics g) {
     drawBoard(g);
@@ -131,7 +178,9 @@ class GuiPanel extends JPanel {
   }
 
   /**
-   * Draw board (borders, fields)
+   * Draws the world board with its fields (borders, fields).
+   *
+   * @param g the {@code Graphics} context in which to paint
    */
   protected void drawBoard(Graphics g) {
     // draw outer borders
@@ -167,7 +216,10 @@ class GuiPanel extends JPanel {
   }
 
   /**
-   * Draws the given robot
+   * Draws the specified {@code Robot} on the graphical user interface.
+   *
+   * @param r the {@code Robot} to draw
+   * @param g the {@code Graphics} context in which to paint
    */
   protected void drawRobot(Robot r, Graphics g) {
     Point upperLeft = getUpperLeftCornerInField(r, world.getHeight());
@@ -193,7 +245,10 @@ class GuiPanel extends JPanel {
   }
 
   /**
-   * Draws the given coin
+   * Draws the specified {@code Coin} on the graphical user interface.
+   *
+   * @param c the {@code Coin} to draw
+   * @param g the {@code Graphics} context in which to paint
    */
   protected void drawCoin(Coin c, Graphics g) {
     Color cBackup = g.getColor();
@@ -210,7 +265,10 @@ class GuiPanel extends JPanel {
   }
 
   /**
-   * Draws the given block
+   * Draws the specified {@code Block} on the graphical user interface.
+   *
+   * @param b the {@code Block} to draw
+   * @param g the {@code Graphics} context in which to paint
    */
   protected void drawBlock(Block b, Graphics g) {
     Color cBackup = g.getColor();
@@ -224,7 +282,10 @@ class GuiPanel extends JPanel {
   }
 
   /**
-   * Draws the given wall
+   * Draws the specified {@code Wall} on the graphical user interface.
+   *
+   * @param w the {@code Wall} to draw
+   * @param g the {@code Graphics} context in which to paint
    */
   protected void drawWall(Wall w, Graphics g) {
     Color cBackup = g.getColor();
@@ -245,7 +306,7 @@ class GuiPanel extends JPanel {
   }
 
   /**
-   * Update gui
+   * Updates the content of the graphical user interface.
    */
   public void updateGui() {
     if (SwingUtilities.isEventDispatchThread()) {
