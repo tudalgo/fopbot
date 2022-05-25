@@ -55,7 +55,7 @@ public class World {
     }
 
     /**
-     * Creates a new global world with the specified world size
+     * Creates a new global world with the specified world size.
      *
      * @param width  the width of the global world
      * @param height the height of the global world

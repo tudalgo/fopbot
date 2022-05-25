@@ -24,12 +24,12 @@ public class Robot extends FieldEntity {
 
     @Override
     public String toString() {
-        return "Robot{" +
-            "id='" + id + '\'' +
-            ", at=[" + getX() + '/' + getY() +
-            "], numberOfCoins=" + numberOfCoins +
-            ", direction=" + direction +
-            '}';
+        return "Robot{"
+            + "id='" + id + '\''
+            + ", at=[" + getX() + '/' + getY()
+            + "], numberOfCoins=" + numberOfCoins
+            + ", direction=" + direction
+            + '}';
     }
 
     /**
@@ -184,6 +184,8 @@ public class Robot extends FieldEntity {
             case RIGHT:
                 direction = Direction.UP;
                 break;
+            default:
+                throw new AssertionError();
         }
         if (printTrace) {
             printTrace();
@@ -224,6 +226,8 @@ public class Robot extends FieldEntity {
             case RIGHT:
                 setXRobot(getX() + 1);
                 break;
+            default:
+                throw new AssertionError();
         }
 
         if (printTrace) {
@@ -355,7 +359,7 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Returns {@code true} if robot tracing is enabled
+     * Returns {@code true} if robot tracing is enabled.
      *
      * @return {@code true} if robot tracing is enabled
      */
@@ -405,8 +409,7 @@ public class Robot extends FieldEntity {
      * Returns {@code true} if this robot is on a coin, more precisely if the current position of this
      * robot is equal to the position of a coin.
      *
-     * @return {@code true} if this robot is on a coin, more precisely if the current position of this
-     * robot is equal to the position of a coin
+     * @return {@code true} if this robot is on a coin
      */
     public boolean isOnACoin() {
         return world.isCoinInField(getX(), getY());
@@ -416,8 +419,7 @@ public class Robot extends FieldEntity {
      * Returns {@code true} if this robot is on a coin, more precisely if the current position of this
      * robot is equal to the position of a coin.
      *
-     * @return {@code true} if this robot is on a coin, more precisely if the current position of this
-     * robot is equal to the position of a coin
+     * @return {@code true} if this robot is on a coin
      * @deprecated Confusing name, use {@link #isOnACoin()} instead.
      */
     @Deprecated(since = "0.3.0")
@@ -429,8 +431,7 @@ public class Robot extends FieldEntity {
      * Returns {@code true} if this robot is on another robot, more precisely if the current position
      * of this robot is equal to the position of the other robot.
      *
-     * @return {@code true} if this robot is on another robot, more precisely if the current position
-     * of this robot is equal to the position of the other robot
+     * @return {@code true} if this robot is on another robot
      */
     public boolean isOnAnotherRobot() {
         return world.isAnotherRobotInField(getX(), getY(), this);
@@ -440,8 +441,7 @@ public class Robot extends FieldEntity {
      * Returns {@code true} if this robot is on another robot, more precisely if the current position
      * of this robot is equal to the position of the other robot.
      *
-     * @return {@code true} if this robot is on another robot, more precisely if the current position
-     * of this robot is equal to the position of the other robot
+     * @return {@code true} if this robot is on another robot
      * @deprecated Confusing name, use {@link #isOnAnotherRobot()} instead.
      */
     @Deprecated(since = "0.3.0")
@@ -555,8 +555,8 @@ public class Robot extends FieldEntity {
             return;
         }
 
-        int oldX = getX();
-        int oldY = getY();
+        final int oldX = getX();
+        final int oldY = getY();
 
         super.setX(x);
         super.setY(y);
@@ -573,12 +573,11 @@ public class Robot extends FieldEntity {
      * Returns {@code true} if there is no object in front of this robot, which can collide with it at
      * the next step (e.g. walls).
      *
-     * @return {@code true} if there is no object in front of this robot, which can collide with it at
-     * the next step (e.g. walls)
+     * @return {@code true} if there is no object in front of this robot
      */
     public boolean isFrontClear() {
-        int x = getX();
-        int y = getY();
+        final int x = getX();
+        final int y = getY();
 
         switch (direction) {
             case UP:
@@ -625,6 +624,8 @@ public class Robot extends FieldEntity {
                     return false;
                 }
                 break;
+            default:
+                throw new AssertionError();
         }
 
         return true;

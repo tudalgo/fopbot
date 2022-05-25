@@ -34,7 +34,7 @@ public class KarelWorld {
     private static final boolean saveStates = true;
 
     /**
-     * The fields of this world
+     * The fields of this world.
      */
     private List<Field> entityStates;
 
@@ -226,7 +226,7 @@ public class KarelWorld {
 
     /**
      * Picks up a coin from the specified coordinate and return {@code true} if a coin was removed at
-     * the specified coordinate after this call
+     * the specified coordinate after this call.
      *
      * @param x the X coordinate to pick up the coin
      * @param y the Y coordinate to pick up the coin

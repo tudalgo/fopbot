@@ -81,19 +81,18 @@ class PaintUtils {
     }
 
     /**
-     * Returns the upper left corner coordinates of a specific field (the field entity is standing
-     * on).
+     * Returns the upper left corner coordinates of a specific field (the field entity is standing on).
      *
      * @param fe          the entity to check
      * @param worldHeight the height of the world
      * @return the upper left corner coordinates of a specific field (the field entity is standing on)
      */
     protected static Point getUpperLeftCornerInField(FieldEntity fe, int worldHeight) {
-        int y_m = Math.abs(fe.getY() - worldHeight + 1);
+        int yM = Math.abs(fe.getY() - worldHeight + 1);
         int width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
         int height = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
         width += fe.getX() * (FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE);
-        height += y_m * (FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE);
+        height += yM * (FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE);
         width += FIELD_INNER_OFFSET;
         height += FIELD_INNER_OFFSET;
         return new Point(width, height);

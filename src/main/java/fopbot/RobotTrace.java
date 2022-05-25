@@ -59,9 +59,9 @@ public class RobotTrace implements Iterable<Transition> {
 
     @Override
     public String toString() {
-        return "RobotTrace{" +
-            "transitions=" + transitions +
-            '}';
+        return "RobotTrace{"
+            + "transitions=" + transitions
+            + '}';
     }
 
     /**
