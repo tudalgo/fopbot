@@ -2,29 +2,57 @@ package fopbot;
 
 import fopbot.Transition.RobotAction;
 
+/**
+ * A field entity that represents a robot  on a graphical user interface.
+ */
 public class Robot extends FieldEntity {
 
-    private String id;
+    /**
+     * The identification of this robot.
+     */private String id;
+  /**
+     * The image identification of this robot.
+     */
     private String imageId;
+
+    /**
+     * The number of coins that this robot currently owns.
+     */
     private int numberOfCoins = 0;
 
     @Override
     public String toString() {
-        return "Robot{" +
-            "id='" + id + '\'' +
-            ", at=[" + getX() + '/' + getY() +
-            "], numberOfCoins=" + numberOfCoins +
-            ", direction=" + direction +
-            '}';
+        return "Robot{"
+            + "id='" + id + '\''
+            + ", at=[" + getX() + '/' + getY()
+            + "], numberOfCoins=" + numberOfCoins
+            + ", direction=" + direction
+            +'}';
     }
 
+    /**
+     * The current viewing direction of this robot.
+     */
     private Direction direction = Direction.UP;
+    /**
+     * The indicator whether the console tracing is enabled.
+     */
     private boolean printTrace;
+    /**
+     * The state of the robot, whether it is on or off.
+     */
     private boolean off = false;
+    /**
+     * The world in which this robot is placed.
+     */
     private KarelWorld world;
 
     /**
-     * Creates and spawns a new robot at field (x,y) in the world Default direction: NORTH ; numberOfCoins = 0
+     * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
+     * direction {@code UP} and 0 coins.
+     *
+     * @param x the X coordinate of the newly constructed robot
+     * @param y the Y coordinate of the newly constructed robot
      */
     public Robot(int x, int y) {
         super(x, y);
@@ -37,7 +65,13 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Creates and spawns a new robot at field (x,y) in the world
+     * Constructs and initializes a robot at the specified {@code (x,y)} location, viewing direction
+     * and number of coins.
+     *
+     * @param x             the X coordinate of the newly constructed robot
+     * @param y             the Y coordinate of the newly constructed robot
+     * @param direction     the viewing direction of the newly constructed robot
+     * @param numberOfCoins the number of coins of the newly constructed robot
      */
     public Robot(int x, int y, Direction direction, int numberOfCoins) {
         super(x, y);
@@ -53,7 +87,12 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Creates and spawns a new robot at field (x,y) in the given world
+     * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
+     * direction {@code UP} and 0 coins and places it on the given world.
+     *
+     * @param world the world to place the newly constructed robot in
+     * @param x     the X coordinate of the newly constructed robot
+     * @param y     the Y coordinate of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y) {
         super(x, y);
@@ -66,7 +105,14 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Creates and spawns a new robot at field (x,y) in the given world
+     * Constructs and initializes a robot at the specified {@code (x,y)} location, viewing direction,
+     * number of coins and places it on the given world.
+     *
+     * @param world         the world to place the newly constructed robot in
+     * @param x             the X coordinate of the newly constructed robot
+     * @param y             the Y coordinate of the newly constructed robot
+     * @param direction     the viewing direction of the newly constructed robot
+     * @param numberOfCoins the number of coins of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins) {
         super(x, y);
@@ -82,7 +128,9 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Copy constructor
+     * Constructs and initializes a robot with the properties of the specified robot.
+     *
+     * @param robot the robot to copy its properties
      */
     protected Robot(Robot robot) {
         super(robot.getX(), robot.getY());
@@ -96,7 +144,14 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Copy constructor
+     * Constructs and initializes a robot at the specified {@code (x,y)} location, viewing direction
+     * and number of coins.
+     *
+     * @param copy          if {@code true} then it is a copy constructor
+     * @param x             the X coordinate of the newly constructed robot
+     * @param y             the Y coordinate of the newly constructed robot
+     * @param direction     the viewing direction of the newly constructed robot
+     * @param numberOfCoins the number of coins of the newly constructed robot
      */
     protected Robot(boolean copy, int x, int y, Direction direction, int numberOfCoins) {
         super(x, y);
@@ -105,7 +160,8 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Turns the robots body to the left
+     * Rotates this robot to the left so that after this call the viewing direction of this robot is
+     * the old viewing direction by one to the left (e.g. {@code LEFT} to {@code UP}).
      */
     public void turnLeft() {
         world.trace(this, RobotAction.TURN_LEFT);
@@ -126,7 +182,8 @@ public class Robot extends FieldEntity {
             case RIGHT:
                 direction = Direction.UP;
                 break;
-        }
+        default:
+                throw new AssertionError();}
         if (printTrace) {
             printTrace();
         }
@@ -135,7 +192,10 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Move the robot one step forward in the current direction
+     * Moves this robot one step forward, in its current viewing direction.
+     *
+     * @throws RuntimeException if this robot would move outside the world or collide against
+     *                          something.
      */
     public void move() {
         world.trace(this, RobotAction.MOVE);
@@ -163,6 +223,8 @@ public class Robot extends FieldEntity {
             case RIGHT:
                 setXRobot(getX() + 1);
                 break;
+        default:
+                throw new AssertionError();
         }
 
         if (printTrace) {
@@ -174,7 +236,9 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Puts down one coin at the current position
+     * Places a coin at its current position.
+     *
+     * @throws RuntimeException if this robot has no coin
      */
     public void putCoin() {
         world.trace(this, RobotAction.PUT_COIN);
@@ -191,7 +255,9 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Picks up one coin at the current position
+     * Picks up a coin from the current position.
+     *
+     * @throws RuntimeException if there is no coin on the current position
      */
     public void pickCoin() {
         world.trace(this, RobotAction.PICK_COIN);
@@ -207,7 +273,7 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Prints the robot trace
+     * Outputs the robot tracing in the console.
      */
     private void printTrace() {
         String onOff = off ? "off" : "on";
@@ -217,71 +283,88 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * @return the current direction of the robot
+     * Returns the current viewing direction of this robot.
+     *
+     * @return the current viewing direction of this robot
      */
     public Direction getDirection() {
         return direction;
     }
 
     /**
-     * @return the number of coins the robot possesses
+     * Returns the current number of coins this robot has.
+     *
+     * @return the current number of coins this robot has
      */
     public int getNumberOfCoins() {
         return numberOfCoins;
     }
 
     /**
-     * @return true if the robot has any coins
+     * Returns {@code true} if this robot has any coins.
+     *
+     * @return {@code true} if this robot has any coins
      */
     public boolean hasAnyCoins() {
         return numberOfCoins > 0;
     }
 
     /**
-     * @return true if the robot is facing up
+     * Returns {@code true} if the current viewing direction of this robot is up.
+     *
+     * @return {@code true} if the current viewing direction of this robot is up
      */
     public boolean isFacingUp() {
         return direction == Direction.UP;
     }
 
     /**
-     * @return true if the robot is facing down
+     * Returns {@code true} if the current viewing direction of this robot is down.
+     *
+     * @return {@code true} if the current viewing direction of this robot is down
      */
     public boolean isFacingDown() {
         return direction == Direction.DOWN;
     }
 
     /**
-     * @return true if the robot is facing left
+     * Returns {@code true} if the current viewing direction of this robot is left.
+     *
+     * @return {@code true} if the current viewing direction of this robot is left
      */
     public boolean isFacingLeft() {
         return direction == Direction.LEFT;
     }
 
     /**
-     * @return true if the robot is facing right
+     * Returns {@code true} if the current viewing direction of this robot is right.
+     *
+     * @return {@code true} if the current viewing direction of this robot is right
      */
     public boolean isFacingRight() {
         return direction == Direction.RIGHT;
     }
 
     /**
-     * enables/disables printing a trace to System.out after each action of the
-     * robot
+     * Enables or disables robot tracing in the console.
+     *
+     * @param printTrace if {@code true} enables the robot tracing
      */
     public void setPrintTrace(boolean printTrace) {
         this.printTrace = printTrace;
     }
 
     /**
-     * @return true if print tracing is enabled
+     * Returns {@code true} if robot tracing is enabled.
+     *
+     * @return {@code true} if robot tracing is enabled
      */
     public boolean isPrintTraceEnabled() {
         return printTrace;
     }
 
     /**
-     * Turn off the robot
+     * Turn off this robot.
      */
     public void turnOff() {
         world.trace(this, RobotAction.TURN_OFF);
@@ -291,38 +374,47 @@ public class Robot extends FieldEntity {
 
     /**
      * Crashes the robot. Never terminates normally and always throws an exception.
-     */
-    protected void crash() {
+     *
+    * @throws RuntimeException this robot can no longer perform any action
+     */protected void crash() {
         turnOff();
         System.err.println("Robot crashed!");
         throw new RuntimeException("Robot crashed!");
     }
 
     /**
-     * @return true if the robot is turned off
+     * Returns {@code true} if this robot is turned off.
+     *
+     * @return {@code true} if this robot is turned off
      */
     public boolean isTurnedOff() {
         return off;
     }
 
     /**
-     * @return true if the robot is turned on
+     * Returns {@code true} if this robot is turned on.
+     *
+     * @return {@code true} if this robot is turned on
      */
     public boolean isTurnedOn() {
         return !off;
     }
 
     /**
-     * @return true if the robot is standing on a coin/if at least one coin is at
-     * the same position as the robot's position
+     * Returns {@code true} if this robot is on a coin, more precisely if the current position of this
+     * robot is equal to the position of a coin.
+     *
+     * @return {@code true} if this robot is on a coin
      */
     public boolean isOnACoin() {
         return world.isCoinInField(getX(), getY());
     }
 
     /**
-     * @return true if the robot is standing on a coin/if at least one coin is at
-     * the same position as the robot's position
+     * Returns {@code true} if this robot is on a coin, more precisely if the current position of this
+     * robot is equal to the position of a coin.
+     *
+     * @return {@code true} if this robot is on a coin
      * @deprecated Confusing name, use {@link #isOnACoin()} instead.
      */
     @Deprecated(since = "0.3.0")
@@ -331,15 +423,20 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * @return true if at least another robot is at the same position as the robot's position
+     * Returns {@code true} if this robot is on another robot, more precisely if the current position
+     * of this robot is equal to the position of the other robot.
+     *
+     * @return {@code true} if this robot is on another robot
      */
     public boolean isOnAnotherRobot() {
         return world.isAnotherRobotInField(getX(), getY(), this);
     }
 
     /**
-     * @return true if at least another robot is at the same position as the robot's
-     * position
+     * Returns {@code true} if this robot is on another robot, more precisely if the current position
+     * of this robot is equal to the position of the other robot.
+     *
+     * @return {@code true} if this robot is on another robot
      * @deprecated Confusing name, use {@link #isOnAnotherRobot()} instead.
      */
     @Deprecated(since = "0.3.0")
@@ -348,40 +445,50 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Sets the id of the robot
+     * Sets the identification of the robot to the specified identification.
+     *
+     * @param id the new identification for this robot
      */
     protected void setId(String id) {
         this.id = id;
     }
 
     /**
-     * @return the id of the robot
+     * Returns the identification of this robot.
+     *
+     * @return the identification of this robot
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Sets the image id of the robot
+     * Sets the image identification  of the robot to the specified image identification.
+     *
+     * @param id the new image identification for this robot
      */
     protected void setImageId(String id) {
         this.imageId = id;
     }
 
     /**
-     * @return the image id of the robot
+     * Returns the image identification of this robot.
+     *
+     * @return the image identification of this robot
      */
     protected String getImageId() {
         return imageId;
     }
 
-    public void setX(int x) {
+    @Overridepublic void setX(int x) {
         world.trace(this, RobotAction.SET_X);
         setXRobot(x);
     }
 
     /**
-     * Sets the robot's x-coordinate
+     * Sets the X coordinate of the robot to the specified X coordinate.
+     *
+     * @param x the new X coordinate for this robot
      */
     private void setXRobot(int x) {
         world.checkXCoordinate(x);
@@ -398,13 +505,15 @@ public class Robot extends FieldEntity {
         world.sleep();
     }
 
-    public void setY(int y) {
+    @Overridepublic void setY(int y) {
         world.trace(this, RobotAction.SET_Y);
         setYRobot(y);
     }
 
     /**
-     * Sets the robot's y-coordinate
+     * Sets the Y coordinate of the robot to the specified Y coordinate.
+     *
+     * @param y the new Y coordinate for this robot
      */
     private void setYRobot(int y) {
         world.checkYCoordinate(y);
@@ -426,7 +535,10 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Sets the robot's field (x,y)
+     * Sets the X and Y coordinate of the robot to the specified X and Y coordinate.
+     *
+     * @param x the new X coordinate for this robot
+     * @param y the new Y coordinate for this robot
      */
     public void setField(int x, int y) {
         world.trace(this, RobotAction.SET_X);
@@ -439,8 +551,8 @@ public class Robot extends FieldEntity {
             return;
         }
 
-        int oldX = getX();
-        int oldY = getY();
+        finalint oldX = getX();
+        final int oldY = getY();
 
         super.setX(x);
         super.setY(y);
@@ -453,12 +565,14 @@ public class Robot extends FieldEntity {
         world.sleep();
     }
 
-    /**
-     * @return true if the robot is not facing an object that is standing in the way (eg. wall)
+    /*** Returns {@code true} if there is no object in front of this robot, which can collide with it at
+     * the next step (e.g. walls).
+     *
+     * @return {@code true} if there is no object in front of this robot
      */
     public boolean isFrontClear() {
-        int x = getX();
-        int y = getY();
+        finalint x = getX();
+        final int y = getY();
 
         switch (direction) {
             case UP:
@@ -505,13 +619,17 @@ public class Robot extends FieldEntity {
                     return false;
                 }
                 break;
+        default:
+                throw new AssertionError();
         }
 
         return true;
     }
 
     /**
-     * Global world setter
+     * Sets the global world in which this robot is placed itself.
+     *
+     * @throws RuntimeException if there exists no global world
      */
     private void setGlobalWorld() {
         if (World.isGlobal()) {

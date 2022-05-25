@@ -6,37 +6,71 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Enables the analysis or tracing of the actions of robots.
+ *
+ * @see Robot
+ */
 public class RobotTrace implements Iterable<Transition> {
-  private List<Transition> transitions = new ArrayList<>();
 
-  public RobotTrace(RobotTrace robotTrace) {
-    this.transitions = new ArrayList<>(robotTrace.getTransitions());
-  }
+    /**
+     * The transitions contain the analysis * or tracing of the actions of robots.
+     */
+    private List<Transition> transitions = new ArrayList<>();
 
-  public RobotTrace() {
-  }
+    /**
+     * Constructs and initializes robot trace with the specified trace as previous traces of the
+     * constructed robot trace.
+     *
+     * @param robotTrace the previous traces of the constructed robot trace
+     */
+    public RobotTrace(RobotTrace robotTrace) {
+        this.transitions = new ArrayList<>(robotTrace.getTransitions());
+    }
 
-  @Override
-  public Iterator<Transition> iterator() {
-    return transitions.iterator();
-  }
+    /**
+     * Constructs and initializes robot trace with an empty trace.
+     */
+    public RobotTrace() {
+    }
 
-  public void setTransitions(List<Transition> transitions) {
-    this.transitions = transitions;
-  }
+    @Override
+    public Iterator<Transition> iterator() {
+        return transitions.iterator();
+    }
 
-  public List<Transition> getTransitions() {
-    return transitions;
-  }
+    /**
+     * Sets previous transitions of the actions of robots to the specified transitions.
+     *
+     * @param transitions the new transitions for this trace
+     */
+    public void setTransitions(List<Transition> transitions) {
+        this.transitions = transitions;
+    }
 
-  @Override
-  public String toString() {
-    return "RobotTrace{" +
-      "transitions=" + transitions +
-      '}';
-  }
+    /**
+     * Returns the previous transitions of this trace.
+     *
+     * @return the previous transitions of this trace
+     */
+    public List<Transition> getTransitions() {
+        return transitions;
+    }
 
-  public void trace(Robot r, RobotAction robotAction) {
-    transitions.add(new Transition(robotAction, r));
-  }
+    @Override
+    public String toString() {
+        return "RobotTrace{"
+            + "transitions=" + transitions
+            + '}';
+    }
+
+    /**
+     * Traces the specified robot with its associated action.
+     *
+     * @param r           the robot to trace
+     * @param robotAction the action of the robot
+     */
+    public void trace(Robot r, RobotAction robotAction) {
+        transitions.add(new Transition(robotAction, r));
+    }
 }
