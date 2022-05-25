@@ -571,7 +571,8 @@ public class Robot extends FieldEntity {
         world.sleep();
     }
 
-    /** Returns {@code true} if there is no object in front of this robot, which can collide with it at
+    /**
+     * Returns {@code true} if there is no object in front of this robot, which can collide with it at
      * the next step (e.g. walls).
      *
      * @return {@code true} if there is no object in front of this robot
