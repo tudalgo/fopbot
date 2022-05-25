@@ -534,11 +534,9 @@ public class KarelWorld {
      * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
      * @param rotationOffsetOff the rotation offset of the turned off robot in degree
      */
-    public void setAndLoadRobotImages(Class<? extends Robot> robotClass, InputStream turnedOn,
-                                      InputStream turnedOff,
+    public void setAndLoadRobotImages(Class<? extends Robot> robotClass, InputStream turnedOn, InputStream turnedOff,
                                       int rotationOffsetOn, int rotationOffsetOff) {
-        robotImages.put(robotClass,
-            setAndLoadRobotImages(turnedOn, turnedOff, rotationOffsetOn, rotationOffsetOff));
+        robotImages.put(robotClass, setAndLoadRobotImages(turnedOn, turnedOff, rotationOffsetOn, rotationOffsetOff));
     }
 
     /**
@@ -552,8 +550,7 @@ public class KarelWorld {
      */
     public void setAndLoadRobotImagesById(String imageId, InputStream turnedOn, InputStream turnedOff,
                                           int rotationOffsetOn, int rotationOffsetOff) {
-        robotImagesById.put(imageId,
-            setAndLoadRobotImages(turnedOn, turnedOff, rotationOffsetOn, rotationOffsetOff));
+        robotImagesById.put(imageId, setAndLoadRobotImages(turnedOn, turnedOff, rotationOffsetOn, rotationOffsetOff));
     }
 
     /**
@@ -650,8 +647,7 @@ public class KarelWorld {
             .map(Robot.class::cast)
             .collect(Collectors.toList());
         for (var id : this.traces.keySet()) {
-            Robot lastState = entities.stream().filter(en -> en.getId().equals(id)).findAny()
-                .orElse(null);
+            Robot lastState = entities.stream().filter(en -> en.getId().equals(id)).findAny().orElse(null);
             traces.add(getTrace(lastState));
         }
         return traces;

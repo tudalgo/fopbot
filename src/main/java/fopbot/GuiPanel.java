@@ -102,8 +102,7 @@ class GuiPanel extends JPanel {
         String imagePath = "screenshots/" + startDate + "/karel_" + state + ".png";
         screenshotCounter++;
 
-        BufferedImage image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height,
-            BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         draw(g);
         image = image.getSubimage(BOARD_OFFSET, BOARD_OFFSET,
@@ -118,8 +117,7 @@ class GuiPanel extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        Image image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height,
-            BufferedImage.TYPE_INT_ARGB);
+        Image image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height, BufferedImage.TYPE_INT_ARGB);
         Graphics gImage = image.getGraphics();
         draw(gImage);
 

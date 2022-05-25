@@ -280,9 +280,8 @@ public class Robot extends FieldEntity {
      */
     private void printTrace() {
         String onOff = off ? "off" : "on";
-        String trace =
-            "Robot(" + this.getClass().getName() + ") is at (" + getX() + "," + getY() + ") facing "
-                + direction.toString() + " with " + numberOfCoins + " coins (Turned " + onOff + ").";
+        String trace = "Robot(" + this.getClass().getName() + ") is at (" + getX() + "," + getY() + ") facing "
+            + direction.toString() + " with " + numberOfCoins + " coins (Turned " + onOff + ").";
         System.out.println(trace);
     }
 

@@ -52,8 +52,7 @@ class PaintUtils {
      * @throws IOException if an error occurs during reading or when not able to create required
      *                     ImageInputStream.
      */
-    protected static Image[] loadScaleRotateFieldImage(InputStream inputImage, int upRotationOffset)
-        throws IOException {
+    protected static Image[] loadScaleRotateFieldImage(InputStream inputImage, int upRotationOffset) throws IOException {
         Image[] rotations = new Image[4];
 
         BufferedImage originalBufferedImage = ImageIO.read(inputImage);
@@ -67,7 +66,8 @@ class PaintUtils {
             }
             // rotate image
             AffineTransform af = new AffineTransform();
-            af.rotate(Math.toRadians(degrees), originalBufferedImage.getWidth() / 2d,
+            af.rotate(Math.toRadians(degrees),
+                originalBufferedImage.getWidth() / 2d,
                 originalBufferedImage.getHeight() / 2d);
             AffineTransformOp afop = new AffineTransformOp(af, AffineTransformOp.TYPE_BILINEAR);
             BufferedImage rotatedImage = afop.filter(originalBufferedImage, null);
