@@ -4,17 +4,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Field {
-  private final List<FieldEntity> entities;
+    private final List<FieldEntity> entities;
 
-  public Field() {
-    entities = new LinkedList<>();
-  }
+    public Field() {
+        entities = new LinkedList<>();
+    }
 
-  public Field(List<FieldEntity> entities) {
-    this.entities = entities;
-  }
+    public Field(List<FieldEntity> entities) {
+        this.entities = entities;
+    }
 
-  public List<FieldEntity> getEntities() {
-    return entities;
-  }
+    public List<FieldEntity> getEntities() {
+        return entities;
+    }
 }

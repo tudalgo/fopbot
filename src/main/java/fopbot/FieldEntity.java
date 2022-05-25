@@ -5,27 +5,27 @@ package fopbot;
  */
 public abstract class FieldEntity {
 
-  private int x;
-  private int y;
+    private int x;
+    private int y;
 
-  public FieldEntity(int x, int y) {
-    this.x = x;
-    this.y = y;
-  }
+    public FieldEntity(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
-  protected void setX(int x) {
-    this.x = x;
-  }
+    protected void setX(int x) {
+        this.x = x;
+    }
 
-  protected void setY(int y) {
-    this.y = y;
-  }
+    protected void setY(int y) {
+        this.y = y;
+    }
 
-  public int getX() {
-    return this.x;
-  }
+    public int getX() {
+        return this.x;
+    }
 
-  public int getY() {
-    return this.y;
-  }
+    public int getY() {
+        return this.y;
+    }
 }

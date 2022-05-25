@@ -2,29 +2,29 @@ package fopbot;
 
 public class Coin extends FieldEntity {
 
-  private int count;
+    private int count;
 
-  /**
-   * Creates a new coin at field (x,y)
-   */
-  public Coin(int x, int y) {
-    super(x, y);
-    count = 1;
-  }
+    /**
+     * Creates a new coin at field (x,y)
+     */
+    public Coin(int x, int y) {
+        super(x, y);
+        count = 1;
+    }
 
-  /**
-   * Creates new coins at field (x,y)
-   */
-  public Coin(int x, int y, int count) {
-    super(x, y);
-    this.count = count;
-  }
+    /**
+     * Creates new coins at field (x,y)
+     */
+    public Coin(int x, int y, int count) {
+        super(x, y);
+        this.count = count;
+    }
 
-  public int getCount() {
-    return count;
-  }
+    public int getCount() {
+        return count;
+    }
 
-  public void setCount(int count) {
-    this.count = count;
-  }
+    public void setCount(int count) {
+        this.count = count;
+    }
 }
