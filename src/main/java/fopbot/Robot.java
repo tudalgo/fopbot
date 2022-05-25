@@ -9,8 +9,9 @@ public class Robot extends FieldEntity {
 
     /**
      * The identification of this robot.
-     */private String id;
-  /**
+     */
+    private String id;
+    /**
      * The image identification of this robot.
      */
     private String imageId;
@@ -27,7 +28,7 @@ public class Robot extends FieldEntity {
             + ", at=[" + getX() + '/' + getY()
             + "], numberOfCoins=" + numberOfCoins
             + ", direction=" + direction
-            +'}';
+            + '}';
     }
 
     /**
@@ -182,8 +183,9 @@ public class Robot extends FieldEntity {
             case RIGHT:
                 direction = Direction.UP;
                 break;
-        default:
-                throw new AssertionError();}
+            default:
+                throw new AssertionError();
+        }
         if (printTrace) {
             printTrace();
         }
@@ -223,7 +225,7 @@ public class Robot extends FieldEntity {
             case RIGHT:
                 setXRobot(getX() + 1);
                 break;
-        default:
+            default:
                 throw new AssertionError();
         }
 
@@ -375,8 +377,9 @@ public class Robot extends FieldEntity {
     /**
      * Crashes the robot. Never terminates normally and always throws an exception.
      *
-    * @throws RuntimeException this robot can no longer perform any action
-     */protected void crash() {
+     * @throws RuntimeException this robot can no longer perform any action
+     */
+    protected void crash() {
         turnOff();
         System.err.println("Robot crashed!");
         throw new RuntimeException("Robot crashed!");
@@ -480,7 +483,8 @@ public class Robot extends FieldEntity {
         return imageId;
     }
 
-    @Overridepublic void setX(int x) {
+    @Overridepublic
+    void setX(int x) {
         world.trace(this, RobotAction.SET_X);
         setXRobot(x);
     }
@@ -505,7 +509,8 @@ public class Robot extends FieldEntity {
         world.sleep();
     }
 
-    @Overridepublic void setY(int y) {
+    @Overridepublic
+    void setY(int y) {
         world.trace(this, RobotAction.SET_Y);
         setYRobot(y);
     }
@@ -619,7 +624,7 @@ public class Robot extends FieldEntity {
                     return false;
                 }
                 break;
-        default:
+            default:
                 throw new AssertionError();
         }
 
