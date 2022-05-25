@@ -5,13 +5,13 @@ package fopbot;
  */
 public class Block extends FieldEntity {
 
-  /**
-   * Constructs and initializes a block at the specified {@code (x,y)} location.
-   *
-   * @param x the X coordinate of the newly constructed block
-   * @param y the Y coordinate of the newly constructed block
-   */
-  public Block(int x, int y) {
-    super(x, y);
-  }
+    /**
+     * Constructs and initializes a block at the specified {@code (x,y)} location.
+     *
+     * @param x the X coordinate of the newly constructed block
+     * @param y the Y coordinate of the newly constructed block
+     */
+    public Block(int x, int y) {
+        super(x, y);
+    }
 }
