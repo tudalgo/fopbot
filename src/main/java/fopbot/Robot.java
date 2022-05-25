@@ -547,6 +547,9 @@ public class Robot extends FieldEntity {
      * @param y the new Y coordinate for this robot
      */
     public void setField(int x, int y) {
+        world.trace(this, RobotAction.SET_X);
+        world.trace(this, RobotAction.SET_Y);
+
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
 
