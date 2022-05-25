@@ -11,6 +11,7 @@ public class Robot extends FieldEntity {
      * The identification of this robot.
      */
     private String id;
+
     /**
      * The image identification of this robot.
      */
@@ -483,8 +484,8 @@ public class Robot extends FieldEntity {
         return imageId;
     }
 
-    @Overridepublic
-    void setX(int x) {
+    @Override
+    public void setX(int x) {
         world.trace(this, RobotAction.SET_X);
         setXRobot(x);
     }
@@ -509,8 +510,8 @@ public class Robot extends FieldEntity {
         world.sleep();
     }
 
-    @Overridepublic
-    void setY(int y) {
+    @Override
+    public void setY(int y) {
         world.trace(this, RobotAction.SET_Y);
         setYRobot(y);
     }
@@ -556,7 +557,7 @@ public class Robot extends FieldEntity {
             return;
         }
 
-        finalint oldX = getX();
+        final int oldX = getX();
         final int oldY = getY();
 
         super.setX(x);
@@ -570,13 +571,13 @@ public class Robot extends FieldEntity {
         world.sleep();
     }
 
-    /*** Returns {@code true} if there is no object in front of this robot, which can collide with it at
+    /** Returns {@code true} if there is no object in front of this robot, which can collide with it at
      * the next step (e.g. walls).
      *
      * @return {@code true} if there is no object in front of this robot
      */
     public boolean isFrontClear() {
-        finalint x = getX();
+        final int x = getX();
         final int y = getY();
 
         switch (direction) {
