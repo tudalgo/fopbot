@@ -304,6 +304,16 @@ public class Robot extends FieldEntity {
     }
 
     /**
+     * Sets the current number of coins this robot has.
+     *
+     * @param coins The current number of coins this robot has
+     */
+    public void setNumberOfCoins(int coins) {
+        world.trace(this, RobotAction.SET_NUMBER_OF_COINS);
+        this.numberOfCoins = coins;
+    }
+
+    /**
      * Returns {@code true} if this robot has any coins.
      *
      * @return {@code true} if this robot has any coins
