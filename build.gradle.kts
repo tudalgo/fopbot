@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.sourcegrade"
-version = "0.3.1-SNAPSHOT"
+version = file("version").readLines().first()
 
 apply<FOPBotPublishPlugin>()
 
