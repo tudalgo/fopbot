@@ -332,8 +332,7 @@ public class KarelWorld {
     }
 
     /**
-     * Puts this world to sleep for the specified amount time given by {@link #delay} (in
-     * milliseconds).
+     * No-op.
      */
     protected void sleep() {
     }
