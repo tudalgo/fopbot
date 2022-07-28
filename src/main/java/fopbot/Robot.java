@@ -15,7 +15,7 @@ public class Robot extends FieldEntity {
     /**
      * The image identification of this robot.
      */
-    private String imageId;
+    private RobotFamily family;
 
     /**
      * The number of coins that this robot currently owns.
@@ -482,6 +482,24 @@ public class Robot extends FieldEntity {
      */
     protected String getImageId() {
         return imageId;
+    }
+
+    /**
+     * Returns the robot family of this robot.
+     *
+     * @return the robot family of this robot
+     */
+    public RobotFamily getFamily() {
+        return family;
+    }
+
+    /**
+     * Sets the robot family of this robot
+     *
+     * @param family the robot family of this robot
+     */
+    public void setFamily(RobotFamily family) {
+        this.family = family;
     }
 
     @Override
