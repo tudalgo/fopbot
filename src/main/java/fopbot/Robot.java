@@ -50,14 +50,27 @@ public class Robot extends FieldEntity {
     private KarelWorld world;
 
     /**
-     * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
-     * direction {@code UP} and 0 coins.
+     * Constructs and initializes a robot at the specified {@code (x,y)} location in the coordinate
+     * space.
      *
      * @param x the X coordinate of the newly constructed robot
      * @param y the Y coordinate of the newly constructed robot
      */
     public Robot(int x, int y) {
+        this(x, y, RobotFamily.TRIANGLEBOT);
+    }
+
+    /**
+     * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
+     * direction {@code UP} and 0 coins.
+     *
+     * @param x      the X coordinate of the newly constructed robot
+     * @param y      the Y coordinate of the newly constructed robot
+     * @param family the family of this robot
+     */
+    public Robot(int x, int y, RobotFamily family) {
         super(x, y);
+        this.family = family;
         setGlobalWorld();
 
         world.checkXCoordinate(x);
@@ -76,7 +89,22 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the number of coins of the newly constructed robot
      */
     public Robot(int x, int y, Direction direction, int numberOfCoins) {
+        this(x, y, direction, numberOfCoins, RobotFamily.TRIANGLEBOT);
+    }
+
+    /**
+     * Constructs and initializes a robot at the specified {@code (x,y)} location, viewing direction
+     * and number of coins.
+     *
+     * @param x             the X coordinate of the newly constructed robot
+     * @param y             the Y coordinate of the newly constructed robot
+     * @param direction     the viewing direction of the newly constructed robot
+     * @param numberOfCoins the number of coins of the newly constructed robot
+     * @param family        the family of the newly constructed robot
+     */
+    public Robot(int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
         super(x, y);
+        this.family = family;
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         setGlobalWorld();
@@ -97,7 +125,21 @@ public class Robot extends FieldEntity {
      * @param y     the Y coordinate of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y) {
+        this(world, x, y, RobotFamily.TRIANGLEBOT);
+    }
+
+    /**
+     * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
+     * direction {@code UP} and 0 coins and places it on the given world.
+     *
+     * @param world  the world to place the newly constructed robot in
+     * @param x      the X coordinate of the newly constructed robot
+     * @param y      the Y coordinate of the newly constructed robot
+     * @param family the family of the newly constructed robot
+     */
+    public Robot(KarelWorld world, int x, int y, RobotFamily family) {
         super(x, y);
+        this.family = family;
         this.world = world;
 
         world.checkXCoordinate(x);
@@ -117,7 +159,23 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the number of coins of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins) {
+        this(world, x, y, direction, numberOfCoins, RobotFamily.TRIANGLEBOT);
+    }
+
+    /**
+     * Constructs and initializes a robot at the specified {@code (x,y)} location, viewing direction,
+     * number of coins and places it on the given world.
+     *
+     * @param world         the world to place the newly constructed robot in
+     * @param x             the X coordinate of the newly constructed robot
+     * @param y             the Y coordinate of the newly constructed robot
+     * @param direction     the viewing direction of the newly constructed robot
+     * @param numberOfCoins the number of coins of the newly constructed robot
+     * @param family        the family of the newly constructed robot
+     */
+    public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
         super(x, y);
+        this.family = family;
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         this.world = world;
@@ -136,6 +194,7 @@ public class Robot extends FieldEntity {
      */
     protected Robot(Robot robot) {
         super(robot.getX(), robot.getY());
+        this.family = robot.family;
         this.numberOfCoins = robot.numberOfCoins;
         this.direction = robot.direction;
         this.id = robot.id;
