@@ -198,7 +198,6 @@ public class Robot extends FieldEntity {
         this.numberOfCoins = robot.numberOfCoins;
         this.direction = robot.direction;
         this.id = robot.id;
-        this.imageId = robot.imageId;
         this.printTrace = robot.printTrace;
         this.off = robot.off;
         this.world = robot.world;
@@ -529,18 +528,22 @@ public class Robot extends FieldEntity {
      * Sets the image identification  of the robot to the specified image identification.
      *
      * @param id the new image identification for this robot
+     * @deprecated use robot family instead
      */
+    @Deprecated
     protected void setImageId(String id) {
-        this.imageId = id;
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Returns the image identification of this robot.
      *
      * @return the image identification of this robot
+     * @deprecated use robot family instead
      */
+    @Deprecated
     protected String getImageId() {
-        return imageId;
+        throw new UnsupportedOperationException();
     }
 
     /**
