@@ -1,10 +1,12 @@
 package fopbot;
 
-import fopbot.Transition.RobotAction;
-
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,10 +14,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toSet;
+
+import fopbot.Transition.RobotAction;
 
 /**
  * Represents the FOP Bot world on a graphical user interface.
@@ -101,11 +108,29 @@ public class KarelWorld {
 
         this.height = height;
         this.width = width;
-
         robotImages = new HashMap<>();
-        setAndLoadRobotImages(Robot.class, getClass().getResourceAsStream("/trianglebot.png"),
-            getClass().getResourceAsStream("/trianglebot.png"), 0, 0);
         robotImagesById = new HashMap<>();
+
+        // find robot images
+        var pattern = Pattern.compile("^(?<file>(?<identifier>.*?)\\.(png))$");
+        var resourcePathStream = getClass().getResourceAsStream("/robots/");
+        requireNonNull(resourcePathStream, "cannot load robot images");
+        try (resourcePathStream) {
+            BufferedReader resourcePathReader = new BufferedReader(new InputStreamReader(resourcePathStream));
+            var matches = resourcePathReader.lines().map(pattern::matcher).filter(Matcher::matches).collect(toSet());
+            for (var match : matches) {
+                var file = match.group("file");
+                var identifier = match.group("identifier");
+                var streamOn = getClass().getResourceAsStream(String.format("/robots/%s", file));
+                var streamOff = getClass().getResourceAsStream(String.format("/robots/%s", file));
+                setAndLoadRobotImagesById(identifier, streamOn, streamOff, 0, 0);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        setAndLoadRobotImages(Robot.class, getClass().getResourceAsStream("/robots/trianglebot.png"),
+            getClass().getResourceAsStream("/robots/trianglebot.png"), 0, 0);
 
         fields = new Field[height][width];
         for (int y = 0; y < height; y++) {
@@ -558,7 +583,9 @@ public class KarelWorld {
      *
      * @param robotClass the class instance related to the map
      * @return robot image map related to the specified robot class instance
+     * @deprecated use robot families instead
      */
+    @Deprecated
     protected Map<String, Image[]> getRobotImageMap(Class<? extends Robot> robotClass) {
         return robotImages.get(robotClass);
     }
