@@ -4,26 +4,19 @@ package fopbot;
  * An enumeration of robot families.
  * A family of robots is uniquely in terms of their appearance.
  */
-public enum RobotFamily {
+public class RobotFamily {
 
-    TRIANGLEBOT,
-    SQUARE_AQUA,
-    SQUARE_BLUE,
-    SQUARE_GREEN,
-    SQUARE_ORANGE,
-    SQUARE_PURPLE,
-    SQUARE_RED,
-    SQUARE_YELLOW;
+    public static RobotFamily TRIANGLEBOT = new RobotFamily("triangblebot");
+    public static RobotFamily SQUARE_AQUA = new RobotFamily("square_aqua");
+    public static RobotFamily SQUARE_BLUE = new RobotFamily("square_blue");
+    public static RobotFamily SQUARE_GREEN = new RobotFamily("square_green");
+    public static RobotFamily SQUARE_ORANGE = new RobotFamily("square_orange");
+    public static RobotFamily SQUARE_PURPLE = new RobotFamily("square_purple");
+    public static RobotFamily SQUARE_RED = new RobotFamily("square_red");
+    public static RobotFamily SQUARE_YELLOW = new RobotFamily("square_yellow");
 
 
     final String identifier;
-
-    /**
-     * Constructs a robot family using the name of the item as the identifier.
-     */
-    RobotFamily() {
-        this.identifier = name().toLowerCase();
-    }
 
     /**
      * Constructs a robot family using the given identifier.
