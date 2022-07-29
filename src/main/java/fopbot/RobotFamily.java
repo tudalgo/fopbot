@@ -6,7 +6,7 @@ package fopbot;
  */
 public class RobotFamily {
 
-    public static RobotFamily TRIANGLEBOT = new RobotFamily("triangblebot");
+    public static RobotFamily TRIANGLEBOT = new RobotFamily("trianglebot");
     public static RobotFamily SQUARE_AQUA = new RobotFamily("square_aqua");
     public static RobotFamily SQUARE_BLUE = new RobotFamily("square_blue");
     public static RobotFamily SQUARE_GREEN = new RobotFamily("square_green");
