@@ -1,5 +1,7 @@
 package fopbot;
 
+import static java.lang.String.format;
+
 import fopbot.Transition.RobotAction;
 
 /**
@@ -70,7 +72,7 @@ public class Robot extends FieldEntity {
      */
     public Robot(int x, int y, RobotFamily family) {
         super(x, y);
-        this.family = family;
+        setFamily(family);
         setGlobalWorld();
 
         world.checkXCoordinate(x);
@@ -104,7 +106,7 @@ public class Robot extends FieldEntity {
      */
     public Robot(int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
         super(x, y);
-        this.family = family;
+        setFamily(family);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         setGlobalWorld();
@@ -139,7 +141,7 @@ public class Robot extends FieldEntity {
      */
     public Robot(KarelWorld world, int x, int y, RobotFamily family) {
         super(x, y);
-        this.family = family;
+        setFamily(family);
         this.world = world;
 
         world.checkXCoordinate(x);
@@ -175,7 +177,7 @@ public class Robot extends FieldEntity {
      */
     public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
         super(x, y);
-        this.family = family;
+        setFamily(family);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         this.world = world;
@@ -194,7 +196,7 @@ public class Robot extends FieldEntity {
      */
     protected Robot(Robot robot) {
         super(robot.getX(), robot.getY());
-        this.family = robot.family;
+        setFamily(family);
         this.numberOfCoins = robot.numberOfCoins;
         this.direction = robot.direction;
         this.id = robot.id;
@@ -561,6 +563,10 @@ public class Robot extends FieldEntity {
      * @param family the robot family of this robot
      */
     public void setFamily(RobotFamily family) {
+        if (world.getRobotImageMapById(family.getIdentifier()) == null) {
+            System.err.printf("cannot change robot family: image for robot family %s was not found", family.getIdentifier());
+            return;
+        }
         this.family = family;
     }
 
