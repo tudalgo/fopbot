@@ -1,7 +1,5 @@
 package fopbot;
 
-import static java.lang.String.format;
-
 import fopbot.Transition.RobotAction;
 
 /**
@@ -72,8 +70,8 @@ public class Robot extends FieldEntity {
      */
     public Robot(int x, int y, RobotFamily family) {
         super(x, y);
-        setFamily(family);
         setGlobalWorld();
+        setFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -106,10 +104,10 @@ public class Robot extends FieldEntity {
      */
     public Robot(int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
         super(x, y);
-        setFamily(family);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         setGlobalWorld();
+        setFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -141,8 +139,8 @@ public class Robot extends FieldEntity {
      */
     public Robot(KarelWorld world, int x, int y, RobotFamily family) {
         super(x, y);
-        setFamily(family);
         this.world = world;
+        setFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -177,10 +175,10 @@ public class Robot extends FieldEntity {
      */
     public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
         super(x, y);
-        setFamily(family);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         this.world = world;
+        setFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -196,13 +194,13 @@ public class Robot extends FieldEntity {
      */
     protected Robot(Robot robot) {
         super(robot.getX(), robot.getY());
-        setFamily(family);
         this.numberOfCoins = robot.numberOfCoins;
         this.direction = robot.direction;
         this.id = robot.id;
         this.printTrace = robot.printTrace;
         this.off = robot.off;
         this.world = robot.world;
+        setFamily(family);
     }
 
     /**
