@@ -14,6 +14,8 @@ public class RobotFamily {
     public static RobotFamily SQUARE_PURPLE = new RobotFamily("square_purple");
     public static RobotFamily SQUARE_RED = new RobotFamily("square_red");
     public static RobotFamily SQUARE_YELLOW = new RobotFamily("square_yellow");
+    public static RobotFamily SQUARE_BLACK = new RobotFamily("square_black");
+    public static RobotFamily SQUARE_WHITE = new RobotFamily("square_white");
 
 
     final String identifier;
