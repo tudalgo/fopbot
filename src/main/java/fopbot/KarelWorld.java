@@ -121,7 +121,6 @@ public class KarelWorld {
             for (var match : matches) {
                 var file = match.group("file");
                 var identifier = match.group("identifier");
-                System.out.printf("load %s%n", identifier);
                 var streamOn = getClass().getResourceAsStream(String.format("/robots/%s", file));
                 var streamOff = getClass().getResourceAsStream(String.format("/robots/%s", file));
                 setAndLoadRobotImagesById(identifier, streamOn, streamOff, 0, 0);
