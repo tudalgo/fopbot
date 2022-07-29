@@ -532,7 +532,7 @@ public class Robot extends FieldEntity {
      */
     @Deprecated
     protected void setImageId(String id) {
-        throw new UnsupportedOperationException();
+        setFamily(new RobotFamily(id));
     }
 
     /**
@@ -543,7 +543,7 @@ public class Robot extends FieldEntity {
      */
     @Deprecated
     protected String getImageId() {
-        throw new UnsupportedOperationException();
+        return getFamily().getIdentifier();
     }
 
     /**
