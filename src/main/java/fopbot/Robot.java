@@ -200,7 +200,7 @@ public class Robot extends FieldEntity {
         this.printTrace = robot.printTrace;
         this.off = robot.off;
         this.world = robot.world;
-        setFamily(family);
+        this.family = robot.family;
     }
 
     /**
