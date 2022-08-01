@@ -1,8 +1,5 @@
 package fopbot;
 
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,6 +18,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import static fopbot.PaintUtils.BOARD_OFFSET;
 import static fopbot.PaintUtils.FIELD_BORDER_THICKNESS;

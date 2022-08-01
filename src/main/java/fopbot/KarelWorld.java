@@ -1,7 +1,7 @@
 package fopbot;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import fopbot.Transition.RobotAction;
+
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,11 +18,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
-import fopbot.Transition.RobotAction;
 
 /**
  * Represents the FOP Bot world on a graphical user interface.

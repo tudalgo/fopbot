@@ -556,7 +556,7 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Sets the robot family of this robot
+     * Sets the robot family of this robot.
      *
      * @param family the robot family of this robot
      */
