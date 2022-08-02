@@ -43,6 +43,12 @@ public class Transition {
          */
         TURN_OFF,
         /**
+         * The action that a robot can change its number of coins.
+         *
+         * @see Robot#setNumberOfCoins(int)
+         */
+        SET_NUMBER_OF_COINS,
+        /**
          * The action that a robot can change its X coordinate.
          *
          * @see Robot#setX(int)
