@@ -5,7 +5,7 @@ plugins {
     id("org.sourcegrade.style") version "2.0.0"
 }
 
-group = "org.sourcegrade"
+group = "org.tudalgo"
 version = file("version").readLines().first()
 
 apply<FOPBotPublishPlugin>()
