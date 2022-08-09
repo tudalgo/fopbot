@@ -536,28 +536,6 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Sets the image identification  of the robot to the specified image identification.
-     *
-     * @param id the new image identification for this robot
-     * @deprecated use robot family instead
-     */
-    @Deprecated
-    protected void setImageId(String id) {
-        setFamily(new RobotFamily(id));
-    }
-
-    /**
-     * Returns the image identification of this robot.
-     *
-     * @return the image identification of this robot
-     * @deprecated use robot family instead
-     */
-    @Deprecated
-    protected String getImageId() {
-        return getFamily().getIdentifier();
-    }
-
-    /**
      * Returns the robot family of this robot.
      *
      * @return the robot family of this robot
