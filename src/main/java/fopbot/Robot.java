@@ -57,7 +57,7 @@ public class Robot extends FieldEntity {
      * @param y the Y coordinate of the newly constructed robot
      */
     public Robot(int x, int y) {
-        this(x, y, RobotFamily.TRIANGLEBOT);
+        this(x, y, RobotFamily.TRIANGLE_BLUE);
     }
 
     /**
@@ -89,7 +89,7 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the number of coins of the newly constructed robot
      */
     public Robot(int x, int y, Direction direction, int numberOfCoins) {
-        this(x, y, direction, numberOfCoins, RobotFamily.TRIANGLEBOT);
+        this(x, y, direction, numberOfCoins, RobotFamily.TRIANGLE_BLUE);
     }
 
     /**
@@ -125,7 +125,7 @@ public class Robot extends FieldEntity {
      * @param y     the Y coordinate of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y) {
-        this(world, x, y, RobotFamily.TRIANGLEBOT);
+        this(world, x, y, RobotFamily.TRIANGLE_BLUE);
     }
 
     /**
@@ -159,7 +159,7 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the number of coins of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins) {
-        this(world, x, y, direction, numberOfCoins, RobotFamily.TRIANGLEBOT);
+        this(world, x, y, direction, numberOfCoins, RobotFamily.TRIANGLE_BLUE);
     }
 
     /**
@@ -550,10 +550,6 @@ public class Robot extends FieldEntity {
      * @param family the robot family of this robot
      */
     public void setFamily(RobotFamily family) {
-        if (world.getRobotImageMapById(family.getIdentifier()) == null) {
-            System.err.printf("cannot change robot family: image for robot family %s was not found", family.getIdentifier());
-            return;
-        }
         this.family = family;
     }
 
