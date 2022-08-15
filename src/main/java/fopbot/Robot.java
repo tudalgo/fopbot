@@ -15,7 +15,7 @@ public class Robot extends FieldEntity {
     /**
      * The image identification of this robot.
      */
-    private String imageId;
+    private RobotFamily family;
 
     /**
      * The number of coins that this robot currently owns.
@@ -50,15 +50,28 @@ public class Robot extends FieldEntity {
     private KarelWorld world;
 
     /**
-     * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
-     * direction {@code UP} and 0 coins.
+     * Constructs and initializes a robot at the specified {@code (x,y)} location in the coordinate
+     * space.
      *
      * @param x the X coordinate of the newly constructed robot
      * @param y the Y coordinate of the newly constructed robot
      */
     public Robot(int x, int y) {
+        this(x, y, RobotFamily.TRIANGLE_BLUE);
+    }
+
+    /**
+     * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
+     * direction {@code UP} and 0 coins.
+     *
+     * @param x      the X coordinate of the newly constructed robot
+     * @param y      the Y coordinate of the newly constructed robot
+     * @param family the family of this robot
+     */
+    public Robot(int x, int y, RobotFamily family) {
         super(x, y);
         setGlobalWorld();
+        setFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -76,10 +89,25 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the number of coins of the newly constructed robot
      */
     public Robot(int x, int y, Direction direction, int numberOfCoins) {
+        this(x, y, direction, numberOfCoins, RobotFamily.TRIANGLE_BLUE);
+    }
+
+    /**
+     * Constructs and initializes a robot at the specified {@code (x,y)} location, viewing direction
+     * and number of coins.
+     *
+     * @param x             the X coordinate of the newly constructed robot
+     * @param y             the Y coordinate of the newly constructed robot
+     * @param direction     the viewing direction of the newly constructed robot
+     * @param numberOfCoins the number of coins of the newly constructed robot
+     * @param family        the family of the newly constructed robot
+     */
+    public Robot(int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
         super(x, y);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         setGlobalWorld();
+        setFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -97,8 +125,22 @@ public class Robot extends FieldEntity {
      * @param y     the Y coordinate of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y) {
+        this(world, x, y, RobotFamily.TRIANGLE_BLUE);
+    }
+
+    /**
+     * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
+     * direction {@code UP} and 0 coins and places it on the given world.
+     *
+     * @param world  the world to place the newly constructed robot in
+     * @param x      the X coordinate of the newly constructed robot
+     * @param y      the Y coordinate of the newly constructed robot
+     * @param family the family of the newly constructed robot
+     */
+    public Robot(KarelWorld world, int x, int y, RobotFamily family) {
         super(x, y);
         this.world = world;
+        setFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -117,10 +159,26 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the number of coins of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins) {
+        this(world, x, y, direction, numberOfCoins, RobotFamily.TRIANGLE_BLUE);
+    }
+
+    /**
+     * Constructs and initializes a robot at the specified {@code (x,y)} location, viewing direction,
+     * number of coins and places it on the given world.
+     *
+     * @param world         the world to place the newly constructed robot in
+     * @param x             the X coordinate of the newly constructed robot
+     * @param y             the Y coordinate of the newly constructed robot
+     * @param direction     the viewing direction of the newly constructed robot
+     * @param numberOfCoins the number of coins of the newly constructed robot
+     * @param family        the family of the newly constructed robot
+     */
+    public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
         super(x, y);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         this.world = world;
+        setFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -139,10 +197,10 @@ public class Robot extends FieldEntity {
         this.numberOfCoins = robot.numberOfCoins;
         this.direction = robot.direction;
         this.id = robot.id;
-        this.imageId = robot.imageId;
         this.printTrace = robot.printTrace;
         this.off = robot.off;
         this.world = robot.world;
+        this.family = robot.family;
     }
 
     /**
@@ -478,21 +536,21 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Sets the image identification  of the robot to the specified image identification.
+     * Returns the robot family of this robot.
      *
-     * @param id the new image identification for this robot
+     * @return the robot family of this robot
      */
-    protected void setImageId(String id) {
-        this.imageId = id;
+    public RobotFamily getFamily() {
+        return family;
     }
 
     /**
-     * Returns the image identification of this robot.
+     * Sets the robot family of this robot.
      *
-     * @return the image identification of this robot
+     * @param family the robot family of this robot
      */
-    protected String getImageId() {
-        return imageId;
+    public void setFamily(RobotFamily family) {
+        this.family = family;
     }
 
     @Override

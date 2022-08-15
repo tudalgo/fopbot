@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -223,17 +224,10 @@ class GuiPanel extends JPanel {
         Point upperLeft = getUpperLeftCornerInField(r, world.getHeight());
 
         int directionIndex = r.getDirection().ordinal();
-        Map<String, Image[]> imageMap = world.getRobotImageMap(r.getClass());
-        if (imageMap == null) {
-            imageMap = world.getRobotImageMap(Robot.class);
-        }
 
-        Image robotImage = imageMap.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
-
-        Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getImageId());
-        if (imageMapById != null) {
-            robotImage = imageMapById.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
-        }
+        Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getFamily().getIdentifier());
+        Objects.requireNonNull(imageMapById, "robot image was not found");
+        Image robotImage = imageMapById.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
 
         g.drawImage(robotImage, upperLeft.x, upperLeft.y, null);
 
