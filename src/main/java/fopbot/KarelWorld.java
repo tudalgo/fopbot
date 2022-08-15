@@ -98,7 +98,6 @@ public class KarelWorld {
 
         // load robot images
         for (RobotFamily f : RobotFamily.values()) {
-            System.out.println("load " + f.getIdentifier());
             var streamOn = getClass().getResourceAsStream(String.format("/robots/%s.png", f.getIdentifier()));
             var streamOff = getClass().getResourceAsStream(String.format("/robots/%s.png", f.getIdentifier()));
             setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
