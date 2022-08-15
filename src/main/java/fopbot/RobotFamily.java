@@ -16,4 +16,13 @@ public enum RobotFamily {
     SQUARE_YELLOW,
     SQUARE_BLACK,
     SQUARE_WHITE;
+
+    /**
+     * Returns the identifier of this robot family.
+     *
+     * @return the identifier of this robot family
+     */
+    public String getIdentifier() {
+        return name().toLowerCase();
+    }
 }
