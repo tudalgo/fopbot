@@ -2,27 +2,14 @@ package fopbot;
 
 import fopbot.Transition.RobotAction;
 
-import java.awt.Image;
-import java.io.BufferedReader;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toSet;
 
 
 /**
@@ -112,22 +99,12 @@ public class KarelWorld {
         robotImages = new HashMap<>();
         robotImagesById = new HashMap<>();
 
-        // find robot images
-        var pattern = Pattern.compile("^(?<file>(?<identifier>.*?)\\.(png))$");
-        var resourcePathStream = getClass().getResourceAsStream("/robots/");
-        requireNonNull(resourcePathStream, "cannot load robot images");
-        try (resourcePathStream) {
-            BufferedReader resourcePathReader = new BufferedReader(new InputStreamReader(resourcePathStream));
-            var matches = resourcePathReader.lines().map(pattern::matcher).filter(Matcher::matches).collect(toSet());
-            for (var match : matches) {
-                var file = match.group("file");
-                var identifier = match.group("identifier");
-                var streamOn = getClass().getResourceAsStream(String.format("/robots/%s", file));
-                var streamOff = getClass().getResourceAsStream(String.format("/robots/%s", file));
-                setAndLoadRobotImagesById(identifier, streamOn, streamOff, 0, 0);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        // load robot images
+        for (RobotFamily f : RobotFamily.values()) {
+            System.out.println("load " + f.getIdentifier());
+            var streamOn = getClass().getResourceAsStream(String.format("/robots/%s.png", f.getIdentifier()));
+            var streamOff = getClass().getResourceAsStream(String.format("/robots/%s.png", f.getIdentifier()));
+            setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
         }
 
         fields = new Field[height][width];
