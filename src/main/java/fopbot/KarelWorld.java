@@ -114,13 +114,13 @@ public class KarelWorld {
     /**
      * Adds the specified robot to this world.
      *
-     * @param r the robot to place
+     * @param robot the robot to place
      */
-    public void addRobot(Robot r) {
-        fields[r.getY()][r.getX()].getEntities().add(r);
-        r.setId(Integer.toString(robotCount));
+    public void addRobot(Robot robot) {
+        fields[robot.getY()][robot.getX()].getEntities().add(robot);
+        robot.setId(Integer.toString(robotCount));
         robotCount++;
-        traces.put(r.getId(), new RobotTrace());
+        traces.put(robot.getId(), new RobotTrace());
         triggerUpdate();
         sleep();
     }
@@ -133,7 +133,7 @@ public class KarelWorld {
      */
     protected void checkNumberOfCoins(int numberOfCoins) {
         if (numberOfCoins < 0) {
-            throw new RuntimeException("Number of coins must be greater than -1!");
+            throw new IllegalArgumentException("Number of coins must be greater than -1!");
         }
     }
 
@@ -144,8 +144,8 @@ public class KarelWorld {
      * @throws RuntimeException if the X coordinate is outside the world borders
      */
     protected void checkXCoordinate(int x) {
-        if (x > World.getWidth() - 1 || x < 0) {
-            throw new RuntimeException("Invalid x-coordinate: " + x);
+        if (x > getWidth() - 1 || x < 0) {
+            throw new IllegalArgumentException("Invalid x-coordinate: " + x);
         }
     }
 
@@ -156,8 +156,8 @@ public class KarelWorld {
      * @throws RuntimeException if the Y coordinate is outside the world borders
      */
     protected void checkYCoordinate(int y) {
-        if (y > World.getHeight() - 1 || y < 0) {
-            throw new RuntimeException("Invalid y-coordinate: " + y);
+        if (y > getHeight() - 1 || y < 0) {
+            throw new IllegalArgumentException("Invalid y-coordinate: " + y);
         }
     }
 
@@ -170,7 +170,7 @@ public class KarelWorld {
         return Stream.of(fields).flatMap(Stream::of)
             .map(Field::getEntities)
             .flatMap(Collection::stream)
-            .collect(Collectors.toUnmodifiableList());
+            .toList();
     }
 
     /**
@@ -245,15 +245,15 @@ public class KarelWorld {
     /**
      * Returns the previous robot tracing of the specified robot.
      *
-     * @param r the robot to retrieve its tracing
+     * @param robot the robot to retrieve its tracing
      * @return the previous robot tracing of the specified robot
      */
-    public RobotTrace getTrace(Robot r) {
-        if (r == null) {
+    public RobotTrace getTrace(Robot robot) {
+        if (robot == null) {
             return null;
         }
-        var robotTrace = new RobotTrace(this.traces.get(r.getId()));
-        robotTrace.trace(r, RobotAction.NONE);
+        var robotTrace = new RobotTrace(traces.get(robot.getId()));
+        robotTrace.trace(robot, RobotAction.NONE);
         return robotTrace;
     }
 
@@ -267,7 +267,7 @@ public class KarelWorld {
         var entities = getAllFieldEntities().stream()
             .filter(Robot.class::isInstance)
             .map(Robot.class::cast)
-            .collect(Collectors.toList());
+            .toList();
         for (var id : this.traces.keySet()) {
             Robot lastState = entities.stream().filter(en -> en.getId().equals(id)).findAny().orElse(null);
             traces.add(getTrace(lastState));
@@ -289,12 +289,12 @@ public class KarelWorld {
      *
      * @param x the X coordinate to check with the robot X coordinate
      * @param y the Y coordinate to check with the robot Y coordinate
-     * @param r the robot to check with the coordinate
+     * @param robot the robot to check with the coordinate
      * @return {@code true} if the specified robot is located at the specified coordinate
      */
-    protected boolean isAnotherRobotInField(int x, int y, Robot r) {
+    protected boolean isAnotherRobotInField(int x, int y, Robot robot) {
         return fields[y][x].getEntities().stream()
-            .anyMatch(e -> e instanceof Robot && e != r);
+            .anyMatch(e -> e instanceof Robot && e != robot);
     }
 
     /**
@@ -381,11 +381,10 @@ public class KarelWorld {
         Iterator<FieldEntity> iterator = fields[y][x].getEntities().iterator();
         while (iterator.hasNext()) {
             FieldEntity entity = iterator.next();
-            if (entity instanceof Coin) {
+            if (entity instanceof Coin coin) {
                 // if coins already placed in this field, decrease number
-                Coin c = (Coin) entity;
-                if (c.getCount() > 1) {
-                    c.setCount(c.getCount() - 1);
+                if (coin.getCount() > 1) {
+                    coin.setCount(coin.getCount() - 1);
                 } else {
                     iterator.remove();
                 }
@@ -462,14 +461,13 @@ public class KarelWorld {
         checkYCoordinate(y);
         checkNumberOfCoins(numberOfCoins);
         if (numberOfCoins < 1) {
-            throw new RuntimeException("Number of coins must be greater than 0!");
+            throw new IllegalArgumentException("Number of coins must be greater than 0!");
         }
 
         for (FieldEntity entity : fields[y][x].getEntities()) {
-            if (entity instanceof Coin) {
+            if (entity instanceof Coin coin) {
                 // if coins already placed in this field, increase number
-                Coin c = (Coin) entity;
-                c.setCount(c.getCount() + numberOfCoins);
+                coin.setCount(coin.getCount() + numberOfCoins);
                 triggerUpdate();
                 return;
             }
@@ -499,30 +497,26 @@ public class KarelWorld {
         }
         // copy entities
         List<FieldEntity> allEntities = getAllFieldEntities();
-        List<FieldEntity> allEntitiesCopy = new LinkedList<>();
-        for (FieldEntity fe : allEntities) {
-            if (fe instanceof Robot) {
-                Robot r = (Robot) fe;
-                Robot copy = new Robot(true, r.getX(), r.getY(), r.getDirection(), r.getNumberOfCoins());
-                copy.setId(String.valueOf(r.hashCode()));
+        List<FieldEntity> allEntitiesCopy = new ArrayList<>(allEntities.size());
+        for (FieldEntity entity : allEntities) {
+            if (entity instanceof Robot robot) {
+                Robot copy = new Robot(true, robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins());
+                copy.setId(String.valueOf(robot.hashCode()));
                 allEntitiesCopy.add(copy);
             }
 
-            if (fe instanceof Coin) {
-                Coin c = (Coin) fe;
-                Coin copy = new Coin(c.getX(), c.getY(), c.getCount());
+            if (entity instanceof Coin coin) {
+                Coin copy = new Coin(coin.getX(), coin.getY(), coin.getCount());
                 allEntitiesCopy.add(copy);
             }
 
-            if (fe instanceof Block) {
-                Block b = (Block) fe;
-                Block copy = new Block(b.getX(), b.getY());
+            if (entity instanceof Block block) {
+                Block copy = new Block(block.getX(), block.getY());
                 allEntitiesCopy.add(copy);
             }
 
-            if (fe instanceof Wall) {
-                Wall w = (Wall) fe;
-                Wall copy = new Wall(w.getX(), w.getY(), w.isHorizontal());
+            if (entity instanceof Wall wall) {
+                Wall copy = new Wall(wall.getX(), wall.getY(), wall.isHorizontal());
                 allEntitiesCopy.add(copy);
             }
         }
@@ -604,12 +598,12 @@ public class KarelWorld {
     /**
      * Traces the action of the specified robot.
      *
-     * @param r           the robot to trace
+     * @param robot           the robot to trace
      * @param robotAction the action of the robot to trace
      */
-    void trace(Robot r, RobotAction robotAction) {
-        var robotTrace = this.traces.get(r.getId());
-        robotTrace.trace(r, robotAction);
+    void trace(Robot robot, RobotAction robotAction) {
+        var robotTrace = traces.get(robot.getId());
+        robotTrace.trace(robot, robotAction);
     }
 
     /**
@@ -619,7 +613,6 @@ public class KarelWorld {
         if (saveStates) {
             saveEntityState();
         }
-
         updateGui();
     }
 
@@ -630,24 +623,22 @@ public class KarelWorld {
         if (!isVisible()) {
             return;
         }
-
         if (doScreenshots) {
             guiGp.saveStateAsPng();
         }
-
         guiGp.updateGui();
     }
 
     /**
      * Updates the entity array to be in sync with the robots X and Y coordinates.
      *
-     * @param r    the robot to sync with
+     * @param robot    the robot to sync with
      * @param oldX the old X coordinate of the robot
      * @param oldY the old Y coordinate of the robot
      */
-    protected void updateRobotField(Robot r, int oldX, int oldY) {
-        if (fields[oldY][oldX].getEntities().removeIf(entity -> entity == r)) {
-            fields[r.getY()][r.getX()].getEntities().add(r);
+    protected void updateRobotField(Robot robot, int oldX, int oldY) {
+        if (fields[oldY][oldX].getEntities().removeIf(entity -> entity == robot)) {
+            fields[robot.getY()][robot.getX()].getEntities().add(robot);
         }
     }
 }
