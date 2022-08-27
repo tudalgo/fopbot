@@ -5,4 +5,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "FOPBot"
+rootProject.name = "fopbot"
