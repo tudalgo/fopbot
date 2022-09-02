@@ -1,8 +1,9 @@
 import org.sourcegrade.fopbot.script.FOPBotPublishPlugin
 
+@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     `java-library`
-    id("org.sourcegrade.style") version "2.0.0"
+    alias(libs.plugins.style)
 }
 
 group = "org.tudalgo"

@@ -1,0 +1,2 @@
+[plugins]
+style = { id = "org.sourcegrade.style", version = "2.1.0" }
