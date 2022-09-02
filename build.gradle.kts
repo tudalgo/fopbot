@@ -2,7 +2,7 @@ import org.sourcegrade.fopbot.script.FOPBotPublishPlugin
 
 plugins {
     `java-library`
-    id("org.sourcegrade.style") version "2.0.0"
+    id("org.sourcegrade.style") version "2.1.0"
 }
 
 group = "org.tudalgo"
