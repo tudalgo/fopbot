@@ -119,7 +119,8 @@ class GuiPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Image image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height, BufferedImage.TYPE_INT_ARGB);
-        Graphics gImage = image.getGraphics();
+        Graphics2D gImage = (Graphics2D) image.getGraphics();
+        gImage.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         draw(gImage);
 
         if (getWidth() != getUnscaledSize().width || getHeight() != getUnscaledSize().height) {
