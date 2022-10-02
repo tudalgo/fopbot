@@ -28,6 +28,8 @@ import static fopbot.PaintUtils.FIELD_INNER_OFFSET;
 import static fopbot.PaintUtils.FIELD_INNER_SIZE;
 import static fopbot.PaintUtils.getBoardSize;
 import static fopbot.PaintUtils.getUpperLeftCornerInField;
+import static java.awt.RenderingHints.KEY_ANTIALIASING;
+import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
 /**
  * The graphical user interface in which the FOPBot world is represented.
