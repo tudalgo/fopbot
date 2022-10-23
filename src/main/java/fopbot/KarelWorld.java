@@ -80,6 +80,11 @@ public class KarelWorld {
     private GuiPanel guiGp;
 
     /**
+     * True iff images are loaded.
+     */
+    private boolean imagesLoaded = false;
+
+    /**
      * Constructs and initializes a world with the specified size.
      *
      * @param width  the width of the newly constructed world
@@ -95,13 +100,6 @@ public class KarelWorld {
         this.width = width;
         robotImages = new HashMap<>();
         robotImagesById = new HashMap<>();
-
-        // load robot images
-        for (RobotFamily f : RobotFamily.values()) {
-            var streamOn = getClass().getResourceAsStream(String.format("/robots/%s_on.png", f.getIdentifier()));
-            var streamOff = getClass().getResourceAsStream(String.format("/robots/%s_off.png", f.getIdentifier()));
-            setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
-        }
 
         fields = new Field[height][width];
         for (int y = 0; y < height; y++) {
@@ -337,7 +335,7 @@ public class KarelWorld {
      * @param visible if {@code true} this world will be visible on the graphical user interface
      */
     public void setVisible(boolean visible) {
-
+        loadImagesIfNotLoaded();
         if (visible && guiFrame == null) {
             guiFrame = new JFrame("FopBot");
             guiFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -640,5 +638,21 @@ public class KarelWorld {
         if (fields[oldY][oldX].getEntities().removeIf(entity -> entity == robot)) {
             fields[robot.getY()][robot.getX()].getEntities().add(robot);
         }
+    }
+
+    /**
+     * Load all images for displaying FOPBot if required.
+     */
+    protected void loadImagesIfNotLoaded() {
+        if (imagesLoaded) {
+            return;
+        }
+        // load robot images
+        for (RobotFamily f : RobotFamily.values()) {
+            var streamOn = getClass().getResourceAsStream(String.format("/robots/%s_on.png", f.getIdentifier()));
+            var streamOff = getClass().getResourceAsStream(String.format("/robots/%s_off.png", f.getIdentifier()));
+            setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
+        }
+        imagesLoaded = true;
     }
 }
