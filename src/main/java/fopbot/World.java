@@ -61,7 +61,11 @@ public class World {
      * @param height the height of the global world
      */
     public static void setSize(int width, int height) {
-        world = new KarelWorld(width, height);
+        var newWorld = new KarelWorld(width, height);
+        if (world != null) {
+            newWorld.setDelay(world.getDelay());
+        }
+        world = newWorld;
         global = true;
     }
 

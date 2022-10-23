@@ -221,7 +221,7 @@ public class Robot extends FieldEntity {
 
     /**
      * Rotates this robot to the left so that after this call the viewing direction of this robot is
-     * the old viewing direction by one to the left (e.g. {@code LEFT} to {@code UP}).
+     * the old viewing direction by one to the left (e.g. {@code UP} to {@code LEFT}).
      */
     public void turnLeft() {
         world.trace(this, RobotAction.TURN_LEFT);
