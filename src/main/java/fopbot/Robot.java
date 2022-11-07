@@ -1,10 +1,10 @@
 package fopbot;
-
-import fopbot.Transition.RobotAction;
-
 /**
  * A field entity that represents a robot  on a graphical user interface.
  */
+
+import fopbot.Transition.RobotAction;
+
 public class Robot extends FieldEntity {
 
     /**
@@ -297,7 +297,7 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Places a coin at its current position.
+     * Places a coin at its current position and decrements the robot's number of coins by one.
      *
      * @throws RuntimeException if this robot has no coin
      */
@@ -316,7 +316,7 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Picks up a coin from the current position.
+     * Picks up a coin from the current position and increments the robot's number of coins by one.
      *
      * @throws RuntimeException if there is no coin on the current position
      */
