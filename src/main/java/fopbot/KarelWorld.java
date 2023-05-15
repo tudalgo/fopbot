@@ -324,7 +324,7 @@ public class KarelWorld {
      * {@code false} if this world is running in headless mode.
      *
      * @return {@code true} if this world is visible on the graphical user interface. Returns
-     * {@code false} if this world is running in headless mode
+     *     {@code false} if this world is running in headless mode
      */
     public boolean isVisible() {
         return !GraphicsEnvironment.isHeadless() && guiFrame != null && guiFrame.isVisible();
