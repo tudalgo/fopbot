@@ -664,4 +664,23 @@ public class KarelWorld {
         }
         imagesLoaded = true;
     }
+
+    /**
+     * Returns the {@link GuiPanel} of this world.
+     *
+     * @return the {@link GuiPanel} of this world
+     */
+    public GuiPanel getGuiPanel() {
+        return guiGp;
+    }
+
+    /**
+     * Sets the {@link GuiPanel} of this world.
+     *
+     * @param guiPanel the {@link GuiPanel} of this world
+     * @apiNote This method should not be called by students and is thought for testing purposes only.
+     */
+    public void setGuiPanel(GuiPanel guiPanel) {
+        this.guiGp = guiPanel;
+    }
 }
