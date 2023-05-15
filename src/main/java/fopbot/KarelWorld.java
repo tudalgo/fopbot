@@ -2,6 +2,7 @@ package fopbot;
 
 
 import fopbot.Transition.RobotAction;
+import org.gradle.internal.impldep.org.jetbrains.annotations.ApiStatus;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
@@ -683,8 +684,8 @@ public class KarelWorld {
      *
      * @param guiPanel the {@link GuiPanel} of this world
      * @apiNote This method should not be called by students and is thought for testing purposes only.
-     * @ApiStatus.Internal
      */
+    @ApiStatus.Internal
     public void setGuiPanel(GuiPanel guiPanel) {
         this.guiGp = guiPanel;
     }
