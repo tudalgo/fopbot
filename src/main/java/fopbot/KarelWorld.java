@@ -56,10 +56,22 @@ public class KarelWorld {
      * The robot images by image identification.
      */
     private final Map<String, Map<String, Image[]>> robotImagesById;
+
+    /**
+     * The maximum number of actions that can be performed in this world.
+     */
+    private long actionLimit = 100000;
     /**
      * The robot tracing of robot actions.
      */
-    private final Map<String, RobotTrace> traces = new HashMap<>();
+    private final Map<String, RobotTrace> traces = new HookableHashMap.Builder<String, RobotTrace>()
+        .addPutHook((map, entry) -> {
+            if (map.size() > actionLimit) {
+                throw new RuntimeException("Too many traces, please check your program for infinite loops.");
+            }
+        })
+        .build();
+
     /**
      * The fields of this world.
      */
@@ -722,5 +734,33 @@ public class KarelWorld {
      */
     public @Nullable Color getFieldColor(int x, int y) {
         return fields[y][x].getFieldColor();
+    }
+
+    /**
+     * Returns the maximum amount of traces to be stored.
+     *
+     * @return the maximum amount of traces to be stored
+     */
+    public long getActionLimit() {
+        return actionLimit;
+    }
+
+    /**
+     * Sets the maximum amount of traces to be stored.
+     *
+     * @param actionLimit the maximum amount of traces to be stored
+     * @apiNote Since the action limit is there to prevent infinite loops, choose a reasonable value.
+     */
+    public void setActionLimit(long actionLimit) {
+        this.actionLimit = actionLimit;
+    }
+
+    /**
+     * Returns the amount of traces stored. This is equivalent to the amount of actions performed in the world.
+     *
+     * @return the amount of traces stored
+     */
+    public long getActionCount() {
+        return traces.size();
     }
 }
