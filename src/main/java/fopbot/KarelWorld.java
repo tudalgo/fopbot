@@ -332,13 +332,14 @@ public class KarelWorld {
 
     /**
      * Sets the visibility of the world on the graphical user interface to the specified visibility
-     * value. Does nothing if the world is running in headless mode.
+     * value.
+     * <p>Does nothing if the world is running in headless mode.</p>
      *
      * @param visible if {@code true} this world will be visible on the graphical user interface
      */
     public void setVisible(boolean visible) {
         if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Cannot set world visible in headless mode. In future versions this will throw an exception.");
+            System.out.println("Cannot set world visible in headless mode. Ignoring.");
             return;
         }
         loadImagesIfNotLoaded();
@@ -589,7 +590,8 @@ public class KarelWorld {
 
     /**
      * Puts this world to sleep for the specified amount time given by {@link #delay} (in
-     * milliseconds). If we are in headless mode, this method does nothing.
+     * milliseconds).
+     * <p>If we are in headless mode, this method does nothing.</p>
      */
     protected void sleep() {
         if (GraphicsEnvironment.isHeadless()) {
@@ -624,7 +626,8 @@ public class KarelWorld {
     }
 
     /**
-     * Updates the graphical user interface window. If we are in headless mode, this method does nothing.
+     * Updates the graphical user interface window.
+     * <p>If we are in headless mode, this method does nothing.</p>
      */
     protected void updateGui() {
         if (!isVisible()) {
@@ -667,6 +670,7 @@ public class KarelWorld {
 
     /**
      * Returns the {@link GuiPanel} of this world.
+     * <p>If we are in headless mode, this method returns {@code null}.</p>
      *
      * @return the {@link GuiPanel} of this world
      */
@@ -679,6 +683,7 @@ public class KarelWorld {
      *
      * @param guiPanel the {@link GuiPanel} of this world
      * @apiNote This method should not be called by students and is thought for testing purposes only.
+     * @ApiStatus.Internal
      */
     public void setGuiPanel(GuiPanel guiPanel) {
         this.guiGp = guiPanel;
