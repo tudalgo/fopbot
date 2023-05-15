@@ -3,6 +3,7 @@ package fopbot;
 
 import fopbot.Transition.RobotAction;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +14,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -320,21 +320,27 @@ public class KarelWorld {
     }
 
     /**
-     * Returns {@code true} if this world is visible on the graphical user interface.
+     * Returns {@code true} if this world is visible on the graphical user interface. Returns
+     * {@code false} if this world is running in headless mode.
      *
-     * @return {@code true} if this world is visible on the graphical user interface.
+     * @return {@code true} if this world is visible on the graphical user interface. Returns
+     * {@code false} if this world is running in headless mode
      */
     public boolean isVisible() {
-        return guiFrame != null && guiFrame.isVisible();
+        return !GraphicsEnvironment.isHeadless() && guiFrame != null && guiFrame.isVisible();
     }
 
     /**
      * Sets the visibility of the world on the graphical user interface to the specified visibility
-     * value.
+     * value. Does nothing if the world is running in headless mode.
      *
      * @param visible if {@code true} this world will be visible on the graphical user interface
      */
     public void setVisible(boolean visible) {
+        if (GraphicsEnvironment.isHeadless()) {
+            System.err.println("Cannot set world visible in headless mode. In future versions this will throw an exception.");
+            return;
+        }
         loadImagesIfNotLoaded();
         if (visible && guiFrame == null) {
             guiFrame = new JFrame("FopBot");
@@ -583,9 +589,12 @@ public class KarelWorld {
 
     /**
      * Puts this world to sleep for the specified amount time given by {@link #delay} (in
-     * milliseconds).
+     * milliseconds). If we are in headless mode, this method does nothing.
      */
     protected void sleep() {
+        if (GraphicsEnvironment.isHeadless()) {
+            return;
+        }
         try {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
@@ -615,9 +624,12 @@ public class KarelWorld {
     }
 
     /**
-     * Updates the graphical user interface window.
+     * Updates the graphical user interface window. If we are in headless mode, this method does nothing.
      */
     protected void updateGui() {
+        if (GraphicsEnvironment.isHeadless()) {
+            return;
+        }
         if (!isVisible()) {
             return;
         }
