@@ -592,7 +592,7 @@ public class KarelWorld {
     /**
      * Puts this world to sleep for the specified amount time given by {@link #delay} (in
      * milliseconds).
-     * <p>If we are in headless mode, this method does nothing.</p>
+     * <p>In headless mode, this method does nothing.</p>
      */
     protected void sleep() {
         if (GraphicsEnvironment.isHeadless()) {
@@ -628,7 +628,7 @@ public class KarelWorld {
 
     /**
      * Updates the graphical user interface window.
-     * <p>If we are in headless mode, this method does nothing.</p>
+     * <p>In headless mode, this method does nothing.</p>
      */
     protected void updateGui() {
         if (!isVisible()) {
@@ -671,7 +671,7 @@ public class KarelWorld {
 
     /**
      * Returns the {@link GuiPanel} of this world.
-     * <p>If we are in headless mode, this method returns {@code null}.</p>
+     * <p>In headless mode, this method returns {@code null}.</p>
      *
      * @return the {@link GuiPanel} of this world
      */
