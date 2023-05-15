@@ -9,9 +9,9 @@ import java.util.function.BiConsumer;
 /**
  * A HashMap that can execute hooks when a value is put into it or removed from it.
  */
-public class HookableHashMap<K,V> extends HashMap<K,V> {
-    private final List<BiConsumer<HookableHashMap<K,V>,Entry<K,V>>> putHooks = new ArrayList<>();
-    private final List<BiConsumer<HookableHashMap<K,V>,Entry<Object,V>>> removeHooks = new ArrayList<>();
+public class HookableHashMap<K, V> extends HashMap<K, V> {
+    private final List<BiConsumer<HookableHashMap<K, V>, Entry<K, V>>> putHooks = new ArrayList<>();
+    private final List<BiConsumer<HookableHashMap<K, V>, Entry<Object, V>>> removeHooks = new ArrayList<>();
 
     private HookableHashMap() {
         super();
@@ -19,53 +19,59 @@ public class HookableHashMap<K,V> extends HashMap<K,V> {
 
     /**
      * Adds a hook that is executed before a value is put into this map.
+     *
      * @param hook the hook to add
      */
-    protected void addPutHook(BiConsumer<HookableHashMap<K,V>,Entry<K,V>> hook) {
+    protected void addPutHook(BiConsumer<HookableHashMap<K, V>, Entry<K, V>> hook) {
         putHooks.add(hook);
     }
 
     /**
      * Adds a hook that is executed after a value is removed from this map.
+     *
      * @param hook the hook to add
      */
-    protected void addRemoveHook(BiConsumer<HookableHashMap<K,V>,Entry<Object,V>> hook) {
+    protected void addRemoveHook(BiConsumer<HookableHashMap<K, V>, Entry<Object, V>> hook) {
         removeHooks.add(hook);
     }
 
     /**
      * Creates a new Builder for a HookableHashMap.
-     * @param <K>
-     * @param <V>
+     *
+     * @param <K> the type of keys in the map
+     * @param <V> the type of values in the map
      */
-    public static class Builder<K,V> {
-        private final HookableHashMap<K,V> map = new HookableHashMap<>();
+    public static class Builder<K, V> {
+        private final HookableHashMap<K, V> map = new HookableHashMap<>();
 
         /**
          * Adds a hook that is executed before a value is put into this map.
+         *
          * @param hook the hook to add
          * @return this builder
          */
-        public Builder<K,V> addPutHook(BiConsumer<HookableHashMap<K,V>,Entry<K,V>> hook) {
+        public Builder<K, V> addPutHook(BiConsumer<HookableHashMap<K, V>, Entry<K, V>> hook) {
             map.addPutHook(hook);
             return this;
         }
 
         /**
          * Adds a hook that is executed after a value is removed from this map.
+         *
          * @param hook the hook to add
          * @return this builder
          */
-        public Builder<K,V> addRemoveHook(BiConsumer<HookableHashMap<K,V>,Entry<Object,V>> hook) {
+        public Builder<K, V> addRemoveHook(BiConsumer<HookableHashMap<K, V>, Entry<Object, V>> hook) {
             map.addRemoveHook(hook);
             return this;
         }
 
         /**
          * Builds the HookableHashMap.
+         *
          * @return the built HookableHashMap
          */
-        public HookableHashMap<K,V> build() {
+        public HookableHashMap<K, V> build() {
             return map;
         }
     }
