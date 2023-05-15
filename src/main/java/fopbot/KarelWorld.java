@@ -627,9 +627,6 @@ public class KarelWorld {
      * Updates the graphical user interface window. If we are in headless mode, this method does nothing.
      */
     protected void updateGui() {
-        if (GraphicsEnvironment.isHeadless()) {
-            return;
-        }
         if (!isVisible()) {
             return;
         }
