@@ -1,2 +1,2 @@
 [plugins]
-style = { id = "org.sourcegrade.style", version = "2.1.0" }
+style = { id = "org.sourcegrade.style", version = "3.0.0" }
