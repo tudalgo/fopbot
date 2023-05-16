@@ -1,11 +1,12 @@
 package fopbot;
 
 
+
 import fopbot.Transition.RobotAction;
 import org.jetbrains.annotations.ApiStatus;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 
 /**
