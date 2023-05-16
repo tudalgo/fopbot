@@ -1,7 +1,6 @@
 package fopbot;
 
 
-
 import fopbot.Transition.RobotAction;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -19,7 +18,6 @@ import java.util.Map;
 import java.util.stream.Stream;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
 
 /**
  * Represents the FOP Bot world on a graphical user interface.
@@ -593,6 +591,7 @@ public class KarelWorld {
     /**
      * Puts this world to sleep for the specified amount time given by {@link #delay} (in
      * milliseconds).
+     *
      * <p>In headless mode, this method does nothing.</p>
      */
     protected void sleep() {
@@ -609,7 +608,7 @@ public class KarelWorld {
     /**
      * Traces the action of the specified robot.
      *
-     * @param robot           the robot to trace
+     * @param robot the robot to trace
      * @param robotAction the action of the robot to trace
      */
     void trace(Robot robot, RobotAction robotAction) {
@@ -644,7 +643,7 @@ public class KarelWorld {
     /**
      * Updates the entity array to be in sync with the robots X and Y coordinates.
      *
-     * @param robot    the robot to sync with
+     * @param robot the robot to sync with
      * @param oldX the old X coordinate of the robot
      * @param oldY the old Y coordinate of the robot
      */
@@ -672,6 +671,7 @@ public class KarelWorld {
 
     /**
      * Returns the {@link GuiPanel} of this world.
+     *
      * <p>In headless mode, this method returns {@code null}.</p>
      *
      * @return the {@link GuiPanel} of this world
