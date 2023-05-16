@@ -3,6 +3,7 @@ package fopbot;
 
 import fopbot.Transition.RobotAction;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.VisibleForTesting;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
@@ -675,6 +676,7 @@ public class KarelWorld {
      *
      * @return the {@link GuiPanel} of this world
      */
+    @ApiStatus.Internal
     public GuiPanel getGuiPanel() {
         return guiGp;
     }
