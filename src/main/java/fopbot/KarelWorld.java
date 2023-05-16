@@ -2,7 +2,9 @@ package fopbot;
 
 
 import fopbot.Transition.RobotAction;
+import org.jetbrains.annotations.ApiStatus;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,11 +15,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
 
 /**
  * Represents the FOP Bot world on a graphical user interface.
@@ -320,21 +320,28 @@ public class KarelWorld {
     }
 
     /**
-     * Returns {@code true} if this world is visible on the graphical user interface.
+     * Returns {@code true} if this world is visible on the graphical user interface. Returns
+     * {@code false} if this world is running in headless mode.
      *
-     * @return {@code true} if this world is visible on the graphical user interface.
+     * @return {@code true} if this world is visible on the graphical user interface. Returns
+     *     {@code false} if this world is running in headless mode
      */
     public boolean isVisible() {
-        return guiFrame != null && guiFrame.isVisible();
+        return !GraphicsEnvironment.isHeadless() && guiFrame != null && guiFrame.isVisible();
     }
 
     /**
      * Sets the visibility of the world on the graphical user interface to the specified visibility
      * value.
+     * <p>Does nothing if the world is running in headless mode.</p>
      *
      * @param visible if {@code true} this world will be visible on the graphical user interface
      */
     public void setVisible(boolean visible) {
+        if (GraphicsEnvironment.isHeadless()) {
+            System.out.println("Cannot set world visible in headless mode. Ignoring.");
+            return;
+        }
         loadImagesIfNotLoaded();
         if (visible && guiFrame == null) {
             guiFrame = new JFrame("FopBot");
@@ -584,8 +591,13 @@ public class KarelWorld {
     /**
      * Puts this world to sleep for the specified amount time given by {@link #delay} (in
      * milliseconds).
+     *
+     * <p>In headless mode, this method does nothing.</p>
      */
     protected void sleep() {
+        if (GraphicsEnvironment.isHeadless()) {
+            return;
+        }
         try {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
@@ -596,7 +608,7 @@ public class KarelWorld {
     /**
      * Traces the action of the specified robot.
      *
-     * @param robot           the robot to trace
+     * @param robot the robot to trace
      * @param robotAction the action of the robot to trace
      */
     void trace(Robot robot, RobotAction robotAction) {
@@ -616,6 +628,7 @@ public class KarelWorld {
 
     /**
      * Updates the graphical user interface window.
+     * <p>In headless mode, this method does nothing.</p>
      */
     protected void updateGui() {
         if (!isVisible()) {
@@ -630,7 +643,7 @@ public class KarelWorld {
     /**
      * Updates the entity array to be in sync with the robots X and Y coordinates.
      *
-     * @param robot    the robot to sync with
+     * @param robot the robot to sync with
      * @param oldX the old X coordinate of the robot
      * @param oldY the old Y coordinate of the robot
      */
@@ -654,5 +667,27 @@ public class KarelWorld {
             setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
         }
         imagesLoaded = true;
+    }
+
+    /**
+     * Returns the {@link GuiPanel} of this world.
+     *
+     * <p>In headless mode, this method returns {@code null}.</p>
+     *
+     * @return the {@link GuiPanel} of this world
+     */
+    @ApiStatus.Internal
+    public GuiPanel getGuiPanel() {
+        return guiGp;
+    }
+
+    /**
+     * Sets the {@link GuiPanel} of this world.
+     *
+     * @param guiPanel the {@link GuiPanel} of this world
+     */
+    @ApiStatus.Internal
+    public void setGuiPanel(GuiPanel guiPanel) {
+        this.guiGp = guiPanel;
     }
 }
