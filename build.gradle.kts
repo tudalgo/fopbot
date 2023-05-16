@@ -17,5 +17,5 @@ java {
 }
 
 dependencies {
-    implementation(gradleApi())
+    implementation(libs.annotations)
 }
