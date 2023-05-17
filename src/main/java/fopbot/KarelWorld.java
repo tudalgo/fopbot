@@ -3,7 +3,9 @@ package fopbot;
 
 import fopbot.Transition.RobotAction;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
+import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.IOException;
@@ -698,5 +700,27 @@ public class KarelWorld {
      */
     public InputHandler getInputHandler() {
         return GraphicsEnvironment.isHeadless() ? null : getGuiPanel().getInputHandler();
+    }
+
+    /**
+     * Sets the color of the field at the specified coordinates.
+     *
+     * @param x     the x coordinate of the field
+     * @param y     the y coordinate of the field
+     * @param color the color to set
+     */
+    public void setFieldColor(int x, int y, @Nullable Color color) {
+        fields[y][x].setFieldColor(color);
+    }
+
+    /**
+     * Returns the color of the field at the specified coordinates or {@code null} if no color is set.
+     *
+     * @param x the x coordinate of the field
+     * @param y the y coordinate of the field
+     * @return the color of the field at the specified coordinates or {@code null} if no color is set
+     */
+    public @Nullable Color getFieldColor(int x, int y) {
+        return fields[y][x].getFieldColor();
     }
 }
