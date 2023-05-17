@@ -35,7 +35,7 @@ import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 /**
  * The graphical user interface in which the FOPBot world is represented.
  */
-public class GuiPanel extends JPanel {
+class GuiPanel extends JPanel {
 
     /**
      * The world that is to be displayed on the graphical user interface.
@@ -66,6 +66,7 @@ public class GuiPanel extends JPanel {
         this.world = world;
         this.inputHandler = new InputHandler(this);
         setSize(getPreferredSize());
+        setFocusable(true);
     }
 
     /**
@@ -326,5 +327,14 @@ public class GuiPanel extends JPanel {
         }
 
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    /**
+     * Gets the {@link InputHandler} of this {@code Gui}.
+     *
+     * @return the {@link InputHandler} of this {@code Gui}
+     */
+    public InputHandler getInputHandler() {
+        return inputHandler;
     }
 }

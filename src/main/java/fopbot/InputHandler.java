@@ -21,19 +21,9 @@ public class InputHandler {
     private final Set<Integer> keysPressed = new HashSet<>();
 
     /**
-     * A List of event handlers that are called when a key is pressed.
+     * A List of event handlers that are called when a keyboard event is fired.
      */
-    private final List<KeyListener> onKeyPressed = new ArrayList<>();
-
-    /**
-     * A List of event handlers that are called when a key is released.
-     */
-
-    private final List<KeyListener> onKeyReleased = new ArrayList<>();
-    /**
-     * A List of event handlers that are called when a key is typed.
-     */
-    private final List<KeyListener> onKeyTyped = new ArrayList<>();
+    private final List<KeyListener> listeners = new ArrayList<>();
 
     // --Constructors-- //
 
@@ -61,33 +51,13 @@ public class InputHandler {
     // --Methods-- //
 
     /**
-     * Adds the given event handler to the {@link #onKeyPressed} list.
+     * Adds the given event handler to the {@link #listeners} list.
      *
      * @param eventHandler The key to add.
-     * @see #onKeyPressed
+     * @see #listeners
      */
-    public void addOnKeyPressed(final KeyListener eventHandler) {
-        this.onKeyPressed.add(eventHandler);
-    }
-
-    /**
-     * Adds the given event handler to the {@link #onKeyReleased} list.
-     *
-     * @param eventHandler The key to add.
-     * @see #onKeyReleased
-     */
-    public void addOnKeyReleased(final KeyListener eventHandler) {
-        this.onKeyReleased.add(eventHandler);
-    }
-
-    /**
-     * Adds the given event handler to the {@link #onKeyTyped} list.
-     *
-     * @param eventHandler The key to add.
-     * @see #onKeyTyped
-     */
-    public void addOnKeyTyped(final KeyListener eventHandler) {
-        this.onKeyTyped.add(eventHandler);
+    public void addListener(final KeyListener eventHandler) {
+        this.listeners.add(eventHandler);
     }
 
     /**
@@ -100,18 +70,18 @@ public class InputHandler {
             @Override
             public void keyPressed(final KeyEvent e) {
                 InputHandler.this.keysPressed.add(e.getKeyCode());
-                InputHandler.this.onKeyPressed.forEach(keyListener -> keyListener.keyPressed(e));
+                InputHandler.this.listeners.forEach(keyListener -> keyListener.keyPressed(e));
             }
 
             @Override
             public void keyReleased(final KeyEvent e) {
                 InputHandler.this.keysPressed.remove(e.getKeyCode());
-                InputHandler.this.onKeyReleased.forEach(keyListener -> keyListener.keyReleased(e));
+                InputHandler.this.listeners.forEach(keyListener -> keyListener.keyReleased(e));
             }
 
             @Override
             public void keyTyped(final KeyEvent e) {
-                InputHandler.this.onKeyTyped.forEach(keyListener -> keyListener.keyTyped(e));
+                InputHandler.this.listeners.forEach(keyListener -> keyListener.keyTyped(e));
             }
         });
     }

@@ -690,4 +690,13 @@ public class KarelWorld {
     public void setGuiPanel(GuiPanel guiPanel) {
         this.guiGp = guiPanel;
     }
+
+    /**
+     * Returns the {@link InputHandler} of this world. This method returns {@code null} in headless mode.
+     *
+     * @return the {@link InputHandler} of this world or {@code null} in headless mode
+     */
+    public InputHandler getInputHandler() {
+        return GraphicsEnvironment.isHeadless() ? null : getGuiPanel().getInputHandler();
+    }
 }
