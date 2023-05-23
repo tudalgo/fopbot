@@ -1,10 +1,10 @@
 package fopbot;
-/**
- * A field entity that represents a robot  on a graphical user interface.
- */
 
 import fopbot.Transition.RobotAction;
 
+/**
+ * A field entity that represents a robot  on a graphical user interface.
+ */
 public class Robot extends FieldEntity {
 
     /**
