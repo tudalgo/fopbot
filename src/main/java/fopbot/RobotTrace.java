@@ -72,5 +72,6 @@ public class RobotTrace implements Iterable<Transition> {
      */
     public void trace(Robot r, RobotAction robotAction) {
         transitions.add(new Transition(robotAction, r));
+        World.getGlobalWorld().checkActionLimit();
     }
 }
