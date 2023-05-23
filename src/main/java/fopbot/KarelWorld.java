@@ -60,7 +60,7 @@ public class KarelWorld {
     /**
      * The maximum number of actions that can be performed in this world.
      */
-    private long actionLimit = 100000;
+    private long actionLimit = -1;
     /**
      * The robot tracing of robot actions.
      */
@@ -761,8 +761,11 @@ public class KarelWorld {
         return traces.values().stream().mapToLong(rt -> rt.getTransitions().size()).sum();
     }
 
+    /**
+     * Checks if the action limit is reached and throws an {@link IllegalStateException} if so.
+     */
     void checkActionLimit() {
-        if (getActionCount() >= getActionLimit()) {
+        if (actionLimit >= 0 && getActionCount() >= getActionLimit()) {
             throw new IllegalStateException("Too many traces, please check your program for infinite loops.");
         }
     }
