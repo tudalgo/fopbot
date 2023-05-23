@@ -53,14 +53,20 @@ class GuiPanel extends JPanel {
     protected String startDate;
 
     /**
+     * The input handler that handles the input of the user.
+     */
+    protected InputHandler inputHandler;
+
+    /**
      * Constructs and initializes graphical use interface to represent the FOP Bot world.
      *
      * @param world the FOP Bot world to represent on the graphical user interface
      */
     public GuiPanel(KarelWorld world) {
         this.world = world;
-
+        this.inputHandler = new InputHandler(this);
         setSize(getPreferredSize());
+        setFocusable(true);
     }
 
     /**
@@ -203,7 +209,11 @@ class GuiPanel extends JPanel {
         g.setColor(Color.LIGHT_GRAY);
         for (int h = 0; h < world.getHeight(); h++) {
             for (int w = 0; w < world.getWidth(); w++) {
+                if (world.getField(w, World.getHeight() - h - 1).getFieldColor() != null) {
+                    g.setColor(world.getField(w, World.getHeight() - h - 1).getFieldColor());
+                }
                 g.fillRect(width, height, FIELD_INNER_SIZE, FIELD_INNER_SIZE);
+                g.setColor(Color.LIGHT_GRAY);
 
                 if (h == 99) {
                     g.setColor(Color.GREEN);
@@ -321,5 +331,14 @@ class GuiPanel extends JPanel {
         }
 
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    /**
+     * Gets the {@link InputHandler} of this {@code Gui}.
+     *
+     * @return the {@link InputHandler} of this {@code Gui}
+     */
+    public InputHandler getInputHandler() {
+        return inputHandler;
     }
 }

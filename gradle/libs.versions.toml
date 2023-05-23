@@ -1,2 +1,5 @@
+[libraries]
+annotations = "org.jetbrains:annotations:24.0.1"
+
 [plugins]
-style = { id = "org.sourcegrade.style", version = "3.0.0" }
+style = "org.sourcegrade.style:3.0.0"

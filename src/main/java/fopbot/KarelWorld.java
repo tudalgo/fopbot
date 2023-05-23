@@ -2,7 +2,11 @@ package fopbot;
 
 
 import fopbot.Transition.RobotAction;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
+import java.awt.Color;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,11 +17,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
 
 /**
  * Represents the FOP Bot world on a graphical user interface.
@@ -54,10 +56,16 @@ public class KarelWorld {
      * The robot images by image identification.
      */
     private final Map<String, Map<String, Image[]>> robotImagesById;
+
+    /**
+     * The maximum number of actions that can be performed in this world.
+     */
+    private long actionLimit = -1;
     /**
      * The robot tracing of robot actions.
      */
     private final Map<String, RobotTrace> traces = new HashMap<>();
+
     /**
      * The fields of this world.
      */
@@ -320,21 +328,28 @@ public class KarelWorld {
     }
 
     /**
-     * Returns {@code true} if this world is visible on the graphical user interface.
+     * Returns {@code true} if this world is visible on the graphical user interface. Returns
+     * {@code false} if this world is running in headless mode.
      *
-     * @return {@code true} if this world is visible on the graphical user interface.
+     * @return {@code true} if this world is visible on the graphical user interface. Returns
+     *     {@code false} if this world is running in headless mode
      */
     public boolean isVisible() {
-        return guiFrame != null && guiFrame.isVisible();
+        return !GraphicsEnvironment.isHeadless() && guiFrame != null && guiFrame.isVisible();
     }
 
     /**
      * Sets the visibility of the world on the graphical user interface to the specified visibility
      * value.
+     * <p>Does nothing if the world is running in headless mode.</p>
      *
      * @param visible if {@code true} this world will be visible on the graphical user interface
      */
     public void setVisible(boolean visible) {
+        if (GraphicsEnvironment.isHeadless()) {
+            System.out.println("Cannot set world visible in headless mode. Ignoring.");
+            return;
+        }
         loadImagesIfNotLoaded();
         if (visible && guiFrame == null) {
             guiFrame = new JFrame("FopBot");
@@ -584,8 +599,13 @@ public class KarelWorld {
     /**
      * Puts this world to sleep for the specified amount time given by {@link #delay} (in
      * milliseconds).
+     *
+     * <p>In headless mode, this method does nothing.</p>
      */
     protected void sleep() {
+        if (GraphicsEnvironment.isHeadless()) {
+            return;
+        }
         try {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
@@ -596,7 +616,7 @@ public class KarelWorld {
     /**
      * Traces the action of the specified robot.
      *
-     * @param robot           the robot to trace
+     * @param robot the robot to trace
      * @param robotAction the action of the robot to trace
      */
     void trace(Robot robot, RobotAction robotAction) {
@@ -616,6 +636,7 @@ public class KarelWorld {
 
     /**
      * Updates the graphical user interface window.
+     * <p>In headless mode, this method does nothing.</p>
      */
     protected void updateGui() {
         if (!isVisible()) {
@@ -630,7 +651,7 @@ public class KarelWorld {
     /**
      * Updates the entity array to be in sync with the robots X and Y coordinates.
      *
-     * @param robot    the robot to sync with
+     * @param robot the robot to sync with
      * @param oldX the old X coordinate of the robot
      * @param oldY the old Y coordinate of the robot
      */
@@ -654,5 +675,98 @@ public class KarelWorld {
             setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
         }
         imagesLoaded = true;
+    }
+
+    /**
+     * Returns the {@link GuiPanel} of this world.
+     *
+     * <p>In headless mode, this method returns {@code null}.</p>
+     *
+     * @return the {@link GuiPanel} of this world
+     */
+    @ApiStatus.Internal
+    public GuiPanel getGuiPanel() {
+        return guiGp;
+    }
+
+    /**
+     * Sets the {@link GuiPanel} of this world.
+     *
+     * @param guiPanel the {@link GuiPanel} of this world
+     */
+    @ApiStatus.Internal
+    public void setGuiPanel(GuiPanel guiPanel) {
+        this.guiGp = guiPanel;
+    }
+
+    /**
+     * Returns the {@link InputHandler} of this world. This method returns {@code null} in headless mode.
+     *
+     * @return the {@link InputHandler} of this world or {@code null} in headless mode
+     */
+    public InputHandler getInputHandler() {
+        return GraphicsEnvironment.isHeadless() ? null : getGuiPanel().getInputHandler();
+    }
+
+    /**
+     * Sets the color of the field at the specified coordinates.
+     *
+     * @param x     the x coordinate of the field
+     * @param y     the y coordinate of the field
+     * @param color the color to set
+     */
+    public void setFieldColor(int x, int y, @Nullable Color color) {
+        fields[y][x].setFieldColor(color);
+    }
+
+    /**
+     * Returns the color of the field at the specified coordinates or {@code null} if no color is set.
+     *
+     * @param x the x coordinate of the field
+     * @param y the y coordinate of the field
+     * @return the color of the field at the specified coordinates or {@code null} if no color is set
+     */
+    public @Nullable Color getFieldColor(int x, int y) {
+        return fields[y][x].getFieldColor();
+    }
+
+    /**
+     * Returns the maximum amount of traces to be stored.
+     *
+     * @return the maximum amount of traces to be stored
+     */
+    @ApiStatus.Internal
+    public long getActionLimit() {
+        return actionLimit;
+    }
+
+    /**
+     * Sets the maximum amount of traces to be stored.
+     * <p>Since the action limit is there to prevent infinite loops, choose a reasonable value.</p>
+     *
+     * @param actionLimit the maximum amount of traces to be stored
+     */
+    @ApiStatus.Internal
+    public void setActionLimit(long actionLimit) {
+        this.actionLimit = actionLimit;
+    }
+
+    /**
+     * Returns the amount of traces stored. This is equivalent to the amount of actions performed in the world.
+     *
+     * @return the amount of traces stored
+     */
+    @ApiStatus.Internal
+    public long getActionCount() {
+        return traces.values().stream().mapToLong(rt -> rt.getTransitions().size()).sum();
+    }
+
+    /**
+     * Checks if the action limit is reached and throws an {@link IllegalStateException} if so.
+     */
+    void checkActionLimit() {
+        if (actionLimit >= 0 && getActionCount() >= getActionLimit()) {
+            throw new IllegalStateException("Too many traces, please check your program for infinite loops.");
+        }
     }
 }
