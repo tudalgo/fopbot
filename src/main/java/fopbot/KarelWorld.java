@@ -64,13 +64,7 @@ public class KarelWorld {
     /**
      * The robot tracing of robot actions.
      */
-    private final Map<String, RobotTrace> traces = new HookableHashMap.Builder<String, RobotTrace>()
-        .addPutHook((map, entry) -> {
-            if (map.size() > actionLimit) {
-                throw new RuntimeException("Too many traces, please check your program for infinite loops.");
-            }
-        })
-        .build();
+    private final Map<String, RobotTrace> traces = new HashMap<>();
 
     /**
      * The fields of this world.
@@ -741,16 +735,18 @@ public class KarelWorld {
      *
      * @return the maximum amount of traces to be stored
      */
+    @ApiStatus.Internal
     public long getActionLimit() {
         return actionLimit;
     }
 
     /**
      * Sets the maximum amount of traces to be stored.
+     * <p>Since the action limit is there to prevent infinite loops, choose a reasonable value.</p>
      *
      * @param actionLimit the maximum amount of traces to be stored
-     * @apiNote Since the action limit is there to prevent infinite loops, choose a reasonable value.
      */
+    @ApiStatus.Internal
     public void setActionLimit(long actionLimit) {
         this.actionLimit = actionLimit;
     }
@@ -760,7 +756,14 @@ public class KarelWorld {
      *
      * @return the amount of traces stored
      */
+    @ApiStatus.Internal
     public long getActionCount() {
-        return traces.size();
+        return traces.values().stream().mapToLong(rt -> rt.getTransitions().size()).sum();
+    }
+
+    void checkActionLimit() {
+        if (getActionCount() >= getActionLimit()) {
+            throw new IllegalStateException("Too many traces, please check your program for infinite loops.");
+        }
     }
 }
