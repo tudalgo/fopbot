@@ -157,6 +157,15 @@ public class World {
     }
 
     /**
+     * Removes the specified {@link Robot} from the current world.
+     *
+     * @param robot the robot to remove
+     */
+    public static void removeRobot(Robot robot){
+        world.removeRobot(robot);
+    }
+
+    /**
      * Returns {@code true} if a global world exists.
      *
      * @return {@code true} if a global world exists

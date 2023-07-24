@@ -75,9 +75,13 @@ public class KarelWorld {
      */
     private int delay = 100;
     /**
-     * The number of robots on this world.
+     * The current number of robots on this world.
      */
-    private int robotCount;
+    private int robotCount = 0;
+    /**
+     * The ID of the next robot to be added to the world
+     */
+    private  int nextRobotId = 0;
     /**
      * The graphical user interface window on which the FOP Bot world panel is visible.
      */
@@ -118,15 +122,28 @@ public class KarelWorld {
     }
 
     /**
-     * Adds the specified robot to this world.
+     * Adds the specified {@link Robot} to this world.
      *
      * @param robot the robot to place
      */
     public void addRobot(Robot robot) {
         fields[robot.getY()][robot.getX()].getEntities().add(robot);
-        robot.setId(Integer.toString(robotCount));
+        robot.setId(Integer.toString(nextRobotId));
+        nextRobotId++;
         robotCount++;
         traces.put(robot.getId(), new RobotTrace());
+        triggerUpdate();
+        sleep();
+    }
+
+    /**
+     * Removes the specified {@link Robot} from this world.
+     *
+     * @param robot the robot to remove
+     */
+    public void removeRobot(Robot robot){
+        fields[robot.getY()][robot.getX()].getEntities().remove(robot);
+        robotCount--;
         triggerUpdate();
         sleep();
     }
