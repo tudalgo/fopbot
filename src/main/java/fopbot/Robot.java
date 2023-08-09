@@ -551,6 +551,8 @@ public class Robot extends FieldEntity {
      */
     public void setFamily(RobotFamily family) {
         this.family = family;
+        world.triggerUpdate();
+        world.sleep();
     }
 
     @Override
