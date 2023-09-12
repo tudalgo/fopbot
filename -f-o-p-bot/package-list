@@ -91,6 +91,7 @@ $dokka.location:fopbot/Robot/getDirection/#/PointingToDeclaration/-f-o-p-bot/fo
 $dokka.location:fopbot/Robot/getFamily/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/get-family.html
 $dokka.location:fopbot/Robot/getId/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/get-id.html
 $dokka.location:fopbot/Robot/getNumberOfCoins/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/get-number-of-coins.html
+$dokka.location:fopbot/Robot/getRobotFamily/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/get-robot-family.html
 $dokka.location:fopbot/Robot/hasAnyCoins/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/has-any-coins.html
 $dokka.location:fopbot/Robot/isFacingDown/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/is-facing-down.html
 $dokka.location:fopbot/Robot/isFacingLeft/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/is-facing-left.html
@@ -112,6 +113,7 @@ $dokka.location:fopbot/Robot/setField/#int#int/PointingToDeclaration/-f-o-p-bot
 $dokka.location:fopbot/Robot/setId/#java.lang.String/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/set-id.html
 $dokka.location:fopbot/Robot/setNumberOfCoins/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/set-number-of-coins.html
 $dokka.location:fopbot/Robot/setPrintTrace/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/set-print-trace.html
+$dokka.location:fopbot/Robot/setRobotFamily/#fopbot.RobotFamily/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/set-robot-family.html
 $dokka.location:fopbot/Robot/setX/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/set-x.html
 $dokka.location:fopbot/Robot/setY/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/set-y.html
 $dokka.location:fopbot/Robot/toString/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/to-string.html
