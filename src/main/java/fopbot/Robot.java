@@ -545,6 +545,14 @@ public class Robot extends FieldEntity {
     }
 
     /**
+     * @deprecated Use {@link #getRobotFamily()} instead.
+     */
+    @Deprecated(since = "0.5.0")
+    public RobotFamily getFamily() {
+        return getRobotFamily();
+    }
+
+    /**
      * Sets the robot family of this robot.
      *
      * @param family the robot family of this robot
@@ -553,6 +561,14 @@ public class Robot extends FieldEntity {
         this.family = family;
         world.triggerUpdate();
         world.sleep();
+    }
+
+    /**
+     * @deprecated Use {@link #setRobotFamily(RobotFamily)} instead.
+     */
+    @Deprecated(since = "0.5.0")
+    public void setFamily(RobotFamily family) {
+        setRobotFamily(family);
     }
 
     @Override
