@@ -239,7 +239,7 @@ class GuiPanel extends JPanel {
 
         int directionIndex = r.getDirection().ordinal();
 
-        Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getFamily().getIdentifier());
+        Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getRobotFamily().getIdentifier());
         Objects.requireNonNull(imageMapById, "robot image was not found");
         Image robotImage = imageMapById.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
 

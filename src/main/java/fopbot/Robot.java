@@ -71,7 +71,7 @@ public class Robot extends FieldEntity {
     public Robot(int x, int y, RobotFamily family) {
         super(x, y);
         setGlobalWorld();
-        setFamily(family);
+        setRobotFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -107,7 +107,7 @@ public class Robot extends FieldEntity {
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         setGlobalWorld();
-        setFamily(family);
+        setRobotFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -140,7 +140,7 @@ public class Robot extends FieldEntity {
     public Robot(KarelWorld world, int x, int y, RobotFamily family) {
         super(x, y);
         this.world = world;
-        setFamily(family);
+        setRobotFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -178,7 +178,7 @@ public class Robot extends FieldEntity {
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         this.world = world;
-        setFamily(family);
+        setRobotFamily(family);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -540,7 +540,7 @@ public class Robot extends FieldEntity {
      *
      * @return the robot family of this robot
      */
-    public RobotFamily getFamily() {
+    public RobotFamily getRobotFamily() {
         return family;
     }
 
@@ -549,7 +549,7 @@ public class Robot extends FieldEntity {
      *
      * @param family the robot family of this robot
      */
-    public void setFamily(RobotFamily family) {
+    public void setRobotFamily(RobotFamily family) {
         this.family = family;
         world.triggerUpdate();
         world.sleep();
