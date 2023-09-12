@@ -5,5 +5,5 @@ dokkaVersioningPlugin = "org.jetbrains.dokka:versioning-plugin:1.9.0"
 dokkaBase = "org.jetbrains.dokka:dokka-base:1.9.0"
 [plugins]
 style = "org.sourcegrade.style:3.0.0"
-dokka = "org.jetbrains.dokka:1.8.20"
+dokka = "org.jetbrains.dokka:1.9.0"
 
