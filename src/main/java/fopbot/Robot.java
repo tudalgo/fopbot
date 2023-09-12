@@ -15,7 +15,7 @@ public class Robot extends FieldEntity {
     /**
      * The image identification of this robot.
      */
-    private RobotFamily family;
+    private RobotFamily robotFamily;
 
     /**
      * The number of coins that this robot currently owns.
@@ -64,14 +64,14 @@ public class Robot extends FieldEntity {
      * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
      * direction {@code UP} and 0 coins.
      *
-     * @param x      the X coordinate of the newly constructed robot
-     * @param y      the Y coordinate of the newly constructed robot
-     * @param family the family of this robot
+     * @param x           the X coordinate of the newly constructed robot
+     * @param y           the Y coordinate of the newly constructed robot
+     * @param robotFamily the family of this robot
      */
-    public Robot(int x, int y, RobotFamily family) {
+    public Robot(int x, int y, RobotFamily robotFamily) {
         super(x, y);
         setGlobalWorld();
-        setFamily(family);
+        setRobotFamily(robotFamily);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -100,14 +100,14 @@ public class Robot extends FieldEntity {
      * @param y             the Y coordinate of the newly constructed robot
      * @param direction     the viewing direction of the newly constructed robot
      * @param numberOfCoins the number of coins of the newly constructed robot
-     * @param family        the family of the newly constructed robot
+     * @param robotFamily   the family of the newly constructed robot
      */
-    public Robot(int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
+    public Robot(int x, int y, Direction direction, int numberOfCoins, RobotFamily robotFamily) {
         super(x, y);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         setGlobalWorld();
-        setFamily(family);
+        setRobotFamily(robotFamily);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -132,15 +132,15 @@ public class Robot extends FieldEntity {
      * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
      * direction {@code UP} and 0 coins and places it on the given world.
      *
-     * @param world  the world to place the newly constructed robot in
-     * @param x      the X coordinate of the newly constructed robot
-     * @param y      the Y coordinate of the newly constructed robot
-     * @param family the family of the newly constructed robot
+     * @param world       the world to place the newly constructed robot in
+     * @param x           the X coordinate of the newly constructed robot
+     * @param y           the Y coordinate of the newly constructed robot
+     * @param robotFamily the family of the newly constructed robot
      */
-    public Robot(KarelWorld world, int x, int y, RobotFamily family) {
+    public Robot(KarelWorld world, int x, int y, RobotFamily robotFamily) {
         super(x, y);
         this.world = world;
-        setFamily(family);
+        setRobotFamily(robotFamily);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -171,14 +171,14 @@ public class Robot extends FieldEntity {
      * @param y             the Y coordinate of the newly constructed robot
      * @param direction     the viewing direction of the newly constructed robot
      * @param numberOfCoins the number of coins of the newly constructed robot
-     * @param family        the family of the newly constructed robot
+     * @param robotFamily   the family of the newly constructed robot
      */
-    public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
+    public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins, RobotFamily robotFamily) {
         super(x, y);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
         this.world = world;
-        setFamily(family);
+        setRobotFamily(robotFamily);
 
         world.checkXCoordinate(x);
         world.checkYCoordinate(y);
@@ -200,7 +200,7 @@ public class Robot extends FieldEntity {
         this.printTrace = robot.printTrace;
         this.off = robot.off;
         this.world = robot.world;
-        this.family = robot.family;
+        this.robotFamily = robot.robotFamily;
     }
 
     /**
@@ -540,19 +540,41 @@ public class Robot extends FieldEntity {
      *
      * @return the robot family of this robot
      */
+    public RobotFamily getRobotFamily() {
+        return robotFamily;
+    }
+
+    /**
+     * Returns the robot family of this robot.
+     *
+     * @return the robot family of this robot
+     * @deprecated Use {@link #getRobotFamily()} instead.
+     */
+    @Deprecated(since = "0.5.0")
     public RobotFamily getFamily() {
-        return family;
+        return getRobotFamily();
     }
 
     /**
      * Sets the robot family of this robot.
      *
-     * @param family the robot family of this robot
+     * @param robotFamily the robot family of this robot
      */
-    public void setFamily(RobotFamily family) {
-        this.family = family;
+    public void setRobotFamily(RobotFamily robotFamily) {
+        this.robotFamily = robotFamily;
         world.triggerUpdate();
         world.sleep();
+    }
+
+    /**
+     * Sets the robot family of this robot.
+     *
+     * @param robotFamily the robot family of this robot
+     * @deprecated Use {@link #setRobotFamily(RobotFamily)} instead.
+     */
+    @Deprecated(since = "0.5.0")
+    public void setFamily(RobotFamily robotFamily) {
+        setRobotFamily(robotFamily);
     }
 
     @Override
