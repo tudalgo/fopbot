@@ -64,8 +64,8 @@ public class Robot extends FieldEntity {
      * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
      * direction {@code UP} and 0 coins.
      *
-     * @param x      the X coordinate of the newly constructed robot
-     * @param y      the Y coordinate of the newly constructed robot
+     * @param x           the X coordinate of the newly constructed robot
+     * @param y           the Y coordinate of the newly constructed robot
      * @param robotFamily the family of this robot
      */
     public Robot(int x, int y, RobotFamily robotFamily) {
@@ -100,7 +100,7 @@ public class Robot extends FieldEntity {
      * @param y             the Y coordinate of the newly constructed robot
      * @param direction     the viewing direction of the newly constructed robot
      * @param numberOfCoins the number of coins of the newly constructed robot
-     * @param robotFamily        the family of the newly constructed robot
+     * @param robotFamily   the family of the newly constructed robot
      */
     public Robot(int x, int y, Direction direction, int numberOfCoins, RobotFamily robotFamily) {
         super(x, y);
@@ -132,9 +132,9 @@ public class Robot extends FieldEntity {
      * Constructs and initializes a robot at the specified {@code (x,y)} location with the viewing
      * direction {@code UP} and 0 coins and places it on the given world.
      *
-     * @param world  the world to place the newly constructed robot in
-     * @param x      the X coordinate of the newly constructed robot
-     * @param y      the Y coordinate of the newly constructed robot
+     * @param world       the world to place the newly constructed robot in
+     * @param x           the X coordinate of the newly constructed robot
+     * @param y           the Y coordinate of the newly constructed robot
      * @param robotFamily the family of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y, RobotFamily robotFamily) {
@@ -171,7 +171,7 @@ public class Robot extends FieldEntity {
      * @param y             the Y coordinate of the newly constructed robot
      * @param direction     the viewing direction of the newly constructed robot
      * @param numberOfCoins the number of coins of the newly constructed robot
-     * @param robotFamily        the family of the newly constructed robot
+     * @param robotFamily   the family of the newly constructed robot
      */
     public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins, RobotFamily robotFamily) {
         super(x, y);
@@ -545,6 +545,9 @@ public class Robot extends FieldEntity {
     }
 
     /**
+     * Returns the robot family of this robot.
+     *
+     * @return the robot family of this robot
      * @deprecated Use {@link #getRobotFamily()} instead.
      */
     @Deprecated(since = "0.5.0")
@@ -564,6 +567,9 @@ public class Robot extends FieldEntity {
     }
 
     /**
+     * Sets the robot family of this robot.
+     *
+     * @param robotFamily the robot family of this robot
      * @deprecated Use {@link #setRobotFamily(RobotFamily)} instead.
      */
     @Deprecated(since = "0.5.0")
