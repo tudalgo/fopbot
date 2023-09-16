@@ -533,7 +533,9 @@ public class KarelWorld {
                 allEntitiesCopy.add(copy);
             }
         }
-        // TODO Using (0, 0) as position could be only a temporary solution. The use of an Field object does not seem appropriate here.
+        // TODO
+        // Using (0, 0) as position could be only a temporary solution.
+        // The use of an Field object does not seem appropriate here.
         entityStates.add(new Field(0, 0, allEntitiesCopy));
     }
 

@@ -20,7 +20,9 @@ public class Field {
 
     private @Nullable Color fieldColor;
 
-    private final int x, y;
+    private final int x;
+
+    private final int y;
 
     /**
      * Constructs a field with the given coordinate and no entities on it.
