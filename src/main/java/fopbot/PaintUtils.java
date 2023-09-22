@@ -33,6 +33,23 @@ class PaintUtils {
     public static final int BOARD_OFFSET = 20;
 
     /**
+     * A transform for transforming a point in the unscaled state of the panel to the corresponding field position.
+     */
+    public static final AffineTransform WORLD_TRANSFORM;
+
+    static {
+        WORLD_TRANSFORM = new AffineTransform();
+        WORLD_TRANSFORM.translate(
+                BOARD_OFFSET + FIELD_BORDER_THICKNESS / 2d,
+                BOARD_OFFSET + FIELD_BORDER_THICKNESS / 2d
+        );
+        WORLD_TRANSFORM.scale(
+                FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE,
+                FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE
+        );
+    }
+
+    /**
      * Returns the size of the board.
      *
      * @param world the world which is necessary for the calculation of the board size
