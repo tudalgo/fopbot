@@ -3,6 +3,7 @@ package fopbot;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -96,5 +97,21 @@ class PaintUtils {
         width += FIELD_INNER_OFFSET;
         height += FIELD_INNER_OFFSET;
         return new Point(width, height);
+    }
+
+    /**
+     * Returns a transform for transforming a point in the unscaled state of the given panel
+     * to the respective point in the scaled state of the given panel.
+     *
+     * @param panel the panel
+     * @return the transform
+     */
+    public static AffineTransform getPanelTransform(GuiPanel panel) {
+        var unscaled = panel.getUnscaledSize();
+        var scaled = panel.getSize();
+        return AffineTransform.getScaleInstance(
+                (double) scaled.width / (double) unscaled.width,
+                (double) scaled.height / (double) unscaled.height
+        );
     }
 }
