@@ -114,4 +114,8 @@ class PaintUtils {
                 (double) scaled.height / (double) unscaled.height
         );
     }
+
+    public static Point2D toPoint2D(Point point) {
+        return new Point2D.Double(point.getX(), point.getY());
+    }
 }
