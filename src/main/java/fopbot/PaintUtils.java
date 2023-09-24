@@ -136,6 +136,14 @@ class PaintUtils {
         return transform;
     }
 
+    public static AffineTransform getPanelWorldTransform(GuiPanel panel) {
+        var transform = new AffineTransform();
+        transform.concatenate(getPanelTransform(panel));
+        transform.concatenate(getWorldTransform(panel.world));
+
+        return transform;
+    }
+
     public static Point2D toPoint2D(Point point) {
         return new Point2D.Double(point.getX(), point.getY());
     }
