@@ -33,23 +33,6 @@ class PaintUtils {
     public static final int BOARD_OFFSET = 20;
 
     /**
-     * A transform for transforming a point in the unscaled state of the panel to the corresponding field position.
-     */
-    public static final AffineTransform WORLD_TRANSFORM;
-
-    static {
-        WORLD_TRANSFORM = new AffineTransform();
-        WORLD_TRANSFORM.translate(
-                BOARD_OFFSET + FIELD_BORDER_THICKNESS / 2d,
-                BOARD_OFFSET + FIELD_BORDER_THICKNESS / 2d
-        );
-        WORLD_TRANSFORM.scale(
-                FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE,
-                FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE
-        );
-    }
-
-    /**
      * Returns the size of the board.
      *
      * @param world the world which is necessary for the calculation of the board size
@@ -130,6 +113,27 @@ class PaintUtils {
                 (double) scaled.width / (double) unscaled.width,
                 (double) scaled.height / (double) unscaled.height
         );
+    }
+
+    /**
+     * Returns a transform for transforming a point in the unscaled state of the given panel
+     * to the respective field position in the given world.
+     *
+     * @param world the world
+     * @return the transform
+     */
+    public static AffineTransform getWorldTransform(KarelWorld world) {
+        var h = world.getHeight();
+        var transform = new AffineTransform();
+        transform.translate(
+                BOARD_OFFSET + .5 * FIELD_BORDER_THICKNESS,
+                BOARD_OFFSET + (h + .5) * FIELD_BORDER_THICKNESS + h * FIELD_INNER_SIZE
+        );
+        transform.scale(
+                FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE,
+                -1 * (FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE)
+        );
+        return transform;
     }
 
     public static Point2D toPoint2D(Point point) {
