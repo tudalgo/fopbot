@@ -67,6 +67,11 @@ public class InputHandler {
         this.listeners.add(eventHandler);
     }
 
+    /**
+     * Adds the screen listener to this input handler.
+     *
+     * @param screenListener the screen listener
+     */
     public void addFieldClickListener(FieldClickListener screenListener) {
         this.fieldClickListeners.add(screenListener);
     }
