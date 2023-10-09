@@ -23,6 +23,11 @@ $dokka.location:fopbot/Field/getFieldColor/#/PointingToDeclaration/-f-o-p-bot/f
 $dokka.location:fopbot/Field/getX/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-x.html
 $dokka.location:fopbot/Field/getY/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-y.html
 $dokka.location:fopbot/Field/setFieldColor/#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-field/set-field-color.html
+$dokka.location:fopbot/FieldClickEvent///PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/index.html
+$dokka.location:fopbot/FieldClickEvent/FieldClickEvent/#fopbot.Field/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/-field-click-event.html
+$dokka.location:fopbot/FieldClickEvent/getField/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/get-field.html
+$dokka.location:fopbot/FieldClickListener///PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-listener/index.html
+$dokka.location:fopbot/FieldClickListener/onFieldClick/#fopbot.FieldClickEvent/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-listener/on-field-click.html
 $dokka.location:fopbot/FieldEntity///PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/index.html
 $dokka.location:fopbot/FieldEntity/FieldEntity/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/-field-entity.html
 $dokka.location:fopbot/FieldEntity/getX/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/get-x.html
@@ -31,6 +36,7 @@ $dokka.location:fopbot/FieldEntity/setX/#int/PointingToDeclaration/-f-o-p-bot/f
 $dokka.location:fopbot/FieldEntity/setY/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/set-y.html
 $dokka.location:fopbot/InputHandler///PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/index.html
 $dokka.location:fopbot/InputHandler/InputHandler/#fopbot.GuiPanel/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/-input-handler.html
+$dokka.location:fopbot/InputHandler/addFieldClickListener/#fopbot.FieldClickListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-field-click-listener.html
 $dokka.location:fopbot/InputHandler/addListener/#java.awt.event.KeyListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-listener.html
 $dokka.location:fopbot/InputHandler/getKeysPressed/#/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/get-keys-pressed.html
 $dokka.location:fopbot/KarelWorld///PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/index.html
