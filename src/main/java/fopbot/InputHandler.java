@@ -3,6 +3,10 @@ package fopbot;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +29,8 @@ public class InputHandler {
      */
     private final List<KeyListener> listeners = new ArrayList<>();
 
+    private final List<FieldClickListener> fieldClickListeners = new ArrayList<>();
+
     // --Constructors-- //
 
     /**
@@ -34,6 +40,7 @@ public class InputHandler {
      */
     public InputHandler(final GuiPanel panel) {
         handleKeyboardInputs(panel);
+        handleFieldClickEvents(panel);
     }
 
     // --Getters and Setters-- //
@@ -61,6 +68,15 @@ public class InputHandler {
     }
 
     /**
+     * Adds the screen listener to this input handler.
+     *
+     * @param screenListener the screen listener
+     */
+    public void addFieldClickListener(FieldClickListener screenListener) {
+        this.fieldClickListeners.add(screenListener);
+    }
+
+    /**
      * Set up the keyboard handlers for the given panel.
      *
      * @param panel The panel to handle input for.
@@ -82,6 +98,30 @@ public class InputHandler {
             @Override
             public void keyTyped(final KeyEvent e) {
                 InputHandler.this.listeners.forEach(keyListener -> keyListener.keyTyped(e));
+            }
+        });
+    }
+
+    private void handleFieldClickEvents(GuiPanel panel) {
+        var world = panel.world;
+        panel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                var transform = PaintUtils.getPanelWorldTransform(panel);
+                var point = new Point2D.Double();
+                try {
+                    transform.inverseTransform(PaintUtils.toPoint2D(e.getPoint()), point);
+                } catch (NoninvertibleTransformException ex) {
+                    throw new RuntimeException(ex);
+                }
+                var x = point.getX();
+                var y = point.getY();
+                if (x < 0 || y < 0 || x >= world.getWidth() || y >= world.getHeight()) {
+                    return;
+                }
+                var event = new FieldClickEvent(world.getField((int) x, (int) y));
+                fieldClickListeners.forEach(l -> l.onFieldClick(event));
             }
         });
     }
