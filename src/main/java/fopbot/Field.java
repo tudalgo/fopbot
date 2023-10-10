@@ -1,5 +1,8 @@
 package fopbot;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,20 +18,34 @@ public class Field {
      */
     private final List<FieldEntity> entities;
 
+    private @Nullable Color fieldColor;
+
+    private final int x;
+
+    private final int y;
+
     /**
-     * Constructs and initializes a field with no entities on it.
+     * Constructs a field with the given coordinate and no entities on it.
+     *
+     * @param x the x-coordinate
+     * @param y the x-coordinate
      */
-    public Field() {
+    public Field(int x, int y) {
         entities = new LinkedList<>();
+        this.x = x;
+        this.y = y;
     }
 
     /**
-     * Constructs and initializes a field with the specified entities on it.
+     * Constructs a field with the given coordinate and the specified entities on it.
      *
-     * @param entities the  entities that are on the newly constructed field
+     * @param x        the x-coordinate
+     * @param y        the x-coordinate
+     * @param entities the entities
      */
-    public Field(List<FieldEntity> entities) {
-        this.entities = entities;
+    public Field(int x, int y, List<FieldEntity> entities) {
+        this(x, y);
+        this.entities.addAll(entities);
     }
 
     /**
@@ -38,5 +55,43 @@ public class Field {
      */
     public List<FieldEntity> getEntities() {
         return entities;
+    }
+
+    /**
+     * Sets the background color of this {@link Field} to the specified color.
+     * <p>If the specified color is {@code null}, the background color of this {@link Field}
+     * will be reset to the default color.</p>
+     *
+     * @param fieldColor the new background color of this {@link Field}
+     */
+    public void setFieldColor(final @Nullable Color fieldColor) {
+        this.fieldColor = fieldColor;
+    }
+
+    /**
+     * Returns the background color of this {@link Field}.
+     *
+     * @return the background color of this {@link Field}
+     */
+    public @Nullable Color getFieldColor() {
+        return fieldColor;
+    }
+
+    /**
+     * Returns the x-coordinate of this field.
+     *
+     * @return the x-coordinate.
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Returns the y-coordinate of this field.
+     *
+     * @return the y-coordinate
+     */
+    public int getY() {
+        return y;
     }
 }

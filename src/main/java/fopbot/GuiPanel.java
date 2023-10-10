@@ -209,7 +209,11 @@ class GuiPanel extends JPanel {
         g.setColor(Color.LIGHT_GRAY);
         for (int h = 0; h < world.getHeight(); h++) {
             for (int w = 0; w < world.getWidth(); w++) {
+                if (world.getField(w, World.getHeight() - h - 1).getFieldColor() != null) {
+                    g.setColor(world.getField(w, World.getHeight() - h - 1).getFieldColor());
+                }
                 g.fillRect(width, height, FIELD_INNER_SIZE, FIELD_INNER_SIZE);
+                g.setColor(Color.LIGHT_GRAY);
 
                 if (h == 99) {
                     g.setColor(Color.GREEN);
@@ -235,7 +239,7 @@ class GuiPanel extends JPanel {
 
         int directionIndex = r.getDirection().ordinal();
 
-        Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getFamily().getIdentifier());
+        Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getRobotFamily().getIdentifier());
         Objects.requireNonNull(imageMapById, "robot image was not found");
         Image robotImage = imageMapById.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
 

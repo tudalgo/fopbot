@@ -3,7 +3,9 @@ package fopbot;
 
 import fopbot.Transition.RobotAction;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
+import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.IOException;
@@ -54,10 +56,16 @@ public class KarelWorld {
      * The robot images by image identification.
      */
     private final Map<String, Map<String, Image[]>> robotImagesById;
+
+    /**
+     * The maximum number of actions that can be performed in this world.
+     */
+    private long actionLimit = -1;
     /**
      * The robot tracing of robot actions.
      */
     private final Map<String, RobotTrace> traces = new HashMap<>();
+
     /**
      * The fields of this world.
      */
@@ -104,7 +112,7 @@ public class KarelWorld {
         fields = new Field[height][width];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                fields[y][x] = new Field();
+                fields[y][x] = new Field(x, y);
             }
         }
     }
@@ -525,7 +533,10 @@ public class KarelWorld {
                 allEntitiesCopy.add(copy);
             }
         }
-        entityStates.add(new Field(allEntitiesCopy));
+        // TODO
+        // Using (0, 0) as position could be only a temporary solution.
+        // The use of an Field object does not seem appropriate here.
+        entityStates.add(new Field(0, 0, allEntitiesCopy));
     }
 
     /**
@@ -698,5 +709,67 @@ public class KarelWorld {
      */
     public InputHandler getInputHandler() {
         return GraphicsEnvironment.isHeadless() ? null : getGuiPanel().getInputHandler();
+    }
+
+    /**
+     * Sets the color of the field at the specified coordinates.
+     *
+     * @param x     the x coordinate of the field
+     * @param y     the y coordinate of the field
+     * @param color the color to set
+     */
+    public void setFieldColor(int x, int y, @Nullable Color color) {
+        fields[y][x].setFieldColor(color);
+    }
+
+    /**
+     * Returns the color of the field at the specified coordinates or {@code null} if no color is set.
+     *
+     * @param x the x coordinate of the field
+     * @param y the y coordinate of the field
+     * @return the color of the field at the specified coordinates or {@code null} if no color is set
+     */
+    public @Nullable Color getFieldColor(int x, int y) {
+        return fields[y][x].getFieldColor();
+    }
+
+    /**
+     * Returns the maximum amount of traces to be stored.
+     *
+     * @return the maximum amount of traces to be stored
+     */
+    @ApiStatus.Internal
+    public long getActionLimit() {
+        return actionLimit;
+    }
+
+    /**
+     * Sets the maximum amount of traces to be stored.
+     * <p>Since the action limit is there to prevent infinite loops, choose a reasonable value.</p>
+     *
+     * @param actionLimit the maximum amount of traces to be stored
+     */
+    @ApiStatus.Internal
+    public void setActionLimit(long actionLimit) {
+        this.actionLimit = actionLimit;
+    }
+
+    /**
+     * Returns the amount of traces stored. This is equivalent to the amount of actions performed in the world.
+     *
+     * @return the amount of traces stored
+     */
+    @ApiStatus.Internal
+    public long getActionCount() {
+        return traces.values().stream().mapToLong(rt -> rt.getTransitions().size()).sum();
+    }
+
+    /**
+     * Checks if the action limit is reached and throws an {@link IllegalStateException} if so.
+     */
+    void checkActionLimit() {
+        if (actionLimit >= 0 && getActionCount() >= getActionLimit()) {
+            throw new IllegalStateException("Too many traces, please check your program for infinite loops.");
+        }
     }
 }
