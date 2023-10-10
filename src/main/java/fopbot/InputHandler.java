@@ -63,7 +63,7 @@ public class InputHandler {
      * @param eventHandler The key to add.
      * @see #listeners
      */
-    public void addListener(final KeyListener eventHandler) {
+    public void addKeyListener(final KeyListener eventHandler) {
         this.listeners.add(eventHandler);
     }
 
