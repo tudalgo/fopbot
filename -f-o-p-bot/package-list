@@ -13,6 +13,10 @@ $dokka.location:fopbot/Direction.LEFT///PointingToDeclaration/{"org.jetbrains.do
 $dokka.location:fopbot/Direction.RIGHT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-direction/-r-i-g-h-t/index.html
 $dokka.location:fopbot/Direction.UP///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-direction/-u-p/index.html
 $dokka.location:fopbot/Direction///PointingToDeclaration/-f-o-p-bot/fopbot/-direction/index.html
+$dokka.location:fopbot/Direction/getDx/#/PointingToDeclaration/-f-o-p-bot/fopbot/-direction/get-dx.html
+$dokka.location:fopbot/Direction/getDy/#/PointingToDeclaration/-f-o-p-bot/fopbot/-direction/get-dy.html
+$dokka.location:fopbot/Direction/isHorizontal/#/PointingToDeclaration/-f-o-p-bot/fopbot/-direction/is-horizontal.html
+$dokka.location:fopbot/Direction/isVertical/#/PointingToDeclaration/-f-o-p-bot/fopbot/-direction/is-vertical.html
 $dokka.location:fopbot/Direction/valueOf/#java.lang.String/PointingToDeclaration/-f-o-p-bot/fopbot/-direction/value-of.html
 $dokka.location:fopbot/Direction/values/#/PointingToDeclaration/-f-o-p-bot/fopbot/-direction/values.html
 $dokka.location:fopbot/Field///PointingToDeclaration/-f-o-p-bot/fopbot/-field/index.html
