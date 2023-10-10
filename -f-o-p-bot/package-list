@@ -41,7 +41,7 @@ $dokka.location:fopbot/FieldEntity/setY/#int/PointingToDeclaration/-f-o-p-bot/f
 $dokka.location:fopbot/InputHandler///PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/index.html
 $dokka.location:fopbot/InputHandler/InputHandler/#fopbot.GuiPanel/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/-input-handler.html
 $dokka.location:fopbot/InputHandler/addFieldClickListener/#fopbot.FieldClickListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-field-click-listener.html
-$dokka.location:fopbot/InputHandler/addListener/#java.awt.event.KeyListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-listener.html
+$dokka.location:fopbot/InputHandler/addKeyListener/#java.awt.event.KeyListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-key-listener.html
 $dokka.location:fopbot/InputHandler/getKeysPressed/#/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/get-keys-pressed.html
 $dokka.location:fopbot/KarelWorld///PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/index.html
 $dokka.location:fopbot/KarelWorld/KarelWorld/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/-karel-world.html
