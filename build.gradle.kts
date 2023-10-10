@@ -7,7 +7,7 @@ import java.net.URL
 
 @Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.10"
     `java-library`
     alias(libs.plugins.style)
     alias(libs.plugins.dokka)
