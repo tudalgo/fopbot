@@ -20,6 +20,8 @@ public class Field {
 
     private @Nullable Color fieldColor;
 
+    private final KarelWorld world;
+
     private final int x;
 
     private final int y;
@@ -30,8 +32,9 @@ public class Field {
      * @param x the x-coordinate
      * @param y the x-coordinate
      */
-    public Field(int x, int y) {
+    public Field(KarelWorld world, int x, int y) {
         entities = new LinkedList<>();
+        this.world = world;
         this.x = x;
         this.y = y;
     }
@@ -43,8 +46,8 @@ public class Field {
      * @param y        the x-coordinate
      * @param entities the entities
      */
-    public Field(int x, int y, List<FieldEntity> entities) {
-        this(x, y);
+    public Field(KarelWorld world, int x, int y, List<FieldEntity> entities) {
+        this(world, x, y);
         this.entities.addAll(entities);
     }
 
@@ -93,5 +96,14 @@ public class Field {
      */
     public int getY() {
         return y;
+    }
+
+    /**
+     * Returns the world of this field.
+     *
+     * @return the world
+     */
+    public KarelWorld getWorld() {
+        return world;
     }
 }
