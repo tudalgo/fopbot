@@ -69,6 +69,7 @@ public class Field {
      */
     public void setFieldColor(final @Nullable Color fieldColor) {
         this.fieldColor = fieldColor;
+        world.getGuiPanel().updateGui();
     }
 
     /**
