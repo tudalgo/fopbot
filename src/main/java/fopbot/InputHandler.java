@@ -31,6 +31,15 @@ public class InputHandler {
 
     private final List<FieldClickListener> fieldClickListeners = new ArrayList<>();
 
+    /**
+     * Returns the input handler of the global world.
+     *
+     * @return the input handler
+     */
+    public static InputHandler getInputHandler() {
+        return World.getGlobalWorld().getInputHandler();
+    }
+
     // --Constructors-- //
 
     /**
