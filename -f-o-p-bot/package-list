@@ -20,10 +20,11 @@ $dokka.location:fopbot/Direction/isVertical/#/PointingToDeclaration/-f-o-p-bot/
 $dokka.location:fopbot/Direction/valueOf/#java.lang.String/PointingToDeclaration/-f-o-p-bot/fopbot/-direction/value-of.html
 $dokka.location:fopbot/Direction/values/#/PointingToDeclaration/-f-o-p-bot/fopbot/-direction/values.html
 $dokka.location:fopbot/Field///PointingToDeclaration/-f-o-p-bot/fopbot/-field/index.html
-$dokka.location:fopbot/Field/Field/#int#int#java.util.List<fopbot.FieldEntity>/PointingToDeclaration/-f-o-p-bot/fopbot/-field/-field.html
-$dokka.location:fopbot/Field/Field/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-field/-field.html
+$dokka.location:fopbot/Field/Field/#fopbot.KarelWorld#int#int#java.util.List<fopbot.FieldEntity>/PointingToDeclaration/-f-o-p-bot/fopbot/-field/-field.html
+$dokka.location:fopbot/Field/Field/#fopbot.KarelWorld#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-field/-field.html
 $dokka.location:fopbot/Field/getEntities/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-entities.html
 $dokka.location:fopbot/Field/getFieldColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-field-color.html
+$dokka.location:fopbot/Field/getWorld/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-world.html
 $dokka.location:fopbot/Field/getX/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-x.html
 $dokka.location:fopbot/Field/getY/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-y.html
 $dokka.location:fopbot/Field/setFieldColor/#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-field/set-field-color.html
