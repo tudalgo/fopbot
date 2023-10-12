@@ -112,7 +112,7 @@ public class KarelWorld {
         fields = new Field[height][width];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                fields[y][x] = new Field(x, y);
+                fields[y][x] = new Field(this, x, y);
             }
         }
     }
@@ -536,7 +536,7 @@ public class KarelWorld {
         // TODO
         // Using (0, 0) as position could be only a temporary solution.
         // The use of an Field object does not seem appropriate here.
-        entityStates.add(new Field(0, 0, allEntitiesCopy));
+        entityStates.add(new Field(this, 0, 0, allEntitiesCopy));
     }
 
     /**
