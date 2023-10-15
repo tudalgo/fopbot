@@ -29,6 +29,7 @@ public class Field {
     /**
      * Constructs a field with the given coordinate and no entities on it.
      *
+     * @param world the world
      * @param x the x-coordinate
      * @param y the x-coordinate
      */
@@ -42,6 +43,7 @@ public class Field {
     /**
      * Constructs a field with the given coordinate and the specified entities on it.
      *
+     * @param world    the world
      * @param x        the x-coordinate
      * @param y        the x-coordinate
      * @param entities the entities
