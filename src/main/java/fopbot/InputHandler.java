@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The InputHandler is responsible for handling input events of the {@link GuiPanel}.
@@ -30,6 +32,11 @@ public class InputHandler {
     private final List<KeyListener> listeners = new ArrayList<>();
 
     private final List<FieldClickListener> fieldClickListeners = new ArrayList<>();
+
+    /**
+     * An executor service for executing input events.
+     */
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /**
      * Returns the input handler of the global world.
@@ -95,18 +102,18 @@ public class InputHandler {
             @Override
             public void keyPressed(final KeyEvent e) {
                 InputHandler.this.keysPressed.add(e.getKeyCode());
-                InputHandler.this.listeners.forEach(keyListener -> keyListener.keyPressed(e));
+                InputHandler.this.listeners.forEach(keyListener -> executorService.submit(() -> keyListener.keyPressed(e)));
             }
 
             @Override
             public void keyReleased(final KeyEvent e) {
                 InputHandler.this.keysPressed.remove(e.getKeyCode());
-                InputHandler.this.listeners.forEach(keyListener -> keyListener.keyReleased(e));
+                InputHandler.this.listeners.forEach(keyListener -> executorService.submit(() -> keyListener.keyReleased(e)));
             }
 
             @Override
             public void keyTyped(final KeyEvent e) {
-                InputHandler.this.listeners.forEach(keyListener -> keyListener.keyTyped(e));
+                InputHandler.this.listeners.forEach(keyListener -> executorService.submit(() -> keyListener.keyTyped(e)));
             }
         });
     }
@@ -130,7 +137,7 @@ public class InputHandler {
                     return;
                 }
                 var event = new FieldClickEvent(world.getField((int) x, (int) y));
-                fieldClickListeners.forEach(l -> l.onFieldClick(event));
+                fieldClickListeners.forEach(l -> executorService.submit(() -> l.onFieldClick(event)));
             }
         });
     }
