@@ -235,6 +235,9 @@ class GuiPanel extends JPanel {
      * @param g the {@code Graphics} context in which to paint
      */
     protected void drawRobot(Robot r, Graphics g) {
+        if (r.isTurnedOff() && !world.isDrawTurnedOffRobots()) {
+            return;
+        }
         Point upperLeft = getUpperLeftCornerInField(r, world.getHeight());
 
         int directionIndex = r.getDirection().ordinal();

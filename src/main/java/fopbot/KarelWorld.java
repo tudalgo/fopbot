@@ -93,6 +93,11 @@ public class KarelWorld {
     private boolean imagesLoaded = false;
 
     /**
+     * Whether to draw turned off robots.
+     */
+    private boolean drawTurnedOffRobots = true;
+
+    /**
      * Constructs and initializes a world with the specified size.
      *
      * @param width  the width of the newly constructed world
@@ -195,6 +200,24 @@ public class KarelWorld {
      */
     public void setDelay(int delay) {
         this.delay = delay;
+    }
+
+    /**
+     * Returns true if turned off robots are drawn.
+     *
+     * @return true if turned off robots are drawn
+     */
+    public boolean isDrawTurnedOffRobots() {
+        return drawTurnedOffRobots;
+    }
+
+    /**
+     * Sets whether turned off robots should be drawn.
+     *
+     * @param drawTurnedOffRobots true if turned off robots should be drawn
+     */
+    public void setDrawTurnedOffRobots(final boolean drawTurnedOffRobots) {
+        this.drawTurnedOffRobots = drawTurnedOffRobots;
     }
 
     /**
