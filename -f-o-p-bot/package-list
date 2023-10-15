@@ -69,6 +69,7 @@ $dokka.location:fopbot/KarelWorld/getWidth/#/PointingToDeclaration/-f-o-p-bot/f
 $dokka.location:fopbot/KarelWorld/isAnotherRobotInField/#int#int#fopbot.Robot/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-another-robot-in-field.html
 $dokka.location:fopbot/KarelWorld/isBlockInField/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-block-in-field.html
 $dokka.location:fopbot/KarelWorld/isCoinInField/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-coin-in-field.html
+$dokka.location:fopbot/KarelWorld/isDrawTurnedOffRobots/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-draw-turned-off-robots.html
 $dokka.location:fopbot/KarelWorld/isVisible/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-visible.html
 $dokka.location:fopbot/KarelWorld/isWallInField/#int#int#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-wall-in-field.html
 $dokka.location:fopbot/KarelWorld/loadImagesIfNotLoaded/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/load-images-if-not-loaded.html
@@ -82,6 +83,7 @@ $dokka.location:fopbot/KarelWorld/setActionLimit/#long/PointingToDeclaration/-f
 $dokka.location:fopbot/KarelWorld/setAndLoadRobotImages/#java.lang.Class<? extends fopbot.Robot>#java.io.InputStream#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images.html
 $dokka.location:fopbot/KarelWorld/setAndLoadRobotImagesById/#java.lang.String#java.io.InputStream#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images-by-id.html
 $dokka.location:fopbot/KarelWorld/setDelay/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-delay.html
+$dokka.location:fopbot/KarelWorld/setDrawTurnedOffRobots/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-draw-turned-off-robots.html
 $dokka.location:fopbot/KarelWorld/setFieldColor/#int#int#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-field-color.html
 $dokka.location:fopbot/KarelWorld/setGuiPanel/#fopbot.GuiPanel/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-gui-panel.html
 $dokka.location:fopbot/KarelWorld/setVisible/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-visible.html
