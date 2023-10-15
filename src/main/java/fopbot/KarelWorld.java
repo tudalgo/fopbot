@@ -92,6 +92,9 @@ public class KarelWorld {
      */
     private boolean imagesLoaded = false;
 
+    /**
+     * Whether to draw turned off robots.
+     */
     private boolean drawTurnedOffRobots = true;
 
     /**
