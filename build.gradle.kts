@@ -31,6 +31,9 @@ java {
 
 dependencies {
     implementation(libs.annotations)
+    implementation(libs.imageio)
+    implementation(libs.batik)
+    implementation(libs.imageio.batik)
     dokkaPlugin(libs.dokkaKotlinAsJavaPlugin)
     dokkaPlugin(libs.dokkaVersioningPlugin)
 }

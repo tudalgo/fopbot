@@ -1,5 +1,7 @@
 package fopbot;
 
+import com.twelvemonkeys.imageio.plugins.svg.SVGReadParam;
+
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
@@ -9,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
 
 /**
  * A utility class that provides useful drawing operations.
@@ -54,11 +57,19 @@ class PaintUtils {
      *                     ImageInputStream.
      */
     protected static Image[] loadScaleRotateFieldImage(InputStream inputImage, int upRotationOffset) throws IOException {
-        Image[] rotations = new Image[4];
+        final Image[] rotations = new Image[4];
 
-        BufferedImage originalBufferedImage = ImageIO.read(inputImage);
+        final ImageReadParam param = new SVGReadParam();
+        final var sizeMultiplier = 2;
+        param.setSourceRenderSize(new java.awt.Dimension(
+            sizeMultiplier * FIELD_INNER_SIZE,
+            sizeMultiplier * FIELD_INNER_SIZE
+        ));
+        final var reader = ImageIO.getImageReadersByFormatName("SVG").next();
+        reader.setInput(ImageIO.createImageInputStream(inputImage), true);
+        final BufferedImage originalBufferedImage = reader.read(0, param);
 
-        int imageSize = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
+        final int imageSize = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
 
         int degrees = upRotationOffset;
         for (int i = 0; i < 4; i++) {
@@ -66,14 +77,14 @@ class PaintUtils {
                 degrees += 90;
             }
             // rotate image
-            AffineTransform af = new AffineTransform();
+            final AffineTransform af = new AffineTransform();
             af.rotate(Math.toRadians(degrees),
                 originalBufferedImage.getWidth() / 2d,
                 originalBufferedImage.getHeight() / 2d);
-            AffineTransformOp afop = new AffineTransformOp(af, AffineTransformOp.TYPE_BILINEAR);
-            BufferedImage rotatedImage = afop.filter(originalBufferedImage, null);
+            final AffineTransformOp afop = new AffineTransformOp(af, AffineTransformOp.TYPE_BILINEAR);
+            final BufferedImage rotatedImage = afop.filter(originalBufferedImage, null);
             // scale image
-            Image scaledImage = rotatedImage.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
+            final Image scaledImage = rotatedImage.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
 
             rotations[i] = scaledImage;
         }
