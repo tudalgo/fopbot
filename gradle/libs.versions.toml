@@ -8,5 +8,5 @@ imageio-batik = "com.twelvemonkeys.imageio:imageio-batik:3.9.4"
 batik= "org.apache.xmlgraphics:batik-all:1.17"
 [plugins]
 style = "org.sourcegrade.style:3.0.0"
-dokka = "org.jetbrains.dokka:1.9.0"
+dokka = "org.jetbrains.dokka:1.9.10"
 
