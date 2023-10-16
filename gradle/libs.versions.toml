@@ -1,6 +1,6 @@
 [libraries]
 annotations = "org.jetbrains:annotations:24.0.1"
-dokkaKotlinAsJavaPlugin = "org.jetbrains.dokka:kotlin-as-java-plugin:1.9.0"
+dokkaKotlinAsJavaPlugin = "org.jetbrains.dokka:kotlin-as-java-plugin:1.9.10"
 dokkaVersioningPlugin = "org.jetbrains.dokka:versioning-plugin:1.9.0"
 dokkaBase = "org.jetbrains.dokka:dokka-base:1.9.0"
 imageio = "com.twelvemonkeys.imageio:imageio-core:3.9.4"
