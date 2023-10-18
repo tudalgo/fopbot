@@ -5,6 +5,7 @@ import fopbot.Transition.RobotAction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
@@ -380,7 +381,8 @@ public class KarelWorld {
             if (guiGp == null) {
                 guiGp = new GuiPanel(this);
             }
-            guiFrame.add(guiGp);
+            guiFrame.setLayout(new BorderLayout());
+            guiFrame.add(guiGp, BorderLayout.CENTER);
             guiFrame.pack();
             guiFrame.setVisible(true);
             triggerUpdate();

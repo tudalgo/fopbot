@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -35,7 +37,8 @@ import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 /**
  * The graphical user interface in which the FOPBot world is represented.
  */
-class GuiPanel extends JPanel {
+@ApiStatus.Internal
+public class GuiPanel extends JPanel {
 
     /**
      * The world that is to be displayed on the graphical user interface.
@@ -126,17 +129,25 @@ class GuiPanel extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        Image image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gImage = (Graphics2D) image.getGraphics();
+    public void paintComponent(final Graphics g) {
+        final BufferedImage image = new BufferedImage(
+            getUnscaledSize().width,
+            getUnscaledSize().height,
+            BufferedImage.TYPE_INT_ARGB
+        );
+        final Graphics2D gImage = (Graphics2D) image.getGraphics();
         gImage.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         draw(gImage);
 
-        if (getWidth() != getUnscaledSize().width || getHeight() != getUnscaledSize().height) {
-            image = image.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-        }
-
-        g.drawImage(image, 0, 0, null);
+        final double targetAspectRatio = (double) world.getWidth() / (double) world.getHeight();
+        final int width = (int) Math.min(getWidth(), getHeight() * targetAspectRatio);
+        final int height = (int) Math.min(getHeight(), getWidth() / targetAspectRatio);
+        g.drawImage(
+            PaintUtils.scaleImageWithGPU(image, width, height),
+            (getWidth() - width) / 2,
+            (getHeight() - height) / 2,
+            null
+        );
     }
 
     /**

@@ -2,6 +2,9 @@ package fopbot;
 
 import com.twelvemonkeys.imageio.plugins.svg.SVGReadParam;
 
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
@@ -162,5 +165,42 @@ class PaintUtils {
 
     public static Point2D toPoint2D(Point point) {
         return new Point2D.Double(point.getX(), point.getY());
+    }
+
+    /**
+     * Returns an image that is optimized for displaying at the specified width and height.
+     *
+     * @param image  the image to scale
+     * @param width  the width of the scaled image
+     * @param height the height of the scaled image
+     * @return the scaled image
+     */
+    static BufferedImage scaleImageWithGPU(final BufferedImage image, final int width, final int height) {
+        // obtain the current system graphical settings
+        final GraphicsConfiguration gfxConfig = GraphicsEnvironment
+            .getLocalGraphicsEnvironment()
+            .getDefaultScreenDevice()
+            .getDefaultConfiguration();
+
+        /*
+         * if image is already compatible and optimized for the target resolution, simply return it
+         */
+        if (image.getColorModel().equals(gfxConfig.getColorModel())
+            && image.getWidth() == width
+            && image.getHeight() == height) {
+            return image;
+        }
+
+        // image is not optimized, so create a new image that is
+        final BufferedImage newImage = gfxConfig.createCompatibleImage(width, height, image.getTransparency());
+
+        // get the graphics context of the new image to draw the old image on
+        final Graphics2D g2d = newImage.createGraphics();
+
+        // actually draw the image and dispose of context no longer needed
+        g2d.drawImage(image, 0, 0, width, height, null);
+        g2d.dispose();
+        // return the new optimized image
+        return newImage;
     }
 }
