@@ -84,7 +84,12 @@ class PaintUtils {
             final AffineTransformOp afop = new AffineTransformOp(af, AffineTransformOp.TYPE_BILINEAR);
             final BufferedImage rotatedImage = afop.filter(originalBufferedImage, null);
             // scale image
-            final Image scaledImage = rotatedImage.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
+            final String osName = System.getProperty("os.name").toLowerCase();
+            final Image scaledImage = rotatedImage.getScaledInstance(
+                imageSize,
+                imageSize,
+                osName.contains("win") ? Image.SCALE_DEFAULT : Image.SCALE_SMOOTH
+            );
 
             rotations[i] = scaledImage;
         }
