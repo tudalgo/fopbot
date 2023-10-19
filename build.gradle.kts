@@ -7,7 +7,7 @@ import java.net.URL
 
 @Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-    kotlin("jvm") version "1.9.10"
+    alias(libs.plugins.kotlin.jvm)
     `java-library`
     alias(libs.plugins.style)
     alias(libs.plugins.dokka)
@@ -31,7 +31,6 @@ java {
 
 dependencies {
     implementation(libs.annotations)
-    implementation(libs.imageio)
     implementation(libs.batik)
     implementation(libs.imageio.batik)
     dokkaPlugin(libs.dokkaKotlinAsJavaPlugin)
