@@ -10,6 +10,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,11 +19,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -66,6 +71,11 @@ public class GuiPanel extends JPanel {
     private double scaleFactor = 1.0;
 
     /**
+     * Whether the dark mode is enabled.
+     */
+    private boolean darkMode = false;
+
+    /**
      * Constructs and initializes graphical use interface to represent the FOP Bot world.
      *
      * @param world the FOP Bot world to represent on the graphical user interface
@@ -75,6 +85,37 @@ public class GuiPanel extends JPanel {
         this.inputHandler = new InputHandler(this);
         setSize(getPreferredSize());
         setFocusable(true);
+
+        // default key bindings
+        inputHandler.addKeyListener(new KeyAdapter() {
+            /**
+             * A set of keys that were pressed.
+             */
+            private final Set<Integer> keysWerePressed = new HashSet<>();
+
+            @Override
+            public void keyPressed(final KeyEvent e) {
+                if (keysWerePressed.contains(e.getKeyCode())) {
+                    return;
+                }
+                // toggle dark mode with F8
+                if (e.getKeyCode() == KeyEvent.VK_F8) {
+                    toggleDarkMode();
+                    System.out.printf("%s dark mode%n", isDarkMode() ? "Enabled" : "Disabled");
+                }
+                // Record Screenshot with F2
+                if (e.getKeyCode() == KeyEvent.VK_F2) {
+                    saveStateAsPng();
+                }
+
+                keysWerePressed.add(e.getKeyCode());
+            }
+
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                keysWerePressed.remove(e.getKeyCode());
+            }
+        });
     }
 
     /**
@@ -112,9 +153,9 @@ public class GuiPanel extends JPanel {
             }
         }
 
-        String state = Long.toString(screenshotCounter);
+        final StringBuilder state = new StringBuilder(Long.toString(screenshotCounter));
         while (state.length() != 4) {
-            state = "0" + state;
+            state.insert(0, "0");
         }
 
         final String imagePath = "screenshots/" + startDate + "/karel_" + state + ".png";
@@ -153,6 +194,8 @@ public class GuiPanel extends JPanel {
         final Graphics2D gImage = (Graphics2D) image.getGraphics();
         gImage.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         draw(gImage);
+        g.setColor(darkMode ? Color.BLACK : Color.WHITE);
+        g.fillRect(0, 0, getWidth(), getHeight());
         g.drawImage(
             PaintUtils.scaleImageWithGPU(image, width, height),
             (getWidth() - width) / 2,
@@ -217,14 +260,14 @@ public class GuiPanel extends JPanel {
         // draw outer borders
         int width = BOARD_OFFSET;
         int height = BOARD_OFFSET;
-        g.setColor(Color.BLACK);
+        g.setColor(darkMode ? Color.WHITE : Color.BLACK);
         final Point p = getBoardSize(world);
         g.fillRect(scale(width), scale(height), scale(p.x), scale(p.y));
 
         // draw inner borders
         width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
         height = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
-        g.setColor(Color.GRAY);
+        g.setColor(darkMode ? new Color(60, 60, 60) : Color.GRAY);
         g.fillRect(
             scale(width),
             scale(height),
@@ -233,19 +276,19 @@ public class GuiPanel extends JPanel {
         );
 
         // draw fields
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(darkMode ? new Color(25, 25, 30) : Color.LIGHT_GRAY);
         for (int h = 0; h < world.getHeight(); h++) {
             for (int w = 0; w < world.getWidth(); w++) {
                 if (world.getField(w, World.getHeight() - h - 1).getFieldColor() != null) {
                     g.setColor(world.getField(w, World.getHeight() - h - 1).getFieldColor());
                 }
                 g.fillRect(scale(width), scale(height), scale(FIELD_INNER_SIZE), scale(FIELD_INNER_SIZE));
-                g.setColor(Color.LIGHT_GRAY);
+                g.setColor(darkMode ? new Color(25, 25, 30) : Color.LIGHT_GRAY);
 
                 if (h == 99) {
                     g.setColor(Color.GREEN);
                     g.drawString(width + ";" + height, width, height);
-                    g.setColor(Color.LIGHT_GRAY);
+                    g.setColor(darkMode ? new Color(25, 25, 30) : Color.LIGHT_GRAY);
                 }
 
                 width += FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE;
@@ -295,7 +338,7 @@ public class GuiPanel extends JPanel {
         final Color cBackup = g.getColor();
 
         final Point upperLeft = getUpperLeftCornerInField(c, world.getHeight());
-        g.setColor(Color.RED);
+        g.setColor(darkMode ? new Color(255, 140, 26) : Color.RED);
         final int size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
         g.fillOval(scale(upperLeft.x), scale(upperLeft.y), scale(size), scale(size));
         g.setColor(Color.BLACK);
@@ -334,7 +377,7 @@ public class GuiPanel extends JPanel {
      */
     protected void drawWall(final Wall w, final Graphics g) {
         final Color cBackup = g.getColor();
-        g.setColor(Color.BLACK);
+        g.setColor(darkMode ? Color.WHITE : Color.BLACK);
 
         final Point upperLeft = getUpperLeftCornerInField(w, world.getHeight());
         if (w.isHorizontal()) {
@@ -409,5 +452,31 @@ public class GuiPanel extends JPanel {
      */
     public InputHandler getInputHandler() {
         return inputHandler;
+    }
+
+    /**
+     * Returns whether the dark mode is enabled.
+     *
+     * @return true if the dark mode is enabled, false otherwise
+     */
+    public boolean isDarkMode() {
+        return darkMode;
+    }
+
+    /**
+     * Sets whether the dark mode is enabled.
+     *
+     * @param darkMode true if the dark mode is enabled, false otherwise
+     */
+    public void setDarkMode(final boolean darkMode) {
+        this.darkMode = darkMode;
+        updateGui();
+    }
+
+    /**
+     * Toggles the dark mode.
+     */
+    public void toggleDarkMode() {
+        setDarkMode(!isDarkMode());
     }
 }
