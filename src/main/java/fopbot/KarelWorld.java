@@ -5,10 +5,10 @@ import fopbot.Transition.RobotAction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +20,9 @@ import java.util.Map;
 import java.util.stream.Stream;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
+import static fopbot.PaintUtils.FIELD_INNER_OFFSET;
+import static fopbot.PaintUtils.FIELD_INNER_SIZE;
 
 /**
  * Represents the FOP Bot world on a graphical user interface.
@@ -56,6 +59,11 @@ public class KarelWorld {
      * The robot images by image identification.
      */
     private final Map<String, Map<String, Image[]>> robotImagesById;
+
+    /**
+     * The current image size of the robot textures. This value will be dynamically adjusted if needed.
+     */
+    private int robotImageSize = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
 
     /**
      * The maximum number of actions that can be performed in this world.
@@ -104,7 +112,9 @@ public class KarelWorld {
      * @param height the height of the newly constructed world
      * @throws RuntimeException if the world size is smaller than one
      */
-    public KarelWorld(int width, int height) {
+    public KarelWorld(final int width, final int height) {
+        System.setProperty("sun.java2d.dpiaware", "false");
+        System.setProperty("sun.java2d.uiScale", "1.0");
         if (width < 1 || height < 1) {
             throw new RuntimeException("Invalid world size: " + width + "x" + height);
         }
@@ -127,7 +137,7 @@ public class KarelWorld {
      *
      * @param robot the robot to place
      */
-    public void addRobot(Robot robot) {
+    public void addRobot(final Robot robot) {
         fields[robot.getY()][robot.getX()].getEntities().add(robot);
         robot.setId(Integer.toString(robotCount));
         robotCount++;
@@ -142,7 +152,7 @@ public class KarelWorld {
      * @param numberOfCoins the number of coins to check
      * @throws RuntimeException if the number of coins is negative
      */
-    protected void checkNumberOfCoins(int numberOfCoins) {
+    protected void checkNumberOfCoins(final int numberOfCoins) {
         if (numberOfCoins < 0) {
             throw new IllegalArgumentException("Number of coins must be greater than -1!");
         }
@@ -154,7 +164,7 @@ public class KarelWorld {
      * @param x the X coordinate to validate
      * @throws RuntimeException if the X coordinate is outside the world borders
      */
-    protected void checkXCoordinate(int x) {
+    protected void checkXCoordinate(final int x) {
         if (x > getWidth() - 1 || x < 0) {
             throw new IllegalArgumentException("Invalid x-coordinate: " + x);
         }
@@ -166,7 +176,7 @@ public class KarelWorld {
      * @param y the Y coordinate to validate
      * @throws RuntimeException if the Y coordinate is outside the world borders
      */
-    protected void checkYCoordinate(int y) {
+    protected void checkYCoordinate(final int y) {
         if (y > getHeight() - 1 || y < 0) {
             throw new IllegalArgumentException("Invalid y-coordinate: " + y);
         }
@@ -198,7 +208,7 @@ public class KarelWorld {
      *
      * @param delay the delay value in milliseconds
      */
-    public void setDelay(int delay) {
+    public void setDelay(final int delay) {
         this.delay = delay;
     }
 
@@ -236,7 +246,7 @@ public class KarelWorld {
      * @param y the Y coordinate of the field.
      * @return the field of this world at the specified coordinate
      */
-    protected Field getField(int x, int y) {
+    protected Field getField(final int x, final int y) {
         return fields[y][x];
     }
 
@@ -257,7 +267,7 @@ public class KarelWorld {
      * @deprecated use robot families instead
      */
     @Deprecated
-    protected Map<String, Image[]> getRobotImageMap(Class<? extends Robot> robotClass) {
+    protected Map<String, Image[]> getRobotImageMap(final Class<? extends Robot> robotClass) {
         return robotImages.get(robotClass);
     }
 
@@ -267,7 +277,7 @@ public class KarelWorld {
      * @param imageId the image identification related to the map
      * @return robot image map related to the specified image identification.
      */
-    protected Map<String, Image[]> getRobotImageMapById(String imageId) {
+    protected Map<String, Image[]> getRobotImageMapById(final String imageId) {
         return robotImagesById.get(imageId);
     }
 
@@ -277,11 +287,11 @@ public class KarelWorld {
      * @param robot the robot to retrieve its tracing
      * @return the previous robot tracing of the specified robot
      */
-    public RobotTrace getTrace(Robot robot) {
+    public RobotTrace getTrace(final Robot robot) {
         if (robot == null) {
             return null;
         }
-        var robotTrace = new RobotTrace(traces.get(robot.getId()));
+        final var robotTrace = new RobotTrace(traces.get(robot.getId()));
         robotTrace.trace(robot, RobotAction.NONE);
         return robotTrace;
     }
@@ -292,13 +302,13 @@ public class KarelWorld {
      * @return the previous robots tracing
      */
     public List<RobotTrace> getTraces() {
-        var traces = new ArrayList<RobotTrace>();
-        var entities = getAllFieldEntities().stream()
+        final var traces = new ArrayList<RobotTrace>();
+        final var entities = getAllFieldEntities().stream()
             .filter(Robot.class::isInstance)
             .map(Robot.class::cast)
             .toList();
-        for (var id : this.traces.keySet()) {
-            Robot lastState = entities.stream().filter(en -> en.getId().equals(id)).findAny().orElse(null);
+        for (final var id : this.traces.keySet()) {
+            final Robot lastState = entities.stream().filter(en -> en.getId().equals(id)).findAny().orElse(null);
             traces.add(getTrace(lastState));
         }
         return traces;
@@ -316,12 +326,12 @@ public class KarelWorld {
     /**
      * Returns {@code true} if the specified robot is located at the specified coordinate.
      *
-     * @param x the X coordinate to check with the robot X coordinate
-     * @param y the Y coordinate to check with the robot Y coordinate
+     * @param x     the X coordinate to check with the robot X coordinate
+     * @param y     the Y coordinate to check with the robot Y coordinate
      * @param robot the robot to check with the coordinate
      * @return {@code true} if the specified robot is located at the specified coordinate
      */
-    protected boolean isAnotherRobotInField(int x, int y, Robot robot) {
+    protected boolean isAnotherRobotInField(final int x, final int y, final Robot robot) {
         return fields[y][x].getEntities().stream()
             .anyMatch(e -> e instanceof Robot && e != robot);
     }
@@ -333,7 +343,7 @@ public class KarelWorld {
      * @param y the Y coordinate to check
      * @return {@code true} if a block is at the specified coordinate
      */
-    protected boolean isBlockInField(int x, int y) {
+    protected boolean isBlockInField(final int x, final int y) {
         return fields[y][x].getEntities().stream()
             .anyMatch(Block.class::isInstance);
     }
@@ -345,7 +355,7 @@ public class KarelWorld {
      * @param y the Y coordinate to check
      * @return {@code true} if at least one coin is on the specified coordinate
      */
-    protected boolean isCoinInField(int x, int y) {
+    protected boolean isCoinInField(final int x, final int y) {
         return fields[y][x].getEntities().stream()
             .anyMatch(Coin.class::isInstance);
     }
@@ -354,8 +364,8 @@ public class KarelWorld {
      * Returns {@code true} if this world is visible on the graphical user interface. Returns
      * {@code false} if this world is running in headless mode.
      *
-     * @return {@code true} if this world is visible on the graphical user interface. Returns
-     *     {@code false} if this world is running in headless mode
+     * @return {@code true} if this world is visible on the graphical user interface.
+     *     Returns {@code false} if this world is running in headless mode
      */
     public boolean isVisible() {
         return !GraphicsEnvironment.isHeadless() && guiFrame != null && guiFrame.isVisible();
@@ -368,7 +378,7 @@ public class KarelWorld {
      *
      * @param visible if {@code true} this world will be visible on the graphical user interface
      */
-    public void setVisible(boolean visible) {
+    public void setVisible(final boolean visible) {
         if (GraphicsEnvironment.isHeadless()) {
             System.out.println("Cannot set world visible in headless mode. Ignoring.");
             return;
@@ -380,7 +390,8 @@ public class KarelWorld {
             if (guiGp == null) {
                 guiGp = new GuiPanel(this);
             }
-            guiFrame.add(guiGp);
+            guiFrame.setLayout(new BorderLayout());
+            guiFrame.add(guiGp, BorderLayout.CENTER);
             guiFrame.pack();
             guiFrame.setVisible(true);
             triggerUpdate();
@@ -400,7 +411,7 @@ public class KarelWorld {
      * @param horizontal if {@code true} check its horizontal orientation
      * @return {@code true} if the specified wall and its orientation are on the specified field
      */
-    protected boolean isWallInField(int x, int y, boolean horizontal) {
+    protected boolean isWallInField(final int x, final int y, final boolean horizontal) {
         return fields[y][x].getEntities().stream()
             .anyMatch(e -> e instanceof Wall && ((Wall) e).isHorizontal() == horizontal);
     }
@@ -413,11 +424,11 @@ public class KarelWorld {
      * @param y the Y coordinate to pick up the coin
      * @return {@code true} if a coin was removed at the specified coordinate after this call
      */
-    protected boolean pickCoin(int x, int y) {
-        Iterator<FieldEntity> iterator = fields[y][x].getEntities().iterator();
+    protected boolean pickCoin(final int x, final int y) {
+        final Iterator<FieldEntity> iterator = fields[y][x].getEntities().iterator();
         while (iterator.hasNext()) {
-            FieldEntity entity = iterator.next();
-            if (entity instanceof Coin coin) {
+            final FieldEntity entity = iterator.next();
+            if (entity instanceof final Coin coin) {
                 // if coins already placed in this field, decrease number
                 if (coin.getCount() > 1) {
                     coin.setCount(coin.getCount() - 1);
@@ -437,7 +448,7 @@ public class KarelWorld {
      * @param x the X coordinate of the block
      * @param y the Y coordinate of the block
      */
-    public void placeBlock(int x, int y) {
+    public void placeBlock(final int x, final int y) {
         checkXCoordinate(x);
         checkYCoordinate(y);
         if (fields[y][x].getEntities().stream().anyMatch(Block.class::isInstance)) {
@@ -453,7 +464,7 @@ public class KarelWorld {
      * @param x the X coordinate of the horizontal wall
      * @param y the Y coordinate of the horizontal wall
      */
-    public void placeHorizontalWall(int x, int y) {
+    public void placeHorizontalWall(final int x, final int y) {
         placeWall(x, y, true);
     }
 
@@ -463,7 +474,7 @@ public class KarelWorld {
      * @param x the X coordinate of the vertical wall
      * @param y the Y coordinate of the vertical wall
      */
-    public void placeVerticalWall(int x, int y) {
+    public void placeVerticalWall(final int x, final int y) {
         placeWall(x, y, false);
     }
 
@@ -474,7 +485,7 @@ public class KarelWorld {
      * @param y          the Y coordinate of the wall
      * @param horizontal if {@code true} horizontal wall will be placed
      */
-    private void placeWall(int x, int y, boolean horizontal) {
+    private void placeWall(final int x, final int y, final boolean horizontal) {
         checkXCoordinate(x);
         checkYCoordinate(y);
         if (isWallInField(x, y, horizontal)) {
@@ -492,7 +503,7 @@ public class KarelWorld {
      * @param numberOfCoins the number of coins to place
      * @throws RuntimeException if the number of coins is smaller than 1
      */
-    public void putCoins(int x, int y, int numberOfCoins) {
+    public void putCoins(final int x, final int y, final int numberOfCoins) {
         checkXCoordinate(x);
         checkYCoordinate(y);
         checkNumberOfCoins(numberOfCoins);
@@ -500,8 +511,8 @@ public class KarelWorld {
             throw new IllegalArgumentException("Number of coins must be greater than 0!");
         }
 
-        for (FieldEntity entity : fields[y][x].getEntities()) {
-            if (entity instanceof Coin coin) {
+        for (final FieldEntity entity : fields[y][x].getEntities()) {
+            if (entity instanceof final Coin coin) {
                 // if coins already placed in this field, increase number
                 coin.setCount(coin.getCount() + numberOfCoins);
                 triggerUpdate();
@@ -509,7 +520,7 @@ public class KarelWorld {
             }
         }
         // else place first coin
-        Coin c = new Coin(x, y, numberOfCoins);
+        final Coin c = new Coin(x, y, numberOfCoins);
         fields[y][x].getEntities().add(c);
         triggerUpdate();
     }
@@ -532,27 +543,27 @@ public class KarelWorld {
             entityStates = new LinkedList<>();
         }
         // copy entities
-        List<FieldEntity> allEntities = getAllFieldEntities();
-        List<FieldEntity> allEntitiesCopy = new ArrayList<>(allEntities.size());
-        for (FieldEntity entity : allEntities) {
-            if (entity instanceof Robot robot) {
-                Robot copy = new Robot(true, robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins());
+        final List<FieldEntity> allEntities = getAllFieldEntities();
+        final List<FieldEntity> allEntitiesCopy = new ArrayList<>(allEntities.size());
+        for (final FieldEntity entity : allEntities) {
+            if (entity instanceof final Robot robot) {
+                final Robot copy = new Robot(true, robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins());
                 copy.setId(String.valueOf(robot.hashCode()));
                 allEntitiesCopy.add(copy);
             }
 
-            if (entity instanceof Coin coin) {
-                Coin copy = new Coin(coin.getX(), coin.getY(), coin.getCount());
+            if (entity instanceof final Coin coin) {
+                final Coin copy = new Coin(coin.getX(), coin.getY(), coin.getCount());
                 allEntitiesCopy.add(copy);
             }
 
-            if (entity instanceof Block block) {
-                Block copy = new Block(block.getX(), block.getY());
+            if (entity instanceof final Block block) {
+                final Block copy = new Block(block.getX(), block.getY());
                 allEntitiesCopy.add(copy);
             }
 
-            if (entity instanceof Wall wall) {
-                Wall copy = new Wall(wall.getX(), wall.getY(), wall.isHorizontal());
+            if (entity instanceof final Wall wall) {
+                final Wall copy = new Wall(wall.getX(), wall.getY(), wall.isHorizontal());
                 allEntitiesCopy.add(copy);
             }
         }
@@ -569,29 +580,20 @@ public class KarelWorld {
      * @param turnedOff         the image of the robot turned off
      * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
      * @param rotationOffsetOff the rotation offset of the turned off robot in degree
+     * @param targetSize        the target size of the loaded images
      * @return the loaded robot images
      */
-    private Map<String, Image[]> setAndLoadRobotImages(InputStream turnedOn, InputStream turnedOff,
-                                                       int rotationOffsetOn, int rotationOffsetOff) {
-        Image[] turnedOnImages = null;
-        Image[] turnedOffImages = null;
-
-        try {
-            turnedOnImages = PaintUtils.loadScaleRotateFieldImage(turnedOn, rotationOffsetOn);
-        } catch (IOException e) {
-            System.err.println("Could not load robot image! " + turnedOn);
-        }
-
-        try {
-            turnedOffImages = PaintUtils.loadScaleRotateFieldImage(turnedOff, rotationOffsetOff);
-        } catch (IOException e) {
-            System.err.println("Could not load robot image! " + turnedOff);
-        }
-
-        Map<String, Image[]> imageMap = new HashMap<>();
-        imageMap.put("on", turnedOnImages);
-        imageMap.put("off", turnedOffImages);
-        return imageMap;
+    private Map<String, Image[]> setAndLoadRobotImages(
+        final InputStream turnedOn,
+        final InputStream turnedOff,
+        final int rotationOffsetOn,
+        final int rotationOffsetOff,
+        final int targetSize
+    ) {
+        return Map.ofEntries(
+            Map.entry("on", PaintUtils.loadScaleRotateFieldImage(turnedOn, rotationOffsetOn, targetSize)),
+            Map.entry("off", PaintUtils.loadScaleRotateFieldImage(turnedOff, rotationOffsetOff, targetSize))
+        );
     }
 
     /**
@@ -602,10 +604,23 @@ public class KarelWorld {
      * @param turnedOff         the image of the robot turned off
      * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
      * @param rotationOffsetOff the rotation offset of the turned off robot in degree
+     * @param targetSize        the target size of the loaded images
      */
-    public void setAndLoadRobotImages(Class<? extends Robot> robotClass, InputStream turnedOn, InputStream turnedOff,
-                                      int rotationOffsetOn, int rotationOffsetOff) {
-        robotImages.put(robotClass, setAndLoadRobotImages(turnedOn, turnedOff, rotationOffsetOn, rotationOffsetOff));
+    public void setAndLoadRobotImages(
+        final Class<? extends Robot> robotClass,
+        final InputStream turnedOn,
+        final InputStream turnedOff,
+        final int rotationOffsetOn,
+        final int rotationOffsetOff,
+        final int targetSize
+    ) {
+        robotImages.put(robotClass, setAndLoadRobotImages(
+            turnedOn,
+            turnedOff,
+            rotationOffsetOn,
+            rotationOffsetOff,
+            targetSize
+        ));
     }
 
     /**
@@ -616,10 +631,23 @@ public class KarelWorld {
      * @param turnedOff         the image of the robot turned off
      * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
      * @param rotationOffsetOff the rotation offset of the turned off robot in degree
+     * @param targetSize        the target size of the loaded images
      */
-    public void setAndLoadRobotImagesById(String imageId, InputStream turnedOn, InputStream turnedOff,
-                                          int rotationOffsetOn, int rotationOffsetOff) {
-        robotImagesById.put(imageId, setAndLoadRobotImages(turnedOn, turnedOff, rotationOffsetOn, rotationOffsetOff));
+    public void setAndLoadRobotImagesById(
+        final String imageId,
+        final InputStream turnedOn,
+        final InputStream turnedOff,
+        final int rotationOffsetOn,
+        final int rotationOffsetOff,
+        final int targetSize
+    ) {
+        robotImagesById.put(imageId, setAndLoadRobotImages(
+            turnedOn,
+            turnedOff,
+            rotationOffsetOn,
+            rotationOffsetOff,
+            targetSize
+        ));
     }
 
     /**
@@ -634,7 +662,7 @@ public class KarelWorld {
         }
         try {
             Thread.sleep(delay);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -642,11 +670,11 @@ public class KarelWorld {
     /**
      * Traces the action of the specified robot.
      *
-     * @param robot the robot to trace
+     * @param robot       the robot to trace
      * @param robotAction the action of the robot to trace
      */
-    void trace(Robot robot, RobotAction robotAction) {
-        var robotTrace = traces.get(robot.getId());
+    void trace(final Robot robot, final RobotAction robotAction) {
+        final var robotTrace = traces.get(robot.getId());
         robotTrace.trace(robot, robotAction);
     }
 
@@ -678,10 +706,10 @@ public class KarelWorld {
      * Updates the entity array to be in sync with the robots X and Y coordinates.
      *
      * @param robot the robot to sync with
-     * @param oldX the old X coordinate of the robot
-     * @param oldY the old Y coordinate of the robot
+     * @param oldX  the old X coordinate of the robot
+     * @param oldY  the old Y coordinate of the robot
      */
-    protected void updateRobotField(Robot robot, int oldX, int oldY) {
+    protected void updateRobotField(final Robot robot, final int oldX, final int oldY) {
         if (fields[oldY][oldX].getEntities().removeIf(entity -> entity == robot)) {
             fields[robot.getY()][robot.getX()].getEntities().add(robot);
         }
@@ -695,12 +723,27 @@ public class KarelWorld {
             return;
         }
         // load robot images
-        for (RobotFamily f : RobotFamily.values()) {
-            var streamOn = getClass().getResourceAsStream(String.format("/robots/%s_on.svg", f.getIdentifier()));
-            var streamOff = getClass().getResourceAsStream(String.format("/robots/%s_off.svg", f.getIdentifier()));
-            setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
+        for (final RobotFamily f : RobotFamily.values()) {
+            final var streamOn = getClass().getResourceAsStream(String.format("/robots/%s_on.svg", f.getIdentifier()));
+            final var streamOff = getClass().getResourceAsStream(String.format("/robots/%s_off.svg", f.getIdentifier()));
+            setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0, robotImageSize);
         }
         imagesLoaded = true;
+    }
+
+    /**
+     * Returns the current size of the robot images.
+     *
+     * @return the current size of the robot images
+     */
+    int getRobotImageSize() {
+        return robotImageSize;
+    }
+
+    void rescaleRobotImages(final int size) {
+        this.imagesLoaded = false;
+        this.robotImageSize = size;
+        this.loadImagesIfNotLoaded();
     }
 
     /**
@@ -721,7 +764,7 @@ public class KarelWorld {
      * @param guiPanel the {@link GuiPanel} of this world
      */
     @ApiStatus.Internal
-    public void setGuiPanel(GuiPanel guiPanel) {
+    public void setGuiPanel(final GuiPanel guiPanel) {
         this.guiGp = guiPanel;
     }
 
@@ -741,7 +784,7 @@ public class KarelWorld {
      * @param y     the y coordinate of the field
      * @param color the color to set
      */
-    public void setFieldColor(int x, int y, @Nullable Color color) {
+    public void setFieldColor(final int x, final int y, @Nullable final Color color) {
         fields[y][x].setFieldColor(color);
     }
 
@@ -752,7 +795,7 @@ public class KarelWorld {
      * @param y the y coordinate of the field
      * @return the color of the field at the specified coordinates or {@code null} if no color is set
      */
-    public @Nullable Color getFieldColor(int x, int y) {
+    public @Nullable Color getFieldColor(final int x, final int y) {
         return fields[y][x].getFieldColor();
     }
 
@@ -773,7 +816,7 @@ public class KarelWorld {
      * @param actionLimit the maximum amount of traces to be stored
      */
     @ApiStatus.Internal
-    public void setActionLimit(long actionLimit) {
+    public void setActionLimit(final long actionLimit) {
         this.actionLimit = actionLimit;
     }
 
