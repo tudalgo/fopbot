@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="logo-icon.svg" align="float" width="50%" alt="jagr logo">
+    <img src="logo-icon.svg" align="float" width="25%" alt="jagr logo">
     <h1>FOPBot</h1>
 </div>
 
