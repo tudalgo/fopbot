@@ -2,15 +2,15 @@ import org.jetbrains.dokka.DokkaConfiguration.Visibility
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.sourcegrade.fopbot.script.FoPBotPublishPlugin
 import java.net.URL
 
-@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     alias(libs.plugins.kotlin.jvm)
     `java-library`
     alias(libs.plugins.style)
     alias(libs.plugins.dokka)
+    id("fopbot-publish")
+    id("fopbot-sign")
 }
 
 buildscript {
@@ -21,8 +21,6 @@ buildscript {
 
 group = "org.tudalgo"
 version = file("version").readLines().first()
-
-apply<FoPBotPublishPlugin>()
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
