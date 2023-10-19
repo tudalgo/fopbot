@@ -16,7 +16,7 @@ import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
 import java.net.URI
 
-class FOPBotPublishPlugin : Plugin<Project> {
+class FoPBotPublishPlugin : Plugin<Project> {
   override fun apply(target: Project) = target.afterEvaluate { configure() }
   private fun Project.configure() {
     apply<JavaBasePlugin>()
@@ -43,13 +43,13 @@ class FOPBotPublishPlugin : Plugin<Project> {
           from(components["java"])
           pom {
             artifactId = "fopbot"
-            name.set("FOPBot")
+            name.set("FoPBot")
             description.set("A small environment with robot agents used for teaching programming basics")
             url.set("https://www.sourcegrade.org")
             scm {
-              url.set("https://github.com/FOP-2022/FOPBot")
-              connection.set("scm:git:https://github.com/FOP-2022/FOPBot.git")
-              developerConnection.set("scm:git:https://github.com/FOP-2022/FOPBot.git")
+              url.set("https://github.com/tudalgo/fopbot")
+              connection.set("scm:git:https://github.com/tudalgo/fopbot.git")
+              developerConnection.set("scm:git:https://github.com/tudalgo/fopbot.git")
             }
             licenses {
               license {

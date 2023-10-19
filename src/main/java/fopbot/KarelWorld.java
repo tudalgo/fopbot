@@ -385,7 +385,7 @@ public class KarelWorld {
         }
         loadImagesIfNotLoaded();
         if (visible && guiFrame == null) {
-            guiFrame = new JFrame("FopBot");
+            guiFrame = new JFrame("FoPBot");
             guiFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             if (guiGp == null) {
                 guiGp = new GuiPanel(this);
@@ -708,7 +708,7 @@ public class KarelWorld {
     }
 
     /**
-     * Load all images for displaying FOPBot if required.
+     * Load all images for displaying FoPBot if required.
      */
     protected void loadImagesIfNotLoaded() {
         if (imagesLoaded) {

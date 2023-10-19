@@ -41,7 +41,7 @@ import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
 /**
- * The graphical user interface in which the FOPBot world is represented.
+ * The graphical user interface in which the FoPBot world is represented.
  */
 @ApiStatus.Internal
 public class GuiPanel extends JPanel {
