@@ -72,7 +72,7 @@ class FOPBotPublishPlugin : Plugin<Project> {
       }
     }
     extensions.configure<SigningExtension> {
-      //sign(extensions.getByType<PublishingExtension>().publications)
+      sign(extensions.getByType<PublishingExtension>().publications)
     }
   }
 }
