@@ -39,6 +39,23 @@ $dokka.location:fopbot/FieldEntity/getX/#/PointingToDeclaration/-f-o-p-bot/fopb
 $dokka.location:fopbot/FieldEntity/getY/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/get-y.html
 $dokka.location:fopbot/FieldEntity/setX/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/set-x.html
 $dokka.location:fopbot/FieldEntity/setY/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/set-y.html
+$dokka.location:fopbot/GuiPanel///PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/index.html
+$dokka.location:fopbot/GuiPanel/GuiPanel/#fopbot.KarelWorld/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/-gui-panel.html
+$dokka.location:fopbot/GuiPanel/draw/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw.html
+$dokka.location:fopbot/GuiPanel/drawBlock/#fopbot.Block#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-block.html
+$dokka.location:fopbot/GuiPanel/drawBoard/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-board.html
+$dokka.location:fopbot/GuiPanel/drawCoin/#fopbot.Coin#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-coin.html
+$dokka.location:fopbot/GuiPanel/drawRobot/#fopbot.Robot#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-robot.html
+$dokka.location:fopbot/GuiPanel/drawWall/#fopbot.Wall#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-wall.html
+$dokka.location:fopbot/GuiPanel/getInputHandler/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-input-handler.html
+$dokka.location:fopbot/GuiPanel/getPreferredSize/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-preferred-size.html
+$dokka.location:fopbot/GuiPanel/getUnscaledSize/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-unscaled-size.html
+$dokka.location:fopbot/GuiPanel/isDarkMode/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/is-dark-mode.html
+$dokka.location:fopbot/GuiPanel/paintComponent/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/paint-component.html
+$dokka.location:fopbot/GuiPanel/saveStateAsPng/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/save-state-as-png.html
+$dokka.location:fopbot/GuiPanel/setDarkMode/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/set-dark-mode.html
+$dokka.location:fopbot/GuiPanel/toggleDarkMode/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/toggle-dark-mode.html
+$dokka.location:fopbot/GuiPanel/updateGui/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/update-gui.html
 $dokka.location:fopbot/InputHandler///PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/index.html
 $dokka.location:fopbot/InputHandler/InputHandler/#fopbot.GuiPanel/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/-input-handler.html
 $dokka.location:fopbot/InputHandler/addFieldClickListener/#fopbot.FieldClickListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-field-click-listener.html
@@ -80,8 +97,8 @@ $dokka.location:fopbot/KarelWorld/placeVerticalWall/#int#int/PointingToDeclarati
 $dokka.location:fopbot/KarelWorld/putCoins/#int#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/put-coins.html
 $dokka.location:fopbot/KarelWorld/reset/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/reset.html
 $dokka.location:fopbot/KarelWorld/setActionLimit/#long/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-action-limit.html
-$dokka.location:fopbot/KarelWorld/setAndLoadRobotImages/#java.lang.Class<? extends fopbot.Robot>#java.io.InputStream#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images.html
-$dokka.location:fopbot/KarelWorld/setAndLoadRobotImagesById/#java.lang.String#java.io.InputStream#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images-by-id.html
+$dokka.location:fopbot/KarelWorld/setAndLoadRobotImages/#java.lang.Class<? extends fopbot.Robot>#java.io.InputStream#java.io.InputStream#int#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images.html
+$dokka.location:fopbot/KarelWorld/setAndLoadRobotImagesById/#java.lang.String#java.io.InputStream#java.io.InputStream#int#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images-by-id.html
 $dokka.location:fopbot/KarelWorld/setDelay/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-delay.html
 $dokka.location:fopbot/KarelWorld/setDrawTurnedOffRobots/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-draw-turned-off-robots.html
 $dokka.location:fopbot/KarelWorld/setFieldColor/#int#int#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-field-color.html
