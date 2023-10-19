@@ -385,7 +385,7 @@ public class KarelWorld {
         }
         loadImagesIfNotLoaded();
         if (visible && guiFrame == null) {
-            guiFrame = new JFrame("FoopBot");
+            guiFrame = new JFrame("FopBot");
             guiFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             if (guiGp == null) {
                 guiGp = new GuiPanel(this);

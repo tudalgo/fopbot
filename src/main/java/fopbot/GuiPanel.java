@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -105,7 +106,11 @@ public class GuiPanel extends JPanel {
                 }
                 // Record Screenshot with F2
                 if (e.getKeyCode() == KeyEvent.VK_F2) {
-                    saveStateAsPng();
+                    try {
+                        saveStateAsPng();
+                    } catch (final RuntimeException ex) {
+                        ex.printStackTrace();
+                    }
                 }
 
                 keysWerePressed.add(e.getKeyCode());
@@ -148,10 +153,11 @@ public class GuiPanel extends JPanel {
             final Date date = new Date();
             startDate = dateFormat.format(date);
             final File dir = new File("screenshots/" + startDate);
-            if (!dir.mkdir()) {
+            if (!dir.mkdirs()) {
                 throw new RuntimeException("Could not create screenshot directory!");
             }
         }
+
 
         final StringBuilder state = new StringBuilder(Long.toString(screenshotCounter));
         while (state.length() != 4) {
@@ -170,6 +176,7 @@ public class GuiPanel extends JPanel {
         );
         try {
             ImageIO.write(image, "png", new File(imagePath));
+            System.out.println("Saved screenshot to " + Path.of(imagePath).toAbsolutePath());
         } catch (final IOException ex) {
             System.err.println(ex.getMessage());
         }
