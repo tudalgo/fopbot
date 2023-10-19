@@ -97,8 +97,8 @@ $dokka.location:fopbot/KarelWorld/placeVerticalWall/#int#int/PointingToDeclarati
 $dokka.location:fopbot/KarelWorld/putCoins/#int#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/put-coins.html
 $dokka.location:fopbot/KarelWorld/reset/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/reset.html
 $dokka.location:fopbot/KarelWorld/setActionLimit/#long/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-action-limit.html
-$dokka.location:fopbot/KarelWorld/setAndLoadRobotImages/#java.lang.Class<? extends fopbot.Robot>#java.io.InputStream#java.io.InputStream#int#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images.html
-$dokka.location:fopbot/KarelWorld/setAndLoadRobotImagesById/#java.lang.String#java.io.InputStream#java.io.InputStream#int#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images-by-id.html
+$dokka.location:fopbot/KarelWorld/setAndLoadRobotImages/#java.lang.Class<? extends fopbot.Robot>#java.io.InputStream#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images.html
+$dokka.location:fopbot/KarelWorld/setAndLoadRobotImagesById/#java.lang.String#java.io.InputStream#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images-by-id.html
 $dokka.location:fopbot/KarelWorld/setDelay/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-delay.html
 $dokka.location:fopbot/KarelWorld/setDrawTurnedOffRobots/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-draw-turned-off-robots.html
 $dokka.location:fopbot/KarelWorld/setFieldColor/#int#int#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-field-color.html
