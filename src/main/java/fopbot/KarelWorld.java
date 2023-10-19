@@ -580,19 +580,17 @@ public class KarelWorld {
      * @param turnedOff         the image of the robot turned off
      * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
      * @param rotationOffsetOff the rotation offset of the turned off robot in degree
-     * @param targetSize        the target size of the loaded images
      * @return the loaded robot images
      */
     private Map<String, Image[]> setAndLoadRobotImages(
         final InputStream turnedOn,
         final InputStream turnedOff,
         final int rotationOffsetOn,
-        final int rotationOffsetOff,
-        final int targetSize
+        final int rotationOffsetOff
     ) {
         return Map.ofEntries(
-            Map.entry("on", PaintUtils.loadScaleRotateFieldImage(turnedOn, rotationOffsetOn, targetSize)),
-            Map.entry("off", PaintUtils.loadScaleRotateFieldImage(turnedOff, rotationOffsetOff, targetSize))
+            Map.entry("on", PaintUtils.loadScaleRotateFieldImage(turnedOn, rotationOffsetOn, robotImageSize)),
+            Map.entry("off", PaintUtils.loadScaleRotateFieldImage(turnedOff, rotationOffsetOff, robotImageSize))
         );
     }
 
@@ -604,22 +602,19 @@ public class KarelWorld {
      * @param turnedOff         the image of the robot turned off
      * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
      * @param rotationOffsetOff the rotation offset of the turned off robot in degree
-     * @param targetSize        the target size of the loaded images
      */
     public void setAndLoadRobotImages(
         final Class<? extends Robot> robotClass,
         final InputStream turnedOn,
         final InputStream turnedOff,
         final int rotationOffsetOn,
-        final int rotationOffsetOff,
-        final int targetSize
+        final int rotationOffsetOff
     ) {
         robotImages.put(robotClass, setAndLoadRobotImages(
             turnedOn,
             turnedOff,
             rotationOffsetOn,
-            rotationOffsetOff,
-            targetSize
+            rotationOffsetOff
         ));
     }
 
@@ -631,22 +626,19 @@ public class KarelWorld {
      * @param turnedOff         the image of the robot turned off
      * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
      * @param rotationOffsetOff the rotation offset of the turned off robot in degree
-     * @param targetSize        the target size of the loaded images
      */
     public void setAndLoadRobotImagesById(
         final String imageId,
         final InputStream turnedOn,
         final InputStream turnedOff,
         final int rotationOffsetOn,
-        final int rotationOffsetOff,
-        final int targetSize
+        final int rotationOffsetOff
     ) {
         robotImagesById.put(imageId, setAndLoadRobotImages(
             turnedOn,
             turnedOff,
             rotationOffsetOn,
-            rotationOffsetOff,
-            targetSize
+            rotationOffsetOff
         ));
     }
 
@@ -726,7 +718,7 @@ public class KarelWorld {
         for (final RobotFamily f : RobotFamily.values()) {
             final var streamOn = getClass().getResourceAsStream(String.format("/robots/%s_on.svg", f.getIdentifier()));
             final var streamOff = getClass().getResourceAsStream(String.format("/robots/%s_off.svg", f.getIdentifier()));
-            setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0, robotImageSize);
+            setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
         }
         imagesLoaded = true;
     }
