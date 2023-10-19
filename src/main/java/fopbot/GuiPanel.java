@@ -61,11 +61,16 @@ public class GuiPanel extends JPanel {
     protected InputHandler inputHandler;
 
     /**
+     * The current scale factor of the graphical user interface.
+     */
+    private double scaleFactor = 1.0;
+
+    /**
      * Constructs and initializes graphical use interface to represent the FOP Bot world.
      *
      * @param world the FOP Bot world to represent on the graphical user interface
      */
-    public GuiPanel(KarelWorld world) {
+    public GuiPanel(final KarelWorld world) {
         this.world = world;
         this.inputHandler = new InputHandler(this);
         setSize(getPreferredSize());
@@ -78,7 +83,7 @@ public class GuiPanel extends JPanel {
      * @return the unscaled size of world board size
      */
     protected Dimension getUnscaledSize() {
-        Point p = getBoardSize(world);
+        final Point p = getBoardSize(world);
         int width = p.x;
         int height = p.y;
         width += 2 * BOARD_OFFSET;
@@ -98,10 +103,10 @@ public class GuiPanel extends JPanel {
      */
     protected void saveStateAsPng() {
         if (screenshotCounter == 0L) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-            Date date = new Date();
+            final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+            final Date date = new Date();
             startDate = dateFormat.format(date);
-            File dir = new File("screenshots/" + startDate);
+            final File dir = new File("screenshots/" + startDate);
             if (!dir.mkdir()) {
                 throw new RuntimeException("Could not create screenshot directory!");
             }
@@ -112,36 +117,42 @@ public class GuiPanel extends JPanel {
             state = "0" + state;
         }
 
-        String imagePath = "screenshots/" + startDate + "/karel_" + state + ".png";
+        final String imagePath = "screenshots/" + startDate + "/karel_" + state + ".png";
         screenshotCounter++;
 
         BufferedImage image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = image.getGraphics();
+        final Graphics g = image.getGraphics();
         draw(g);
         image = image.getSubimage(BOARD_OFFSET, BOARD_OFFSET,
-            getUnscaledSize().width - BOARD_OFFSET * 2,
-            getUnscaledSize().height - BOARD_OFFSET * 2);
+                                  getUnscaledSize().width - BOARD_OFFSET * 2,
+                                  getUnscaledSize().height - BOARD_OFFSET * 2
+        );
         try {
             ImageIO.write(image, "png", new File(imagePath));
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             System.err.println(ex.getMessage());
         }
     }
 
     @Override
     public void paintComponent(final Graphics g) {
+        final Dimension unscaledSize = getUnscaledSize();
+        final double targetAspectRatio = unscaledSize.getWidth() / unscaledSize.getHeight();
+        final int width = (int) Math.min(getWidth(), getHeight() * targetAspectRatio);
+        final int height = (int) Math.min(getHeight(), getWidth() / targetAspectRatio);
+        this.scaleFactor = Math.min(
+            (double) width / (double) unscaledSize.width,
+            (double) height / (double) unscaledSize.height
+        );
+
         final BufferedImage image = new BufferedImage(
-            getUnscaledSize().width,
-            getUnscaledSize().height,
+            width,
+            height,
             BufferedImage.TYPE_INT_ARGB
         );
         final Graphics2D gImage = (Graphics2D) image.getGraphics();
         gImage.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         draw(gImage);
-
-        final double targetAspectRatio = (double) world.getWidth() / (double) world.getHeight();
-        final int width = (int) Math.min(getWidth(), getHeight() * targetAspectRatio);
-        final int height = (int) Math.min(getHeight(), getWidth() / targetAspectRatio);
         g.drawImage(
             PaintUtils.scaleImageWithGPU(image, width, height),
             (getWidth() - width) / 2,
@@ -160,12 +171,12 @@ public class GuiPanel extends JPanel {
      * @see #drawWall(Wall, Graphics)
      * @see #drawRobot(Robot, Graphics)
      */
-    protected void draw(Graphics g) {
+    protected void draw(final Graphics g) {
         drawBoard(g);
 
-        List<FieldEntity> entities = world.getAllFieldEntities();
-        List<Robot> robots = new LinkedList<>();
-        for (FieldEntity ce : entities) {
+        final List<FieldEntity> entities = world.getAllFieldEntities();
+        final List<Robot> robots = new LinkedList<>();
+        for (final FieldEntity ce : entities) {
             if (ce instanceof Robot) {
                 // collect robots, so they can be drawn last
                 // robots are always on top of every other field object
@@ -192,7 +203,7 @@ public class GuiPanel extends JPanel {
         }
 
         // draw robots last
-        for (Robot r : robots) {
+        for (final Robot r : robots) {
             drawRobot(r, g);
         }
     }
@@ -202,19 +213,24 @@ public class GuiPanel extends JPanel {
      *
      * @param g the {@code Graphics} context in which to paint
      */
-    protected void drawBoard(Graphics g) {
+    protected void drawBoard(final Graphics g) {
         // draw outer borders
         int width = BOARD_OFFSET;
         int height = BOARD_OFFSET;
         g.setColor(Color.BLACK);
-        Point p = getBoardSize(world);
-        g.fillRect(width, height, p.x, p.y);
+        final Point p = getBoardSize(world);
+        g.fillRect(scale(width), scale(height), scale(p.x), scale(p.y));
 
         // draw inner borders
         width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
         height = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
         g.setColor(Color.GRAY);
-        g.fillRect(width, height, p.x - FIELD_BORDER_THICKNESS * 2, p.y - FIELD_BORDER_THICKNESS * 2);
+        g.fillRect(
+            scale(width),
+            scale(height),
+            scale(p.x - FIELD_BORDER_THICKNESS * 2),
+            scale(p.y - FIELD_BORDER_THICKNESS * 2)
+        );
 
         // draw fields
         g.setColor(Color.LIGHT_GRAY);
@@ -223,7 +239,7 @@ public class GuiPanel extends JPanel {
                 if (world.getField(w, World.getHeight() - h - 1).getFieldColor() != null) {
                     g.setColor(world.getField(w, World.getHeight() - h - 1).getFieldColor());
                 }
-                g.fillRect(width, height, FIELD_INNER_SIZE, FIELD_INNER_SIZE);
+                g.fillRect(scale(width), scale(height), scale(FIELD_INNER_SIZE), scale(FIELD_INNER_SIZE));
                 g.setColor(Color.LIGHT_GRAY);
 
                 if (h == 99) {
@@ -245,21 +261,26 @@ public class GuiPanel extends JPanel {
      * @param r the {@code Robot} to draw
      * @param g the {@code Graphics} context in which to paint
      */
-    protected void drawRobot(Robot r, Graphics g) {
+    protected void drawRobot(final Robot r, final Graphics g) {
         if (r.isTurnedOff() && !world.isDrawTurnedOffRobots()) {
             return;
         }
-        Point upperLeft = getUpperLeftCornerInField(r, world.getHeight());
+        final Point upperLeft = getUpperLeftCornerInField(r, world.getHeight());
 
-        int directionIndex = r.getDirection().ordinal();
+        final int directionIndex = r.getDirection().ordinal();
 
-        Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getRobotFamily().getIdentifier());
+        final int targetRobotImageSize = scale(FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2);
+        if (world.getRobotImageSize() != targetRobotImageSize) {
+            world.rescaleRobotImages(targetRobotImageSize);
+        }
+
+        final Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getRobotFamily().getIdentifier());
         Objects.requireNonNull(imageMapById, "robot image was not found");
-        Image robotImage = imageMapById.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
+        final Image robotImage = imageMapById.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
 
-        g.drawImage(robotImage, upperLeft.x, upperLeft.y, null);
+        g.drawImage(robotImage, scale(upperLeft.x), scale(upperLeft.y), null);
 
-        Color cBackup = g.getColor();
+        final Color cBackup = g.getColor();
 
         g.setColor(cBackup);
     }
@@ -270,16 +291,20 @@ public class GuiPanel extends JPanel {
      * @param c the {@code Coin} to draw
      * @param g the {@code Graphics} context in which to paint
      */
-    protected void drawCoin(Coin c, Graphics g) {
-        Color cBackup = g.getColor();
+    protected void drawCoin(final Coin c, final Graphics g) {
+        final Color cBackup = g.getColor();
 
-        Point upperLeft = getUpperLeftCornerInField(c, world.getHeight());
+        final Point upperLeft = getUpperLeftCornerInField(c, world.getHeight());
         g.setColor(Color.RED);
-        int size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
-        g.fillOval(upperLeft.x, upperLeft.y, size, size);
+        final int size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
+        g.fillOval(scale(upperLeft.x), scale(upperLeft.y), scale(size), scale(size));
         g.setColor(Color.BLACK);
-        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 16));
-        g.drawString(Integer.toString(c.getCount()), upperLeft.x + size / 2, upperLeft.y + size / 2);
+        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, scale(16)));
+        g.drawString(
+            Integer.toString(c.getCount()),
+            scale(upperLeft.x + size / 2),
+            scale(upperLeft.y + size / 2)
+        );
 
         g.setColor(cBackup);
     }
@@ -290,13 +315,13 @@ public class GuiPanel extends JPanel {
      * @param b the {@code Block} to draw
      * @param g the {@code Graphics} context in which to paint
      */
-    protected void drawBlock(Block b, Graphics g) {
-        Color cBackup = g.getColor();
+    protected void drawBlock(final Block b, final Graphics g) {
+        final Color cBackup = g.getColor();
 
-        Point upperLeft = getUpperLeftCornerInField(b, world.getHeight());
+        final Point upperLeft = getUpperLeftCornerInField(b, world.getHeight());
         g.setColor(Color.BLACK);
-        int size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
-        g.fillRect(upperLeft.x, upperLeft.y, size, size);
+        final int size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
+        g.fillRect(scale(upperLeft.x), scale(upperLeft.y), scale(size), scale(size));
 
         g.setColor(cBackup);
     }
@@ -307,19 +332,29 @@ public class GuiPanel extends JPanel {
      * @param w the {@code Wall} to draw
      * @param g the {@code Graphics} context in which to paint
      */
-    protected void drawWall(Wall w, Graphics g) {
-        Color cBackup = g.getColor();
+    protected void drawWall(final Wall w, final Graphics g) {
+        final Color cBackup = g.getColor();
         g.setColor(Color.BLACK);
 
-        Point upperLeft = getUpperLeftCornerInField(w, world.getHeight());
+        final Point upperLeft = getUpperLeftCornerInField(w, world.getHeight());
         if (w.isHorizontal()) {
-            int x = upperLeft.x - FIELD_INNER_OFFSET * 2;
-            int y = upperLeft.y - FIELD_INNER_OFFSET - FIELD_BORDER_THICKNESS;
-            g.fillRect(x, y, FIELD_INNER_SIZE + FIELD_INNER_OFFSET * 2, FIELD_BORDER_THICKNESS);
+            final int x = upperLeft.x - FIELD_INNER_OFFSET * 2;
+            final int y = upperLeft.y - FIELD_INNER_OFFSET - FIELD_BORDER_THICKNESS;
+            g.fillRect(
+                scale(x),
+                scale(y),
+                scale(FIELD_INNER_SIZE + FIELD_INNER_OFFSET * 2),
+                scale(FIELD_BORDER_THICKNESS)
+            );
         } else {
-            int x = upperLeft.x - FIELD_INNER_OFFSET + FIELD_INNER_SIZE;
-            int y = upperLeft.y - FIELD_INNER_OFFSET * 2;
-            g.fillRect(x, y, FIELD_BORDER_THICKNESS, FIELD_INNER_SIZE + FIELD_INNER_OFFSET * 2);
+            final int x = upperLeft.x - FIELD_INNER_OFFSET + FIELD_INNER_SIZE;
+            final int y = upperLeft.y - FIELD_INNER_OFFSET * 2;
+            g.fillRect(
+                scale(x),
+                scale(y),
+                scale(FIELD_BORDER_THICKNESS),
+                scale(FIELD_INNER_SIZE + FIELD_INNER_OFFSET * 2)
+            );
         }
 
         g.setColor(cBackup);
@@ -339,12 +374,32 @@ public class GuiPanel extends JPanel {
             };
             try {
                 SwingUtilities.invokeAndWait(r);
-            } catch (InvocationTargetException | InterruptedException e) {
+            } catch (final InvocationTargetException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    /**
+     * Scales the given value with the current scale factor.
+     *
+     * @param value the value to scale
+     * @return the scaled value
+     */
+    private double scale(final double value) {
+        return value * scaleFactor;
+    }
+
+    /**
+     * Scales the given value with the current scale factor.
+     *
+     * @param value the value to scale
+     * @return the scaled value
+     */
+    private int scale(final int value) {
+        return (int) (value * scaleFactor);
     }
 
     /**
