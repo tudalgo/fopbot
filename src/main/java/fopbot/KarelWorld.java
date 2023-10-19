@@ -113,6 +113,8 @@ public class KarelWorld {
      * @throws RuntimeException if the world size is smaller than one
      */
     public KarelWorld(final int width, final int height) {
+        System.setProperty("sun.java2d.dpiaware", "false");
+        System.setProperty("sun.java2d.uiScale", "1.0");
         if (width < 1 || height < 1) {
             throw new RuntimeException("Invalid world size: " + width + "x" + height);
         }
@@ -383,7 +385,7 @@ public class KarelWorld {
         }
         loadImagesIfNotLoaded();
         if (visible && guiFrame == null) {
-            guiFrame = new JFrame("FopBot");
+            guiFrame = new JFrame("FoopBot");
             guiFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             if (guiGp == null) {
                 guiGp = new GuiPanel(this);
