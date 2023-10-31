@@ -31,6 +31,7 @@ $dokka.location:fopbot/Field/setFieldColor/#java.awt.Color/PointingToDeclaration
 $dokka.location:fopbot/FieldClickEvent///PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/index.html
 $dokka.location:fopbot/FieldClickEvent/FieldClickEvent/#fopbot.Field/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/-field-click-event.html
 $dokka.location:fopbot/FieldClickEvent/getField/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/get-field.html
+$dokka.location:fopbot/FieldClickEvent/getWorld/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/get-world.html
 $dokka.location:fopbot/FieldClickListener///PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-listener/index.html
 $dokka.location:fopbot/FieldClickListener/onFieldClick/#fopbot.FieldClickEvent/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-listener/on-field-click.html
 $dokka.location:fopbot/FieldEntity///PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/index.html
