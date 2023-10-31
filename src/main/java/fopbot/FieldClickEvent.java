@@ -24,4 +24,13 @@ public final class FieldClickEvent {
     public Field getField() {
         return field;
     }
+
+    /**
+     * Returns the world of the clicked field.
+     *
+     * @return the world
+     */
+    public KarelWorld getWorld() {
+        return field.getWorld();
+    }
 }
