@@ -96,6 +96,15 @@ public class InputHandler {
     }
 
     /**
+     * Adds the given key press listener to this input handler.
+     *
+     * @param listener the key press listener
+     */
+    public void addKeyPressListener(KeyPressListener listener) {
+        this.keyPressListeners.add(listener);
+    }
+
+    /**
      * Set up the keyboard handlers for the given panel.
      *
      * @param panel The panel to handle input for.
