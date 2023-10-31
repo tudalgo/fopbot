@@ -246,7 +246,7 @@ public class KarelWorld {
      * @param y the Y coordinate of the field.
      * @return the field of this world at the specified coordinate
      */
-    protected Field getField(final int x, final int y) {
+    public Field getField(final int x, final int y) {
         return fields[y][x];
     }
 
