@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +31,8 @@ public class InputHandler {
      * A List of event handlers that are called when a keyboard event is fired.
      */
     private final List<KeyListener> listeners = new ArrayList<>();
+
+    private final List<KeyPressListener> keyPressListeners = new ArrayList<>();
 
     private final List<FieldClickListener> fieldClickListeners = new ArrayList<>();
 
@@ -93,16 +96,30 @@ public class InputHandler {
     }
 
     /**
+     * Adds the given key press listener to this input handler.
+     *
+     * @param listener the key press listener
+     */
+    public void addKeyPressListener(KeyPressListener listener) {
+        this.keyPressListeners.add(listener);
+    }
+
+    /**
      * Set up the keyboard handlers for the given panel.
      *
      * @param panel The panel to handle input for.
      */
     private void handleKeyboardInputs(final GuiPanel panel) {
+        var world = panel.world;
         panel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(final KeyEvent e) {
                 InputHandler.this.keysPressed.add(e.getKeyCode());
                 InputHandler.this.listeners.forEach(keyListener -> executorService.submit(() -> keyListener.keyPressed(e)));
+                Arrays.stream(Key.values()).filter(k -> k.getKeyCode() == e.getKeyCode()).findFirst().ifPresent(k -> {
+                    var event = new KeyPressEvent(world, k);
+                    keyPressListeners.forEach(l -> executorService.submit(() -> l.onKeyPress(event)));
+                });
             }
 
             @Override
