@@ -150,7 +150,7 @@ public class KarelWorld {
      * Validates that the number of coins is not negative.
      *
      * @param numberOfCoins the number of coins to check
-     * @throws RuntimeException if the number of coins is negative
+     * @throws IllegalArgumentException if the number of coins is negative
      */
     protected void checkNumberOfCoins(final int numberOfCoins) {
         if (numberOfCoins < 0) {
@@ -162,7 +162,7 @@ public class KarelWorld {
      * Validates if the specified X coordinate is within the world.
      *
      * @param x the X coordinate to validate
-     * @throws RuntimeException if the X coordinate is outside the world borders
+     * @throws IllegalArgumentException if the X coordinate is outside the world borders
      */
     protected void checkXCoordinate(final int x) {
         if (x > getWidth() - 1 || x < 0) {
@@ -174,7 +174,7 @@ public class KarelWorld {
      * Validates if the specified Y coordinate is within the world.
      *
      * @param y the Y coordinate to validate
-     * @throws RuntimeException if the Y coordinate is outside the world borders
+     * @throws IllegalArgumentException if the Y coordinate is outside the world borders
      */
     protected void checkYCoordinate(final int y) {
         if (y > getHeight() - 1 || y < 0) {
@@ -365,7 +365,7 @@ public class KarelWorld {
      * {@code false} if this world is running in headless mode.
      *
      * @return {@code true} if this world is visible on the graphical user interface.
-     *     Returns {@code false} if this world is running in headless mode
+     * Returns {@code false} if this world is running in headless mode
      */
     public boolean isVisible() {
         return !GraphicsEnvironment.isHeadless() && guiFrame != null && guiFrame.isVisible();
@@ -501,12 +501,11 @@ public class KarelWorld {
      * @param x             the X coordinate of the coin
      * @param y             the Y coordinate of the coin
      * @param numberOfCoins the number of coins to place
-     * @throws RuntimeException if the number of coins is smaller than 1
+     * @throws IllegalArgumentException if the number of coins is smaller than 1 or the position is invalid
      */
-    public void putCoins(final int x, final int y, final int numberOfCoins) {
+    public void putCoins(final int x, final int y, final int numberOfCoins) throws IllegalArgumentException {
         checkXCoordinate(x);
         checkYCoordinate(y);
-        checkNumberOfCoins(numberOfCoins);
         if (numberOfCoins < 1) {
             throw new IllegalArgumentException("Number of coins must be greater than 0!");
         }
