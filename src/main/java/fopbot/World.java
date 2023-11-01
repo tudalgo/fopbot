@@ -157,6 +157,33 @@ public class World {
     }
 
     /**
+     * Returns the input handler used of the global world.
+     *
+     * @return the input handler
+     */
+    private static InputHandler getInputHandler() {
+        return getGlobalWorld().getInputHandler();
+    }
+
+    /**
+     * Adds the given key press listener to the input handler of the global world.
+     *
+     * @param keyPressListener the key press listener
+     */
+    public static void addKeyPressListener(KeyPressListener keyPressListener) {
+        getInputHandler().addKeyPressListener(keyPressListener);
+    }
+
+    /**
+     * Adds the given field click listener to the input handler of the global world.
+     *
+     * @param fieldClickListener the field click listener
+     */
+    public static void addFieldClickListener(FieldClickListener fieldClickListener) {
+        getInputHandler().addFieldClickListener(fieldClickListener);
+    }
+
+    /**
      * Returns {@code true} if a global world exists.
      *
      * @return {@code true} if a global world exists
