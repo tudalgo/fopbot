@@ -237,6 +237,8 @@ $dokka.location:fopbot/Wall/Wall/#int#int#boolean/PointingToDeclaration/-f-o-p-
 $dokka.location:fopbot/Wall/isHorizontal/#/PointingToDeclaration/-f-o-p-bot/fopbot/-wall/is-horizontal.html
 $dokka.location:fopbot/World///PointingToDeclaration/-f-o-p-bot/fopbot/-world/index.html
 $dokka.location:fopbot/World/World/#/PointingToDeclaration/-f-o-p-bot/fopbot/-world/-world.html
+$dokka.location:fopbot/World/addFieldClickListener/#fopbot.FieldClickListener/PointingToDeclaration/-f-o-p-bot/fopbot/-world/add-field-click-listener.html
+$dokka.location:fopbot/World/addKeyPressListener/#fopbot.KeyPressListener/PointingToDeclaration/-f-o-p-bot/fopbot/-world/add-key-press-listener.html
 $dokka.location:fopbot/World/getDelay/#/PointingToDeclaration/-f-o-p-bot/fopbot/-world/get-delay.html
 $dokka.location:fopbot/World/getGlobalWorld/#/PointingToDeclaration/-f-o-p-bot/fopbot/-world/get-global-world.html
 $dokka.location:fopbot/World/getHeight/#/PointingToDeclaration/-f-o-p-bot/fopbot/-world/get-height.html
