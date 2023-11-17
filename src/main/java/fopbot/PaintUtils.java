@@ -3,6 +3,7 @@ package fopbot;
 import com.twelvemonkeys.imageio.plugins.svg.SVGReadParam;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
@@ -157,11 +158,14 @@ class PaintUtils {
      */
     public static AffineTransform getPanelTransform(final GuiPanel panel) {
         final var unscaled = panel.getUnscaledSize();
-        final var scaled = panel.getSize();
-        return AffineTransform.getScaleInstance(
+        final var scaled = panel.getScaledWorldBounds();
+        final var transform = new AffineTransform();
+        transform.translate(scaled.x, scaled.y);
+        transform.scale(
             (double) scaled.width / (double) unscaled.width,
             (double) scaled.height / (double) unscaled.height
         );
+        return transform;
     }
 
     /**
