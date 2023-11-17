@@ -451,7 +451,7 @@ public class GuiPanel extends JPanel {
      * @param value the value to scale
      * @return the scaled value
      */
-    double scale(final double value) {
+    private double scale(final double value) {
         return value * scaleFactor;
     }
 
@@ -461,7 +461,7 @@ public class GuiPanel extends JPanel {
      * @param value the value to scale
      * @return the scaled value
      */
-    int scale(final int value) {
+    private int scale(final int value) {
         return (int) (value * scaleFactor);
     }
 
