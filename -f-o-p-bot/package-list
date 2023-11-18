@@ -50,6 +50,7 @@ $dokka.location:fopbot/GuiPanel/drawRobot/#fopbot.Robot#java.awt.Graphics/Pointi
 $dokka.location:fopbot/GuiPanel/drawWall/#fopbot.Wall#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-wall.html
 $dokka.location:fopbot/GuiPanel/getInputHandler/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-input-handler.html
 $dokka.location:fopbot/GuiPanel/getPreferredSize/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-preferred-size.html
+$dokka.location:fopbot/GuiPanel/getScaledWorldBounds/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-scaled-world-bounds.html
 $dokka.location:fopbot/GuiPanel/getUnscaledSize/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-unscaled-size.html
 $dokka.location:fopbot/GuiPanel/isDarkMode/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/is-dark-mode.html
 $dokka.location:fopbot/GuiPanel/paintComponent/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/paint-component.html
