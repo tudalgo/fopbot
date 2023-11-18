@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -182,8 +183,12 @@ public class GuiPanel extends JPanel {
         }
     }
 
-    @Override
-    public void paintComponent(final Graphics g) {
+    /**
+     * Returns the scaled world bounds.
+     *
+     * @return the scaled world bounds
+     */
+    public Rectangle getScaledWorldBounds() {
         final Dimension unscaledSize = getUnscaledSize();
         final double targetAspectRatio = unscaledSize.getWidth() / unscaledSize.getHeight();
         final int width = (int) Math.min(getWidth(), getHeight() * targetAspectRatio);
@@ -192,10 +197,18 @@ public class GuiPanel extends JPanel {
             (double) width / (double) unscaledSize.width,
             (double) height / (double) unscaledSize.height
         );
+        final int x = (getWidth() - width) / 2;
+        final int y = (getHeight() - height) / 2;
+        return new Rectangle(x, y, width, height);
+    }
+
+    @Override
+    public void paintComponent(final Graphics g) {
+        final var bounds = getScaledWorldBounds();
 
         final BufferedImage image = new BufferedImage(
-            width,
-            height,
+            bounds.width,
+            bounds.height,
             BufferedImage.TYPE_INT_ARGB
         );
         final Graphics2D gImage = (Graphics2D) image.getGraphics();
@@ -204,9 +217,9 @@ public class GuiPanel extends JPanel {
         g.setColor(darkMode ? Color.BLACK : Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.drawImage(
-            PaintUtils.scaleImageWithGPU(image, width, height),
-            (getWidth() - width) / 2,
-            (getHeight() - height) / 2,
+            PaintUtils.scaleImageWithGPU(image, bounds.width, bounds.height),
+            bounds.x,
+            bounds.y,
             null
         );
     }
