@@ -148,8 +148,9 @@ public class World {
      * @param x             the X coordinate of the coins to place
      * @param y             the Y coordinate of the coins to place
      * @param numberOfCoins the number of coins to place
+     * @throws IllegalArgumentException if the number of coins is smaller than 1 or the position is invalid
      */
-    public static void putCoins(int x, int y, int numberOfCoins) {
+    public static void putCoins(int x, int y, int numberOfCoins) throws IllegalArgumentException {
         if (world == null) {
             setSize(10, 10);
         }
