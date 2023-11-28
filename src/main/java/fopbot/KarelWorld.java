@@ -11,6 +11,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -83,9 +84,9 @@ public class KarelWorld {
      */
     private int delay = 100;
     /**
-     * The number of robots on this world.
+     * The robot ID generator.
      */
-    private int robotCount;
+    private final Iterator<Integer> robotIdGenerator = Stream.iterate(0, i -> i + 1).iterator();
     /**
      * The graphical user interface window on which the FOP Bot world panel is visible.
      */
@@ -139,8 +140,7 @@ public class KarelWorld {
      */
     public void addRobot(final Robot robot) {
         fields[robot.getY()][robot.getX()].getEntities().add(robot);
-        robot.setId(Integer.toString(robotCount));
-        robotCount++;
+        robot.setId(Integer.toString(robotIdGenerator.next()));
         traces.put(robot.getId(), new RobotTrace());
         triggerUpdate();
         sleep();
@@ -828,5 +828,19 @@ public class KarelWorld {
         if (actionLimit >= 0 && getActionCount() >= getActionLimit()) {
             throw new IllegalStateException("Too many traces, please check your program for infinite loops.");
         }
+    }
+
+    /**
+     * Returns the amount of robots in this world.
+     *
+     * @return the amount of robots in this world
+     */
+    public long getRobotCount() {
+        return Arrays.stream(fields)
+            .flatMap(Arrays::stream)
+            .map(Field::getEntities)
+            .flatMap(Collection::stream)
+            .filter(Robot.class::isInstance)
+            .count();
     }
 }
