@@ -81,6 +81,7 @@ $dokka.location:fopbot/KarelWorld/getFieldColor/#int#int/PointingToDeclaration/
 $dokka.location:fopbot/KarelWorld/getGuiPanel/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-gui-panel.html
 $dokka.location:fopbot/KarelWorld/getHeight/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-height.html
 $dokka.location:fopbot/KarelWorld/getInputHandler/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-input-handler.html
+$dokka.location:fopbot/KarelWorld/getRobotCount/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-robot-count.html
 $dokka.location:fopbot/KarelWorld/getRobotImageMap/#java.lang.Class<? extends fopbot.Robot>/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-robot-image-map.html
 $dokka.location:fopbot/KarelWorld/getRobotImageMapById/#java.lang.String/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-robot-image-map-by-id.html
 $dokka.location:fopbot/KarelWorld/getTrace/#fopbot.Robot/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-trace.html
