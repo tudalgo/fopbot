@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -118,7 +119,16 @@ public class InputHandler {
                 InputHandler.this.listeners.forEach(keyListener -> executorService.submit(() -> keyListener.keyPressed(e)));
                 Arrays.stream(Key.values()).filter(k -> k.getKeyCode() == e.getKeyCode()).findFirst().ifPresent(k -> {
                     var event = new KeyPressEvent(world, k);
-                    keyPressListeners.forEach(l -> executorService.submit(() -> l.onKeyPress(event)));
+                    keyPressListeners.forEach(l -> {
+                        try {
+                            executorService.submit(() -> l.onKeyPress(event)).get();
+                        } catch (ExecutionException | InterruptedException exc) {
+                            if (exc.getCause() instanceof RuntimeException) {
+                                throw (RuntimeException) exc.getCause();
+                            }
+                            throw new RuntimeException(exc.getCause());
+                        }
+                    });
                 });
             }
 
@@ -154,7 +164,16 @@ public class InputHandler {
                     return;
                 }
                 var event = new FieldClickEvent(world.getField((int) x, (int) y));
-                fieldClickListeners.forEach(l -> executorService.submit(() -> l.onFieldClick(event)));
+                fieldClickListeners.forEach(l -> {
+                    try {
+                        executorService.submit(() -> l.onFieldClick(event)).get();
+                    } catch (ExecutionException | InterruptedException exc) {
+                        if (exc.getCause() instanceof RuntimeException) {
+                            throw (RuntimeException) exc.getCause();
+                        }
+                        throw new RuntimeException(exc.getCause());
+                    }
+                });
             }
         });
     }
