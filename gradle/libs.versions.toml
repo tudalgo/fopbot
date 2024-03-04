@@ -1,5 +1,5 @@
 [versions]
-dokka = "1.9.10"
+dokka = "1.9.20"
 
 [libraries]
 annotations = "org.jetbrains:annotations:24.0.1"
