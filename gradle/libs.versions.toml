@@ -10,6 +10,6 @@ imageio-batik = "com.twelvemonkeys.imageio:imageio-batik:3.9.4"
 batik = "org.apache.xmlgraphics:batik-all:1.17"
 
 [plugins]
-kotlin-jvm = "org.jetbrains.kotlin.jvm:1.9.10"
+kotlin-jvm = "org.jetbrains.kotlin.jvm:1.9.24"
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 style = "org.sourcegrade.style:3.0.0"
