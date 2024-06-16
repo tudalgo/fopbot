@@ -18,6 +18,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PrimitiveIterator;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -86,7 +88,7 @@ public class KarelWorld {
     /**
      * The robot ID generator.
      */
-    private final Iterator<Integer> robotIdGenerator = Stream.iterate(0, i -> i + 1).iterator();
+    private final PrimitiveIterator.OfInt robotIdGenerator = IntStream.iterate(0, i -> i + 1).iterator();
     /**
      * The graphical user interface window on which the FOP Bot world panel is visible.
      */
@@ -140,7 +142,7 @@ public class KarelWorld {
      */
     public void addRobot(final Robot robot) {
         fields[robot.getY()][robot.getX()].getEntities().add(robot);
-        robot.setId(Integer.toString(robotIdGenerator.next()));
+        robot.setId(Integer.toString(robotIdGenerator.nextInt()));
         traces.put(robot.getId(), new RobotTrace());
         triggerUpdate();
         sleep();
