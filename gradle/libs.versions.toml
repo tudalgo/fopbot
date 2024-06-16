@@ -6,7 +6,7 @@ annotations = "org.jetbrains:annotations:24.0.1"
 dokkaKotlinAsJavaPlugin = { module = "org.jetbrains.dokka:kotlin-as-java-plugin", version.ref = "dokka" }
 dokkaVersioningPlugin = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
 dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
-imageio-batik = "com.twelvemonkeys.imageio:imageio-batik:3.9.4"
+imageio-batik = "com.twelvemonkeys.imageio:imageio-batik:3.11.0"
 batik = "org.apache.xmlgraphics:batik-all:1.17"
 
 [plugins]
