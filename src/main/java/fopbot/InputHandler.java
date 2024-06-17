@@ -1,12 +1,11 @@
 package fopbot;
 
+import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -28,6 +27,8 @@ public class InputHandler {
      */
     private final Set<Integer> keysPressed = new HashSet<>();
 
+    private final Point lastFieldHovered = new Point(-1, -1);
+
     /**
      * A List of event handlers that are called when a keyboard event is fired.
      */
@@ -36,6 +37,8 @@ public class InputHandler {
     private final List<KeyPressListener> keyPressListeners = new ArrayList<>();
 
     private final List<FieldClickListener> fieldClickListeners = new ArrayList<>();
+
+    private final List<FieldHoverListener> fieldHoverListeners = new ArrayList<>();
 
     /**
      * An executor service for executing input events.
@@ -60,7 +63,7 @@ public class InputHandler {
      */
     public InputHandler(final GuiPanel panel) {
         handleKeyboardInputs(panel);
-        handleFieldClickEvents(panel);
+        handleFieldMouseEvents(panel);
     }
 
     // --Getters and Setters-- //
@@ -92,7 +95,7 @@ public class InputHandler {
      *
      * @param screenListener the screen listener
      */
-    public void addFieldClickListener(FieldClickListener screenListener) {
+    public void addFieldClickListener(final FieldClickListener screenListener) {
         this.fieldClickListeners.add(screenListener);
     }
 
@@ -101,8 +104,17 @@ public class InputHandler {
      *
      * @param listener the key press listener
      */
-    public void addKeyPressListener(KeyPressListener listener) {
+    public void addKeyPressListener(final KeyPressListener listener) {
         this.keyPressListeners.add(listener);
+    }
+
+    /**
+     * Adds the given field hover listener to this input handler.
+     *
+     * @param listener the field hover listener
+     */
+    public void addFieldHoverListener(final FieldHoverListener listener) {
+        this.fieldHoverListeners.add(listener);
     }
 
     /**
@@ -111,18 +123,18 @@ public class InputHandler {
      * @param panel The panel to handle input for.
      */
     private void handleKeyboardInputs(final GuiPanel panel) {
-        var world = panel.world;
+        final var world = panel.world;
         panel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(final KeyEvent e) {
                 InputHandler.this.keysPressed.add(e.getKeyCode());
                 InputHandler.this.listeners.forEach(keyListener -> executorService.submit(() -> keyListener.keyPressed(e)));
                 Arrays.stream(Key.values()).filter(k -> k.getKeyCode() == e.getKeyCode()).findFirst().ifPresent(k -> {
-                    var event = new KeyPressEvent(world, k);
+                    final var event = new KeyPressEvent(world, k);
                     keyPressListeners.forEach(l -> {
                         try {
                             executorService.submit(() -> l.onKeyPress(event)).get();
-                        } catch (ExecutionException | InterruptedException exc) {
+                        } catch (final ExecutionException | InterruptedException exc) {
                             if (exc.getCause() instanceof RuntimeException) {
                                 throw (RuntimeException) exc.getCause();
                             }
@@ -145,29 +157,56 @@ public class InputHandler {
         });
     }
 
-    private void handleFieldClickEvents(GuiPanel panel) {
-        var world = panel.world;
+    /**
+     * Checks if the given coordinates are valid.
+     *
+     * @param x     the x-coordinate
+     * @param y     the y-coordinate
+     * @param world the world
+     * @return true if the coordinates are valid, false otherwise
+     */
+    private boolean isValidCoordinate(final int x, final int y, final KarelWorld world) {
+        return x >= 0 && y >= 0 && x < world.getWidth() && y < world.getHeight();
+    }
+
+    private void handleFieldMouseEvents(final GuiPanel panel) {
+        final var world = panel.world;
         panel.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent e) {
-                var transform = PaintUtils.getPanelWorldTransform(panel);
-                var point = new Point2D.Double();
-                try {
-                    transform.inverseTransform(PaintUtils.toPoint2D(e.getPoint()), point);
-                } catch (NoninvertibleTransformException ex) {
-                    throw new RuntimeException(ex);
-                }
-                var x = point.getX();
-                var y = point.getY();
-                if (x < 0 || y < 0 || x >= world.getWidth() || y >= world.getHeight()) {
+            public void mouseClicked(final MouseEvent e) {
+                final var pos = PaintUtils.getMouseTilePosition(panel, e.getPoint());
+                if (!isValidCoordinate((int) pos.getX(), (int) pos.getY(), world)) {
                     return;
                 }
-                var event = new FieldClickEvent(world.getField((int) x, (int) y));
+                final var event = new FieldClickEvent(world.getField(pos.x, pos.y));
                 fieldClickListeners.forEach(l -> {
                     try {
                         executorService.submit(() -> l.onFieldClick(event)).get();
-                    } catch (ExecutionException | InterruptedException exc) {
+                    } catch (final ExecutionException | InterruptedException exc) {
+                        if (exc.getCause() instanceof RuntimeException) {
+                            throw (RuntimeException) exc.getCause();
+                        }
+                        throw new RuntimeException(exc.getCause());
+                    }
+                });
+            }
+
+            @Override
+            public void mouseMoved(final MouseEvent e) {
+                final var pos = PaintUtils.getMouseTilePosition(panel, e.getPoint());
+                if (!isValidCoordinate((int) pos.getX(), (int) pos.getY(), world)) {
+                    return;
+                }
+                if (lastFieldHovered.x == pos.x && lastFieldHovered.y == pos.y) {
+                    return;
+                }
+                lastFieldHovered.setLocation(pos);
+                final var event = new FieldHoverEvent(world.getField(pos.x, pos.y));
+                fieldHoverListeners.forEach(l -> {
+                    try {
+                        executorService.submit(() -> l.onFieldHover(event)).get();
+                    } catch (final ExecutionException | InterruptedException exc) {
                         if (exc.getCause() instanceof RuntimeException) {
                             throw (RuntimeException) exc.getCause();
                         }

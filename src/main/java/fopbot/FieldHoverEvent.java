@@ -1,23 +1,23 @@
 package fopbot;
 
 /**
- * A {@link FieldClickEvent} represents a click on a field.
+ * A {@link FieldHoverEvent} represents a hover over a field.
  */
-public final class FieldClickEvent {
+public class FieldHoverEvent {
 
     private final Field field;
 
     /**
-     * Constructs a {@link FieldClickEvent} with the given field.
+     * Constructs a {@link FieldHoverEvent} with the given field.
      *
      * @param field the field
      */
-    public FieldClickEvent(final Field field) {
+    public FieldHoverEvent(final Field field) {
         this.field = field;
     }
 
     /**
-     * Returns the clicked field.
+     * Returns the hovered field.
      *
      * @return the field
      */
@@ -26,7 +26,7 @@ public final class FieldClickEvent {
     }
 
     /**
-     * Returns the world of the clicked field.
+     * Returns the world of the hovered field.
      *
      * @return the world
      */
