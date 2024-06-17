@@ -192,17 +192,28 @@ public class InputHandler {
                 });
             }
 
+        });
+
+        panel.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(final MouseEvent e) {
+                super.mouseMoved(e);
                 final var pos = PaintUtils.getMouseTilePosition(panel, e.getPoint());
                 if (!isValidCoordinate((int) pos.getX(), (int) pos.getY(), world)) {
-                    return;
+                    pos.move(-1, -1);
                 }
                 if (lastFieldHovered.x == pos.x && lastFieldHovered.y == pos.y) {
                     return;
                 }
+                final var event = new FieldHoverEvent(
+                    isValidCoordinate(pos.x, pos.y, world)
+                    ? world.getField(pos.x, pos.y)
+                    : null,
+                    isValidCoordinate(lastFieldHovered.x, lastFieldHovered.y, world)
+                    ? world.getField(lastFieldHovered.x, lastFieldHovered.y)
+                    : null
+                );
                 lastFieldHovered.setLocation(pos);
-                final var event = new FieldHoverEvent(world.getField(pos.x, pos.y));
                 fieldHoverListeners.forEach(l -> {
                     try {
                         executorService.submit(() -> l.onFieldHover(event)).get();

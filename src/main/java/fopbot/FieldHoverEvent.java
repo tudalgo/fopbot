@@ -1,19 +1,25 @@
 package fopbot;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * A {@link FieldHoverEvent} represents a hover over a field.
  */
 public class FieldHoverEvent {
 
-    private final Field field;
+    private final @Nullable Field field;
+
+    private final @Nullable Field previousField;
 
     /**
      * Constructs a {@link FieldHoverEvent} with the given field.
      *
      * @param field the field
+     * @param previousField the previously hovered field
      */
-    public FieldHoverEvent(final Field field) {
+    public FieldHoverEvent(final @Nullable Field field, final @Nullable Field previousField) {
         this.field = field;
+        this.previousField = previousField;
     }
 
     /**
@@ -21,16 +27,16 @@ public class FieldHoverEvent {
      *
      * @return the field
      */
-    public Field getField() {
+    public @Nullable Field getField() {
         return field;
     }
 
     /**
-     * Returns the world of the hovered field.
+     * Returns the previously hovered field, or null if there was none.
      *
-     * @return the world
+     * @return the field
      */
-    public KarelWorld getWorld() {
-        return field.getWorld();
+    public @Nullable Field getPreviousField() {
+        return previousField;
     }
 }
