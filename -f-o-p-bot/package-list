@@ -28,6 +28,7 @@ $dokka.location:fopbot/Field/getWorld/#/PointingToDeclaration/-f-o-p-bot/fopbot
 $dokka.location:fopbot/Field/getX/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-x.html
 $dokka.location:fopbot/Field/getY/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field/get-y.html
 $dokka.location:fopbot/Field/setFieldColor/#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-field/set-field-color.html
+$dokka.location:fopbot/Field/setFieldColor/#java.util.function.Supplier<java.awt.Color>/PointingToDeclaration/-f-o-p-bot/fopbot/-field/set-field-color.html
 $dokka.location:fopbot/FieldClickEvent///PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/index.html
 $dokka.location:fopbot/FieldClickEvent/FieldClickEvent/#fopbot.Field/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/-field-click-event.html
 $dokka.location:fopbot/FieldClickEvent/getField/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-click-event/get-field.html
@@ -48,6 +49,7 @@ $dokka.location:fopbot/FieldHoverListener///PointingToDeclaration/-f-o-p-bot/fo
 $dokka.location:fopbot/FieldHoverListener/onFieldHover/#fopbot.FieldHoverEvent/PointingToDeclaration/-f-o-p-bot/fopbot/-field-hover-listener/on-field-hover.html
 $dokka.location:fopbot/GuiPanel///PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/index.html
 $dokka.location:fopbot/GuiPanel/GuiPanel/#fopbot.KarelWorld/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/-gui-panel.html
+$dokka.location:fopbot/GuiPanel/addDarkModeChangeListener/#java.beans.PropertyChangeListener/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/add-dark-mode-change-listener.html
 $dokka.location:fopbot/GuiPanel/draw/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw.html
 $dokka.location:fopbot/GuiPanel/drawBlock/#fopbot.Block#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-block.html
 $dokka.location:fopbot/GuiPanel/drawBoard/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-board.html
