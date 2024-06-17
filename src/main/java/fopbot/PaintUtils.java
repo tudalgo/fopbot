@@ -3,7 +3,6 @@ package fopbot;
 import com.twelvemonkeys.imageio.plugins.svg.SVGReadParam;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
@@ -12,6 +11,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -189,12 +189,35 @@ class PaintUtils {
         return transform;
     }
 
+    /**
+     * Returns a transform for transforming a point on the panel to the respective field position in the world.
+     *
+     * @param panel the panel to get the transform for
+     * @return the transform
+     */
     public static AffineTransform getPanelWorldTransform(final GuiPanel panel) {
         final var transform = new AffineTransform();
         transform.concatenate(getPanelTransform(panel));
         transform.concatenate(getWorldTransform(panel.world));
 
         return transform;
+    }
+
+    /**
+     * Returns the coordinates of the field the mouse is currently pointing at.
+     *
+     * @param panel the panel
+     * @return the coordinates of the field the mouse is currently pointing at
+     */
+    public static Point getMouseTilePosition(final GuiPanel panel, final Point mousePosition) {
+        final var transform = getPanelWorldTransform(panel);
+        final var point = new Point2D.Double();
+        try {
+            transform.inverseTransform(PaintUtils.toPoint2D(mousePosition), point);
+        } catch (final NoninvertibleTransformException ex) {
+            throw new RuntimeException(ex);
+        }
+        return new Point((int) point.getX(), (int) point.getY());
     }
 
     public static Point2D toPoint2D(final Point point) {

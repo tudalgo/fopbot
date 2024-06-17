@@ -12,7 +12,7 @@ public final class FieldClickEvent {
      *
      * @param field the field
      */
-    public FieldClickEvent(Field field) {
+    public FieldClickEvent(final Field field) {
         this.field = field;
     }
 

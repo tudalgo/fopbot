@@ -1,9 +1,11 @@
 package fopbot;
 
+import java.util.EventListener;
+
 /**
  * A {@link FieldClickListener} is a listener for {@link FieldClickEvent}s.
  */
-public interface FieldClickListener {
+public interface FieldClickListener extends EventListener {
 
 
     /**
