@@ -183,12 +183,17 @@ public class GuiPanel extends JPanel {
         final String imagePath = "screenshots/" + startDate + "/karel_" + state + ".png";
         screenshotCounter++;
 
-        BufferedImage image = new BufferedImage(getUnscaledSize().width, getUnscaledSize().height, BufferedImage.TYPE_INT_ARGB);
+        // get bounds of the world
+        final Rectangle bounds = getScaledWorldBounds();
+        BufferedImage image = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);
         final Graphics g = image.getGraphics();
         draw(g);
-        image = image.getSubimage(BOARD_OFFSET, BOARD_OFFSET,
-                                  getUnscaledSize().width - BOARD_OFFSET * 2,
-                                  getUnscaledSize().height - BOARD_OFFSET * 2
+        g.dispose();
+        image = image.getSubimage(
+            scale(BOARD_OFFSET),
+            scale(BOARD_OFFSET),
+            scale(getBoardSize(world).x),
+            scale(getBoardSize(world).y)
         );
         try {
             ImageIO.write(image, "png", new File(imagePath));
