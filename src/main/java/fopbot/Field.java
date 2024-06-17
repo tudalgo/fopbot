@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * A single field in a 2D world where field entities can be placed.
@@ -18,7 +19,8 @@ public class Field {
      */
     private final List<FieldEntity> entities;
 
-    private @Nullable Color fieldColor;
+    // Lambda that provides color
+    private Supplier<@Nullable Color> fieldColorSupplier = () -> null;
 
     private final KarelWorld world;
 
@@ -30,10 +32,10 @@ public class Field {
      * Constructs a field with the given coordinate and no entities on it.
      *
      * @param world the world
-     * @param x the x-coordinate
-     * @param y the x-coordinate
+     * @param x     the x-coordinate
+     * @param y     the x-coordinate
      */
-    public Field(KarelWorld world, int x, int y) {
+    public Field(final KarelWorld world, final int x, final int y) {
         entities = new LinkedList<>();
         this.world = world;
         this.x = x;
@@ -48,7 +50,7 @@ public class Field {
      * @param y        the x-coordinate
      * @param entities the entities
      */
-    public Field(KarelWorld world, int x, int y, List<FieldEntity> entities) {
+    public Field(final KarelWorld world, final int x, final int y, final List<FieldEntity> entities) {
         this(world, x, y);
         this.entities.addAll(entities);
     }
@@ -63,6 +65,21 @@ public class Field {
     }
 
     /**
+     * Sets the background color of this {@link Field} to the color provided by the specified
+     * {@link Supplier}.
+     * <p>If the specified {@link Supplier} returns {@code null}, the background color of this {@link Field}
+     * will be reset to the default color.</p>
+     * <p>Use this method to set the background color of this {@link Field} dynamically.</p>
+     *
+     * @param fieldColorSupplier the {@link Supplier} that provides the background color of this {@link Field}
+     *                           or {@code null} to reset the background color to the default color
+     */
+    public void setFieldColor(final Supplier<@Nullable Color> fieldColorSupplier) {
+        this.fieldColorSupplier = fieldColorSupplier;
+        world.getGuiPanel().updateGui();
+    }
+
+    /**
      * Sets the background color of this {@link Field} to the specified color.
      * <p>If the specified color is {@code null}, the background color of this {@link Field}
      * will be reset to the default color.</p>
@@ -70,8 +87,7 @@ public class Field {
      * @param fieldColor the new background color of this {@link Field}
      */
     public void setFieldColor(final @Nullable Color fieldColor) {
-        this.fieldColor = fieldColor;
-        world.getGuiPanel().updateGui();
+        setFieldColor(() -> fieldColor);
     }
 
     /**
@@ -80,7 +96,7 @@ public class Field {
      * @return the background color of this {@link Field}
      */
     public @Nullable Color getFieldColor() {
-        return fieldColor;
+        return fieldColorSupplier.get();
     }
 
     /**
