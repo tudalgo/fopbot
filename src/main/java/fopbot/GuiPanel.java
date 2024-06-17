@@ -14,6 +14,8 @@ import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -28,7 +30,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -76,6 +77,11 @@ public class GuiPanel extends JPanel {
      * Whether the dark mode is enabled.
      */
     private boolean darkMode = false;
+
+    /**
+     * Listeners for dark mode changes.
+     */
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     /**
      * Constructs and initializes graphical use interface to represent the FOP Bot world.
@@ -484,12 +490,22 @@ public class GuiPanel extends JPanel {
     }
 
     /**
+     * Adds a listener for dark mode changes.
+     *
+     * @param listener the listener to add
+     */
+    public void addDarkModeChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    /**
      * Sets whether the dark mode is enabled.
      *
      * @param darkMode true if the dark mode is enabled, false otherwise
      */
     public void setDarkMode(final boolean darkMode) {
         this.darkMode = darkMode;
+        propertyChangeSupport.firePropertyChange("darkMode", !darkMode, darkMode);
         updateGui();
     }
 
