@@ -40,6 +40,12 @@ $dokka.location:fopbot/FieldEntity/getX/#/PointingToDeclaration/-f-o-p-bot/fopb
 $dokka.location:fopbot/FieldEntity/getY/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/get-y.html
 $dokka.location:fopbot/FieldEntity/setX/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/set-x.html
 $dokka.location:fopbot/FieldEntity/setY/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-field-entity/set-y.html
+$dokka.location:fopbot/FieldHoverEvent///PointingToDeclaration/-f-o-p-bot/fopbot/-field-hover-event/index.html
+$dokka.location:fopbot/FieldHoverEvent/FieldHoverEvent/#fopbot.Field#fopbot.Field/PointingToDeclaration/-f-o-p-bot/fopbot/-field-hover-event/-field-hover-event.html
+$dokka.location:fopbot/FieldHoverEvent/getField/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-hover-event/get-field.html
+$dokka.location:fopbot/FieldHoverEvent/getPreviousField/#/PointingToDeclaration/-f-o-p-bot/fopbot/-field-hover-event/get-previous-field.html
+$dokka.location:fopbot/FieldHoverListener///PointingToDeclaration/-f-o-p-bot/fopbot/-field-hover-listener/index.html
+$dokka.location:fopbot/FieldHoverListener/onFieldHover/#fopbot.FieldHoverEvent/PointingToDeclaration/-f-o-p-bot/fopbot/-field-hover-listener/on-field-hover.html
 $dokka.location:fopbot/GuiPanel///PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/index.html
 $dokka.location:fopbot/GuiPanel/GuiPanel/#fopbot.KarelWorld/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/-gui-panel.html
 $dokka.location:fopbot/GuiPanel/draw/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw.html
@@ -61,6 +67,7 @@ $dokka.location:fopbot/GuiPanel/updateGui/#/PointingToDeclaration/-f-o-p-bot/fo
 $dokka.location:fopbot/InputHandler///PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/index.html
 $dokka.location:fopbot/InputHandler/InputHandler/#fopbot.GuiPanel/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/-input-handler.html
 $dokka.location:fopbot/InputHandler/addFieldClickListener/#fopbot.FieldClickListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-field-click-listener.html
+$dokka.location:fopbot/InputHandler/addFieldHoverListener/#fopbot.FieldHoverListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-field-hover-listener.html
 $dokka.location:fopbot/InputHandler/addKeyListener/#java.awt.event.KeyListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-key-listener.html
 $dokka.location:fopbot/InputHandler/addKeyPressListener/#fopbot.KeyPressListener/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/add-key-press-listener.html
 $dokka.location:fopbot/InputHandler/getInputHandler/#/PointingToDeclaration/-f-o-p-bot/fopbot/-input-handler/get-input-handler.html
