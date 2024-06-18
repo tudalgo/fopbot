@@ -217,6 +217,7 @@ $dokka.location:fopbot/RobotFamily.SQUARE_WHITE///PointingToDeclaration/{"org.je
 $dokka.location:fopbot/RobotFamily.SQUARE_YELLOW///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-y-e-l-l-o-w/index.html
 $dokka.location:fopbot/RobotFamily.TRIANGLE_BLUE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-t-r-i-a-n-g-l-e_-b-l-u-e/index.html
 $dokka.location:fopbot/RobotFamily///PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/index.html
+$dokka.location:fopbot/RobotFamily/getColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/get-color.html
 $dokka.location:fopbot/RobotFamily/getIdentifier/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/get-identifier.html
 $dokka.location:fopbot/RobotFamily/valueOf/#java.lang.String/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/value-of.html
 $dokka.location:fopbot/RobotFamily/values/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/values.html
