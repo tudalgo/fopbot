@@ -2,6 +2,9 @@ package fopbot;
 
 import org.jetbrains.annotations.ApiStatus;
 
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -29,9 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import static fopbot.PaintUtils.BOARD_OFFSET;
 import static fopbot.PaintUtils.FIELD_BORDER_THICKNESS;
@@ -84,6 +84,11 @@ public class GuiPanel extends JPanel {
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     /**
+     * The color profile of the graphical user interface.
+     */
+    private ColorProfile colorProfile = ColorProfile.DEFAULT;
+
+    /**
      * Constructs and initializes graphical use interface to represent the FOP Bot world.
      *
      * @param world the FOP Bot world to represent on the graphical user interface
@@ -128,6 +133,24 @@ public class GuiPanel extends JPanel {
                 keysWerePressed.remove(e.getKeyCode());
             }
         });
+    }
+
+    /**
+     * Returns the current {@link ColorProfile} that is used to draw the world.
+     *
+     * @return the current {@link ColorProfile} that is used to draw the world
+     */
+    public ColorProfile getColorProfile() {
+        return colorProfile;
+    }
+
+    /**
+     * Sets the {@link ColorProfile} that is used to draw the world to the given value.
+     *
+     * @param colorProfile the new {@link ColorProfile} to use
+     */
+    public void setColorProfile(final ColorProfile colorProfile) {
+        this.colorProfile = colorProfile;
     }
 
     /**
@@ -225,7 +248,7 @@ public class GuiPanel extends JPanel {
         final Graphics2D gImage = (Graphics2D) image.getGraphics();
         gImage.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         draw(gImage);
-        g.setColor(darkMode ? Color.BLACK : Color.WHITE);
+        g.setColor(colorProfile.getBackgroundColor());
         g.fillRect(0, 0, getWidth(), getHeight());
         g.drawImage(
             PaintUtils.scaleImageWithGPU(image, bounds.width, bounds.height),
@@ -291,14 +314,14 @@ public class GuiPanel extends JPanel {
         // draw outer borders
         int width = BOARD_OFFSET;
         int height = BOARD_OFFSET;
-        g.setColor(darkMode ? Color.WHITE : Color.BLACK);
+        g.setColor(colorProfile.getOuterBorderColor());
         final Point p = getBoardSize(world);
         g.fillRect(scale(width), scale(height), scale(p.x), scale(p.y));
 
         // draw inner borders
         width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
         height = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
-        g.setColor(darkMode ? new Color(60, 60, 60) : Color.GRAY);
+        g.setColor(colorProfile.getInnerBorderColor());
         g.fillRect(
             scale(width),
             scale(height),
@@ -307,19 +330,19 @@ public class GuiPanel extends JPanel {
         );
 
         // draw fields
-        g.setColor(darkMode ? new Color(25, 25, 30) : Color.LIGHT_GRAY);
+        g.setColor(colorProfile.getFieldColor());
         for (int h = 0; h < world.getHeight(); h++) {
             for (int w = 0; w < world.getWidth(); w++) {
                 if (world.getField(w, World.getHeight() - h - 1).getFieldColor() != null) {
                     g.setColor(world.getField(w, World.getHeight() - h - 1).getFieldColor());
                 }
                 g.fillRect(scale(width), scale(height), scale(FIELD_INNER_SIZE), scale(FIELD_INNER_SIZE));
-                g.setColor(darkMode ? new Color(25, 25, 30) : Color.LIGHT_GRAY);
+                g.setColor(colorProfile.getFieldColor());
 
                 if (h == 99) {
                     g.setColor(Color.GREEN);
                     g.drawString(width + ";" + height, width, height);
-                    g.setColor(darkMode ? new Color(25, 25, 30) : Color.LIGHT_GRAY);
+                    g.setColor(colorProfile.getFieldColor());
                 }
 
                 width += FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE;
@@ -369,7 +392,7 @@ public class GuiPanel extends JPanel {
         final Color cBackup = g.getColor();
 
         final Point upperLeft = getUpperLeftCornerInField(c, world.getHeight());
-        g.setColor(darkMode ? new Color(255, 140, 26) : Color.RED);
+        g.setColor(colorProfile.getCoinColor());
         final int size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
         g.fillOval(scale(upperLeft.x), scale(upperLeft.y), scale(size), scale(size));
         g.setColor(Color.BLACK);
@@ -393,7 +416,7 @@ public class GuiPanel extends JPanel {
         final Color cBackup = g.getColor();
 
         final Point upperLeft = getUpperLeftCornerInField(b, world.getHeight());
-        g.setColor(Color.BLACK);
+        g.setColor(colorProfile.getBlockColor());
         final int size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
         g.fillRect(scale(upperLeft.x), scale(upperLeft.y), scale(size), scale(size));
 
@@ -408,7 +431,7 @@ public class GuiPanel extends JPanel {
      */
     protected void drawWall(final Wall w, final Graphics g) {
         final Color cBackup = g.getColor();
-        g.setColor(darkMode ? Color.WHITE : Color.BLACK);
+        g.setColor(colorProfile.getWallColor());
 
         final Point upperLeft = getUpperLeftCornerInField(w, world.getHeight());
         if (w.isHorizontal()) {

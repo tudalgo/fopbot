@@ -8,6 +8,7 @@ dokkaVersioningPlugin = { module = "org.jetbrains.dokka:versioning-plugin", vers
 dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 imageio-batik = "com.twelvemonkeys.imageio:imageio-batik:3.11.0"
 batik = "org.apache.xmlgraphics:batik-all:1.17"
+lombok = { module = "org.projectlombok:lombok", version = "1.18.32" }
 
 [plugins]
 kotlin-jvm = "org.jetbrains.kotlin.jvm:2.0.0"

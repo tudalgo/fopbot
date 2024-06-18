@@ -31,6 +31,10 @@ dependencies {
     implementation(libs.annotations)
     implementation(libs.batik)
     implementation(libs.imageio.batik)
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+    testCompileOnly(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
     dokkaPlugin(libs.dokkaKotlinAsJavaPlugin)
     dokkaPlugin(libs.dokkaVersioningPlugin)
 }
