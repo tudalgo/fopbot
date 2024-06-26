@@ -8,6 +8,15 @@ $dokka.location:fopbot/Coin/Coin/#int#int#int/PointingToDeclaration/-f-o-p-bot/
 $dokka.location:fopbot/Coin/Coin/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-coin/-coin.html
 $dokka.location:fopbot/Coin/getCount/#/PointingToDeclaration/-f-o-p-bot/fopbot/-coin/get-count.html
 $dokka.location:fopbot/Coin/setCount/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-coin/set-count.html
+$dokka.location:fopbot/ColorProfile///PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/index.html
+$dokka.location:fopbot/ColorProfile/ColorProfile/#/PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/-color-profile.html
+$dokka.location:fopbot/ColorProfile/getBackgroundColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/get-background-color.html
+$dokka.location:fopbot/ColorProfile/getBlockColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/get-block-color.html
+$dokka.location:fopbot/ColorProfile/getCoinColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/get-coin-color.html
+$dokka.location:fopbot/ColorProfile/getFieldColor/#java.awt.Point/PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/get-field-color.html
+$dokka.location:fopbot/ColorProfile/getInnerBorderColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/get-inner-border-color.html
+$dokka.location:fopbot/ColorProfile/getOuterBorderColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/get-outer-border-color.html
+$dokka.location:fopbot/ColorProfile/getWallColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-color-profile/get-wall-color.html
 $dokka.location:fopbot/Direction.DOWN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-direction/-d-o-w-n/index.html
 $dokka.location:fopbot/Direction.LEFT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-direction/-l-e-f-t/index.html
 $dokka.location:fopbot/Direction.RIGHT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-direction/-r-i-g-h-t/index.html
@@ -56,6 +65,7 @@ $dokka.location:fopbot/GuiPanel/drawBoard/#java.awt.Graphics/PointingToDeclarati
 $dokka.location:fopbot/GuiPanel/drawCoin/#fopbot.Coin#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-coin.html
 $dokka.location:fopbot/GuiPanel/drawRobot/#fopbot.Robot#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-robot.html
 $dokka.location:fopbot/GuiPanel/drawWall/#fopbot.Wall#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/draw-wall.html
+$dokka.location:fopbot/GuiPanel/getColorProfile/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-color-profile.html
 $dokka.location:fopbot/GuiPanel/getInputHandler/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-input-handler.html
 $dokka.location:fopbot/GuiPanel/getPreferredSize/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-preferred-size.html
 $dokka.location:fopbot/GuiPanel/getScaledWorldBounds/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/get-scaled-world-bounds.html
@@ -63,6 +73,7 @@ $dokka.location:fopbot/GuiPanel/getUnscaledSize/#/PointingToDeclaration/-f-o-p-
 $dokka.location:fopbot/GuiPanel/isDarkMode/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/is-dark-mode.html
 $dokka.location:fopbot/GuiPanel/paintComponent/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/paint-component.html
 $dokka.location:fopbot/GuiPanel/saveStateAsPng/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/save-state-as-png.html
+$dokka.location:fopbot/GuiPanel/setColorProfile/#fopbot.ColorProfile/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/set-color-profile.html
 $dokka.location:fopbot/GuiPanel/setDarkMode/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/set-dark-mode.html
 $dokka.location:fopbot/GuiPanel/toggleDarkMode/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/toggle-dark-mode.html
 $dokka.location:fopbot/GuiPanel/updateGui/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/update-gui.html
