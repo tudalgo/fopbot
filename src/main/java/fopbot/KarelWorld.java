@@ -22,9 +22,6 @@ import java.util.stream.Stream;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import static fopbot.PaintUtils.FIELD_INNER_OFFSET;
-import static fopbot.PaintUtils.FIELD_INNER_SIZE;
-
 /**
  * Represents the FOP Bot world on a graphical user interface.
  */
@@ -52,11 +49,6 @@ public class KarelWorld {
      * The world fields as 2D coordinate system.
      */
     private final Field[][] fields;
-
-    /**
-     * The current image size of the robot textures. This value will be dynamically adjusted if needed.
-     */
-    private int robotImageSize = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
 
     /**
      * The maximum number of actions that can be performed in this world.
@@ -597,19 +589,6 @@ public class KarelWorld {
         if (fields[oldY][oldX].getEntities().removeIf(entity -> entity == robot)) {
             fields[robot.getY()][robot.getX()].getEntities().add(robot);
         }
-    }
-
-    /**
-     * Returns the current size of the robot images.
-     *
-     * @return the current size of the robot images
-     */
-    int getRobotImageSize() {
-        return robotImageSize;
-    }
-
-    void rescaleRobotImages(final int size) {
-        this.robotImageSize = size;
     }
 
     /**

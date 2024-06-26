@@ -27,8 +27,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -381,9 +379,6 @@ public class GuiPanel extends JPanel {
         final int directionIndex = r.getDirection().ordinal();
 
         final int targetRobotImageSize = scale(FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2);
-        if (world.getRobotImageSize() != targetRobotImageSize) {
-            world.rescaleRobotImages(targetRobotImageSize);
-        }
 
         final Image robotImage = r.getRobotFamily().render(
             targetRobotImageSize,
