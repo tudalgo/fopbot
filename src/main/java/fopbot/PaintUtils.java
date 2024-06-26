@@ -106,12 +106,12 @@ class PaintUtils {
      * @param upRotationOffset the rotation offset in degree
      * @return the loaded, scaled and rotated image.
      */
-    protected static Image[] loadScaleRotateFieldImage(
+    protected static BufferedImage[] loadScaleRotateFieldImage(
         final InputStream inputImage,
         final int upRotationOffset,
         final int targetSize
     ) {
-        final Image[] rotations = new Image[4];
+        final BufferedImage[] rotations = new BufferedImage[4];
         final BufferedImage originalBufferedImage = loadFieldImage(inputImage, 0, targetSize);
 
         int degrees = upRotationOffset;

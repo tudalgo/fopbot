@@ -27,8 +27,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -381,14 +379,12 @@ public class GuiPanel extends JPanel {
         final int directionIndex = r.getDirection().ordinal();
 
         final int targetRobotImageSize = scale(FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2);
-        if (world.getRobotImageSize() != targetRobotImageSize) {
-            world.rescaleRobotImages(targetRobotImageSize);
-        }
 
-        final Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getRobotFamily().getIdentifier());
-        Objects.requireNonNull(imageMapById, "robot image was not found");
-        final Image robotImage = imageMapById.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
-
+        final Image robotImage = r.getRobotFamily().render(
+            targetRobotImageSize,
+            directionIndex * 90,
+            r.isTurnedOff()
+        );
         g.drawImage(robotImage, scale(upperLeft.x), scale(upperLeft.y), null);
 
         final Color cBackup = g.getColor();
