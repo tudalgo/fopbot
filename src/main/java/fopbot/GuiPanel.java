@@ -74,7 +74,11 @@ public class GuiPanel extends JPanel {
      */
     private double scaleFactor = 1.0;
 
+    /**
+     * The operating system theme detector.
+     */
     final OsThemeDetector osThemeDetector = OsThemeDetector.getDetector();
+
     /**
      * Whether the dark mode is enabled.
      */
@@ -339,19 +343,20 @@ public class GuiPanel extends JPanel {
         );
 
         // draw fields
-        g.setColor(colorProfile.getFieldColor());
         for (int h = 0; h < world.getHeight(); h++) {
             for (int w = 0; w < world.getWidth(); w++) {
+                final var pos = new Point(w, h);
+                g.setColor(colorProfile.getFieldColor(pos));
                 if (world.getField(w, World.getHeight() - h - 1).getFieldColor() != null) {
                     g.setColor(world.getField(w, World.getHeight() - h - 1).getFieldColor());
                 }
                 g.fillRect(scale(width), scale(height), scale(FIELD_INNER_SIZE), scale(FIELD_INNER_SIZE));
-                g.setColor(colorProfile.getFieldColor());
+                g.setColor(colorProfile.getFieldColor(pos));
 
                 if (h == 99) {
                     g.setColor(Color.GREEN);
                     g.drawString(width + ";" + height, width, height);
-                    g.setColor(colorProfile.getFieldColor());
+                    g.setColor(colorProfile.getFieldColor(pos));
                 }
 
                 width += FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE;

@@ -1,8 +1,11 @@
 package fopbot;
 
 import lombok.Builder;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.util.function.BiFunction;
 
 /**
  * A color profile for drawing the world.
@@ -11,6 +14,7 @@ import java.awt.Color;
  * @param backgroundColorDark   the background color in dark mode
  * @param fieldColorLight       the default background color for {@link Field}s in light mode
  * @param fieldColorDark        the default background color for {@link Field}s in dark mode
+ * @param customFieldColorPattern a function for creating custom field color patterns, like chess boards
  * @param outerBorderColorLight the color of the outer border in light mode
  * @param outerBorderColorDark  the color of the outer border in dark mode
  * @param innerBorderColorLight the color of the inner border in light mode (not wall)
@@ -28,6 +32,7 @@ public record ColorProfile(
     Color backgroundColorDark,
     Color fieldColorLight,
     Color fieldColorDark,
+    @Nullable BiFunction<ColorProfile, Point, Color> customFieldColorPattern,
     Color outerBorderColorLight,
     Color outerBorderColorDark,
     Color innerBorderColorLight,
@@ -42,29 +47,22 @@ public record ColorProfile(
     /**
      * The default color profile.
      */
-    public static ColorProfile DEFAULT = new ColorProfile(
-        // Background
-        Color.WHITE,
-        Color.BLACK,
-        // Field
-        Color.LIGHT_GRAY,
-        new Color(25, 25, 30),
-        // Outer border
-        Color.BLACK,
-        Color.WHITE,
-        // Inner border
-        Color.GRAY,
-        new Color(60, 60, 60),
-        // Wall
-        Color.BLACK,
-        Color.WHITE,
-        // Coin
-        Color.RED,
-        new Color(255, 140, 26),
-        // Block
-        Color.BLACK,
-        Color.WHITE
-    );
+    public static ColorProfile DEFAULT = ColorProfile.builder()
+        .backgroundColorLight(Color.WHITE)
+        .backgroundColorDark(Color.BLACK)
+        .fieldColorLight(Color.LIGHT_GRAY)
+        .fieldColorDark(new Color(25, 25, 30))
+        .outerBorderColorLight(Color.BLACK)
+        .outerBorderColorDark(Color.WHITE)
+        .innerBorderColorLight(Color.GRAY)
+        .InnerBorderColorDark(new Color(60, 60, 60))
+        .wallColorLight(Color.BLACK)
+        .wallColorDark(Color.WHITE)
+        .coinColorLight(Color.RED)
+        .coinColorDark(new Color(255, 140, 26))
+        .blockColorLight(Color.BLACK)
+        .blockColorDark(Color.WHITE)
+        .build();
 
     /**
      * Returns {@code true} if the world is in dark mode.
@@ -88,10 +86,13 @@ public record ColorProfile(
     /**
      * Returns the default background color for {@link Field}s.
      *
+     * @param fieldPosition the position of the field
      * @return the default background color for {@link Field}s
      */
-    public Color getFieldColor() {
-        return isDarkMode() ? fieldColorDark : fieldColorLight;
+    public Color getFieldColor(final Point fieldPosition) {
+        return customFieldColorPattern != null
+               ? customFieldColorPattern.apply(this, fieldPosition)
+               : (isDarkMode() ? fieldColorDark : fieldColorLight);
     }
 
     /**
