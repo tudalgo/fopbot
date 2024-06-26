@@ -102,8 +102,6 @@ $dokka.location:fopbot/KarelWorld/getGuiPanel/#/PointingToDeclaration/-f-o-p-bo
 $dokka.location:fopbot/KarelWorld/getHeight/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-height.html
 $dokka.location:fopbot/KarelWorld/getInputHandler/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-input-handler.html
 $dokka.location:fopbot/KarelWorld/getRobotCount/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-robot-count.html
-$dokka.location:fopbot/KarelWorld/getRobotImageMap/#java.lang.Class<? extends fopbot.Robot>/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-robot-image-map.html
-$dokka.location:fopbot/KarelWorld/getRobotImageMapById/#java.lang.String/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-robot-image-map-by-id.html
 $dokka.location:fopbot/KarelWorld/getTrace/#fopbot.Robot/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-trace.html
 $dokka.location:fopbot/KarelWorld/getTraces/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-traces.html
 $dokka.location:fopbot/KarelWorld/getWidth/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-width.html
@@ -113,7 +111,6 @@ $dokka.location:fopbot/KarelWorld/isCoinInField/#int#int/PointingToDeclaration/
 $dokka.location:fopbot/KarelWorld/isDrawTurnedOffRobots/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-draw-turned-off-robots.html
 $dokka.location:fopbot/KarelWorld/isVisible/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-visible.html
 $dokka.location:fopbot/KarelWorld/isWallInField/#int#int#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/is-wall-in-field.html
-$dokka.location:fopbot/KarelWorld/loadImagesIfNotLoaded/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/load-images-if-not-loaded.html
 $dokka.location:fopbot/KarelWorld/pickCoin/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/pick-coin.html
 $dokka.location:fopbot/KarelWorld/placeBlock/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/place-block.html
 $dokka.location:fopbot/KarelWorld/placeHorizontalWall/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/place-horizontal-wall.html
@@ -121,8 +118,6 @@ $dokka.location:fopbot/KarelWorld/placeVerticalWall/#int#int/PointingToDeclarati
 $dokka.location:fopbot/KarelWorld/putCoins/#int#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/put-coins.html
 $dokka.location:fopbot/KarelWorld/reset/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/reset.html
 $dokka.location:fopbot/KarelWorld/setActionLimit/#long/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-action-limit.html
-$dokka.location:fopbot/KarelWorld/setAndLoadRobotImages/#java.lang.Class<? extends fopbot.Robot>#java.io.InputStream#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images.html
-$dokka.location:fopbot/KarelWorld/setAndLoadRobotImagesById/#java.lang.String#java.io.InputStream#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-and-load-robot-images-by-id.html
 $dokka.location:fopbot/KarelWorld/setDelay/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-delay.html
 $dokka.location:fopbot/KarelWorld/setDrawTurnedOffRobots/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-draw-turned-off-robots.html
 $dokka.location:fopbot/KarelWorld/setFieldColor/#int#int#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-field-color.html
@@ -217,21 +212,11 @@ $dokka.location:fopbot/Robot/setY/#int/PointingToDeclaration/-f-o-p-bot/fopbot/
 $dokka.location:fopbot/Robot/toString/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/to-string.html
 $dokka.location:fopbot/Robot/turnLeft/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/turn-left.html
 $dokka.location:fopbot/Robot/turnOff/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot/turn-off.html
-$dokka.location:fopbot/RobotFamily.SQUARE_AQUA///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-a-q-u-a/index.html
-$dokka.location:fopbot/RobotFamily.SQUARE_BLACK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-b-l-a-c-k/index.html
-$dokka.location:fopbot/RobotFamily.SQUARE_BLUE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-b-l-u-e/index.html
-$dokka.location:fopbot/RobotFamily.SQUARE_GREEN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-g-r-e-e-n/index.html
-$dokka.location:fopbot/RobotFamily.SQUARE_ORANGE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-o-r-a-n-g-e/index.html
-$dokka.location:fopbot/RobotFamily.SQUARE_PURPLE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-p-u-r-p-l-e/index.html
-$dokka.location:fopbot/RobotFamily.SQUARE_RED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-r-e-d/index.html
-$dokka.location:fopbot/RobotFamily.SQUARE_WHITE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-w-h-i-t-e/index.html
-$dokka.location:fopbot/RobotFamily.SQUARE_YELLOW///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-s-q-u-a-r-e_-y-e-l-l-o-w/index.html
-$dokka.location:fopbot/RobotFamily.TRIANGLE_BLUE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-robot-family/-t-r-i-a-n-g-l-e_-b-l-u-e/index.html
 $dokka.location:fopbot/RobotFamily///PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/index.html
 $dokka.location:fopbot/RobotFamily/getColor/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/get-color.html
-$dokka.location:fopbot/RobotFamily/getIdentifier/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/get-identifier.html
-$dokka.location:fopbot/RobotFamily/valueOf/#java.lang.String/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/value-of.html
-$dokka.location:fopbot/RobotFamily/values/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/values.html
+$dokka.location:fopbot/RobotFamily/getName/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/get-name.html
+$dokka.location:fopbot/RobotFamily/render/#int#int#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/render.html
+$dokka.location:fopbot/RobotFamily/setColor/#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-family/set-color.html
 $dokka.location:fopbot/RobotTrace///PointingToDeclaration/-f-o-p-bot/fopbot/-robot-trace/index.html
 $dokka.location:fopbot/RobotTrace/RobotTrace/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-trace/-robot-trace.html
 $dokka.location:fopbot/RobotTrace/RobotTrace/#fopbot.RobotTrace/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-trace/-robot-trace.html
@@ -240,6 +225,11 @@ $dokka.location:fopbot/RobotTrace/iterator/#/PointingToDeclaration/-f-o-p-bot/f
 $dokka.location:fopbot/RobotTrace/setTransitions/#java.util.List<fopbot.Transition>/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-trace/set-transitions.html
 $dokka.location:fopbot/RobotTrace/toString/#/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-trace/to-string.html
 $dokka.location:fopbot/RobotTrace/trace/#fopbot.Robot#fopbot.Transition.RobotAction/PointingToDeclaration/-f-o-p-bot/fopbot/-robot-trace/trace.html
+$dokka.location:fopbot/SvgBasedRobotFamily///PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/index.html
+$dokka.location:fopbot/SvgBasedRobotFamily/SvgBasedRobotFamily/#/PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/-svg-based-robot-family.html
+$dokka.location:fopbot/SvgBasedRobotFamily/getImage/#int#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/get-image.html
+$dokka.location:fopbot/SvgBasedRobotFamily/render/#int#int#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/render.html
+$dokka.location:fopbot/SvgBasedRobotFamily/setColor/#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/set-color.html
 $dokka.location:fopbot/Transition.RobotAction.MOVE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-transition/-robot-action/-m-o-v-e/index.html
 $dokka.location:fopbot/Transition.RobotAction.NONE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-transition/-robot-action/-n-o-n-e/index.html
 $dokka.location:fopbot/Transition.RobotAction.PICK_COIN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-transition/-robot-action/-p-i-c-k_-c-o-i-n/index.html
