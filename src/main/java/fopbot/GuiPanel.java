@@ -385,10 +385,11 @@ public class GuiPanel extends JPanel {
             world.rescaleRobotImages(targetRobotImageSize);
         }
 
-        final Map<String, Image[]> imageMapById = world.getRobotImageMapById(r.getRobotFamily().getIdentifier());
-        Objects.requireNonNull(imageMapById, "robot image was not found");
-        final Image robotImage = imageMapById.get(r.isTurnedOff() ? "off" : "on")[directionIndex];
-
+        final Image robotImage = r.getRobotFamily().render(
+            targetRobotImageSize,
+            directionIndex * 90,
+            r.isTurnedOff()
+        );
         g.drawImage(robotImage, scale(upperLeft.x), scale(upperLeft.y), null);
 
         final Color cBackup = g.getColor();

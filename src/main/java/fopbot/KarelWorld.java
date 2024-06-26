@@ -8,8 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -54,14 +52,6 @@ public class KarelWorld {
      * The world fields as 2D coordinate system.
      */
     private final Field[][] fields;
-    /**
-     * The robot images by class instances.
-     */
-    private final Map<Class<? extends Robot>, Map<String, Image[]>> robotImages;
-    /**
-     * The robot images by image identification.
-     */
-    private final Map<String, Map<String, Image[]>> robotImagesById;
 
     /**
      * The current image size of the robot textures. This value will be dynamically adjusted if needed.
@@ -99,11 +89,6 @@ public class KarelWorld {
     private GuiPanel guiGp;
 
     /**
-     * True iff images are loaded.
-     */
-    private boolean imagesLoaded = false;
-
-    /**
      * Whether to draw turned off robots.
      */
     private boolean drawTurnedOffRobots = true;
@@ -124,8 +109,6 @@ public class KarelWorld {
 
         this.height = height;
         this.width = width;
-        robotImages = new HashMap<>();
-        robotImagesById = new HashMap<>();
 
         fields = new Field[height][width];
         for (int y = 0; y < height; y++) {
@@ -262,28 +245,6 @@ public class KarelWorld {
     }
 
     /**
-     * Returns robot image map related to the specified robot class instance.
-     *
-     * @param robotClass the class instance related to the map
-     * @return robot image map related to the specified robot class instance
-     * @deprecated use robot families instead
-     */
-    @Deprecated
-    protected Map<String, Image[]> getRobotImageMap(final Class<? extends Robot> robotClass) {
-        return robotImages.get(robotClass);
-    }
-
-    /**
-     * Returns robot image map related to the specified image identification.
-     *
-     * @param imageId the image identification related to the map
-     * @return robot image map related to the specified image identification.
-     */
-    protected Map<String, Image[]> getRobotImageMapById(final String imageId) {
-        return robotImagesById.get(imageId);
-    }
-
-    /**
      * Returns the previous robot tracing of the specified robot.
      *
      * @param robot the robot to retrieve its tracing
@@ -366,8 +327,8 @@ public class KarelWorld {
      * Returns {@code true} if this world is visible on the graphical user interface. Returns
      * {@code false} if this world is running in headless mode.
      *
-     * @return {@code true} if this world is visible on the graphical user interface.
-     *     Returns {@code false} if this world is running in headless mode
+     * @return {@code true} if this world is visible on the graphical user interface or {@code false} if this world is
+     *     running in headless mode
      */
     public boolean isVisible() {
         return !GraphicsEnvironment.isHeadless() && guiFrame != null && guiFrame.isVisible();
@@ -385,7 +346,6 @@ public class KarelWorld {
             System.out.println("Cannot set world visible in headless mode. Ignoring.");
             return;
         }
-        loadImagesIfNotLoaded();
         if (visible && guiFrame == null) {
             guiFrame = new JFrame("FoPBot");
             guiFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -575,75 +535,6 @@ public class KarelWorld {
     }
 
     /**
-     * Loads robot images.
-     *
-     * @param turnedOn          the image of the robot turned on
-     * @param turnedOff         the image of the robot turned off
-     * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
-     * @param rotationOffsetOff the rotation offset of the turned off robot in degree
-     * @return the loaded robot images
-     */
-    private Map<String, Image[]> setAndLoadRobotImages(
-        final InputStream turnedOn,
-        final InputStream turnedOff,
-        final int rotationOffsetOn,
-        final int rotationOffsetOff
-    ) {
-        return Map.ofEntries(
-            Map.entry("on", PaintUtils.loadScaleRotateFieldImage(turnedOn, rotationOffsetOn, robotImageSize)),
-            Map.entry("off", PaintUtils.loadScaleRotateFieldImage(turnedOff, rotationOffsetOff, robotImageSize))
-        );
-    }
-
-    /**
-     * Loads robot images for a specific robot class.
-     *
-     * @param robotClass        the robot class instance
-     * @param turnedOn          the image of the robot turned on
-     * @param turnedOff         the image of the robot turned off
-     * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
-     * @param rotationOffsetOff the rotation offset of the turned off robot in degree
-     */
-    public void setAndLoadRobotImages(
-        final Class<? extends Robot> robotClass,
-        final InputStream turnedOn,
-        final InputStream turnedOff,
-        final int rotationOffsetOn,
-        final int rotationOffsetOff
-    ) {
-        robotImages.put(robotClass, setAndLoadRobotImages(
-            turnedOn,
-            turnedOff,
-            rotationOffsetOn,
-            rotationOffsetOff
-        ));
-    }
-
-    /**
-     * Loads robot images for a specific image identification.
-     *
-     * @param imageId           the image identification
-     * @param turnedOn          the image of the robot turned on
-     * @param turnedOff         the image of the robot turned off
-     * @param rotationOffsetOn  the rotation offset of the turned on robot in degree
-     * @param rotationOffsetOff the rotation offset of the turned off robot in degree
-     */
-    public void setAndLoadRobotImagesById(
-        final String imageId,
-        final InputStream turnedOn,
-        final InputStream turnedOff,
-        final int rotationOffsetOn,
-        final int rotationOffsetOff
-    ) {
-        robotImagesById.put(imageId, setAndLoadRobotImages(
-            turnedOn,
-            turnedOff,
-            rotationOffsetOn,
-            rotationOffsetOff
-        ));
-    }
-
-    /**
      * Puts this world to sleep for the specified amount time given by {@link #delay} (in
      * milliseconds).
      *
@@ -709,22 +600,6 @@ public class KarelWorld {
     }
 
     /**
-     * Load all images for displaying FoPBot if required.
-     */
-    protected void loadImagesIfNotLoaded() {
-        if (imagesLoaded) {
-            return;
-        }
-        // load robot images
-        for (final RobotFamily f : RobotFamily.values()) {
-            final var streamOn = getClass().getResourceAsStream(String.format("/robots/%s_on.svg", f.getIdentifier()));
-            final var streamOff = getClass().getResourceAsStream(String.format("/robots/%s_off.svg", f.getIdentifier()));
-            setAndLoadRobotImagesById(f.getIdentifier(), streamOn, streamOff, 0, 0);
-        }
-        imagesLoaded = true;
-    }
-
-    /**
      * Returns the current size of the robot images.
      *
      * @return the current size of the robot images
@@ -734,9 +609,7 @@ public class KarelWorld {
     }
 
     void rescaleRobotImages(final int size) {
-        this.imagesLoaded = false;
         this.robotImageSize = size;
-        this.loadImagesIfNotLoaded();
     }
 
     /**
