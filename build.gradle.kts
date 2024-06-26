@@ -31,6 +31,7 @@ dependencies {
     implementation(libs.annotations)
     implementation(libs.batik)
     implementation(libs.imageio.batik)
+    implementation(libs.jSystemThemeDetector)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
     testCompileOnly(libs.lombok)

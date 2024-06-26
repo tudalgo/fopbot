@@ -1,5 +1,6 @@
 package fopbot;
 
+import com.jthemedetecor.OsThemeDetector;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.awt.Color;
@@ -73,10 +74,11 @@ public class GuiPanel extends JPanel {
      */
     private double scaleFactor = 1.0;
 
+    final OsThemeDetector osThemeDetector = OsThemeDetector.getDetector();
     /**
      * Whether the dark mode is enabled.
      */
-    private boolean darkMode = false;
+    private boolean darkMode = osThemeDetector.isDark();
 
     /**
      * Listeners for dark mode changes.
@@ -98,6 +100,13 @@ public class GuiPanel extends JPanel {
         this.inputHandler = new InputHandler(this);
         setSize(getPreferredSize());
         setFocusable(true);
+
+        // dark mode listener
+        osThemeDetector.registerListener(isDark -> {
+            if (isDark != darkMode) {
+                toggleDarkMode();
+            }
+        });
 
         // default key bindings
         inputHandler.addKeyListener(new KeyAdapter() {
