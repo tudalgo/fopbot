@@ -1,7 +1,6 @@
 package fopbot;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -10,7 +9,6 @@ import java.awt.image.BufferedImage;
  * A robot family that is based on SVG images.
  */
 @Getter
-@RequiredArgsConstructor
 public class SvgBasedRobotFamily implements RobotFamily {
     /**
      * The name of this {@link RobotFamily}.
@@ -37,7 +35,65 @@ public class SvgBasedRobotFamily implements RobotFamily {
      */
     private int imageSize = -1;
 
+    /**
+     * The base rotation of the "on" images from the SVG file. Use this if the images are not "UP" by default.
+     * The value is in degrees and rotation is clockwise.
+     */
+    private final int rotationOffsetOn;
+
+    /**
+     * The base rotation of the "off" images from the SVG file. Use this if the images are not "UP" by default.
+     * The value is in degrees and rotation is clockwise.
+     */
+    private final int rotationOffsetOff;
+
+    /**
+     * The images of the robot in all four rotations and turned on and off.
+     */
     private final BufferedImage[] images = new BufferedImage[8];
+
+    /**
+     * Creates a new {@link SvgBasedRobotFamily}.
+     *
+     * @param name              the name of the robot family
+     * @param svgPathOn         the path to the SVG image of the robot when it is turned on
+     * @param svgPathOff        the path to the SVG image of the robot when it is turned off
+     * @param color             the color of the robot family
+     * @param rotationOffsetOn  the base rotation of the "on" images from the SVG file
+     * @param rotationOffsetOff the base rotation of the "off" images from the SVG file
+     */
+    public SvgBasedRobotFamily(
+        final String name,
+        final String svgPathOn,
+        final String svgPathOff,
+        final Color color,
+        final int rotationOffsetOn,
+        final int rotationOffsetOff
+    ) {
+        this.name = name;
+        this.svgPathOn = svgPathOn;
+        this.svgPathOff = svgPathOff;
+        this.color = color;
+        this.rotationOffsetOn = rotationOffsetOn;
+        this.rotationOffsetOff = rotationOffsetOff;
+    }
+
+    /**
+     * Creates a new {@link SvgBasedRobotFamily} with a rotation offset of 0.
+     *
+     * @param name       the name of the robot family
+     * @param svgPathOn  the path to the SVG image of the robot when it is turned on
+     * @param svgPathOff the path to the SVG image of the robot when it is turned off
+     * @param color      the color of the robot family
+     */
+    public SvgBasedRobotFamily(
+        final String name,
+        final String svgPathOn,
+        final String svgPathOff,
+        final Color color
+    ) {
+        this(name, svgPathOn, svgPathOff, color, 0, 0);
+    }
 
     @Override
     public void setColor(final Color color) {
@@ -69,7 +125,7 @@ public class SvgBasedRobotFamily implements RobotFamily {
         System.arraycopy(
             PaintUtils.loadScaleRotateFieldImage(
                 getClass().getResourceAsStream(svgPathOn),
-                0,
+                rotationOffsetOn,
                 targetSize
             ),
             0,
@@ -80,7 +136,7 @@ public class SvgBasedRobotFamily implements RobotFamily {
         System.arraycopy(
             PaintUtils.loadScaleRotateFieldImage(
                 getClass().getResourceAsStream(svgPathOff),
-                0,
+                rotationOffsetOff,
                 targetSize
             ),
             0,
