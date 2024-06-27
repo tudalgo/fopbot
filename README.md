@@ -13,17 +13,22 @@ This project is available on Maven Central. You can use it by adding the followi
 ```kotlin
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 dependencies {
     implementation("org.tudalgo.fopbot:<version>")
 }
 ```
+
+Since the recent update we also need the jitpack repository to resolve the dependencies of the project.
+
 ## Snapshot
 The snapshot version is available on Sonatype. You can use it by adding the following code to your `build.gradle.kts` file:
 ```kotlin
 repositories {
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -39,6 +44,7 @@ After that, you can use the project in your other projects by adding the followi
 ```kotlin
 repositories {
     mavenLocal()
+    maven("https://jitpack.io")
 }
 
 dependencies {
