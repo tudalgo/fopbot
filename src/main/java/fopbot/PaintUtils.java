@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -147,6 +146,24 @@ class PaintUtils {
         width += FIELD_INNER_OFFSET;
         height += FIELD_INNER_OFFSET;
         return new Point(width, height);
+    }
+
+    /**
+     * Returns the bounds of a specific field (the field entity is standing on).
+     *
+     * @param fe          the entity to check
+     * @param worldHeight the height of the world
+     * @return the bounds of a specific field (the field entity is standing on)
+     */
+    public static Rectangle getFieldBounds(final FieldEntity fe, final int worldHeight) {
+        final var upperLeft = getUpperLeftCornerInField(fe, worldHeight);
+        final var size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
+        return new Rectangle(
+            upperLeft.x,
+            upperLeft.y,
+            size,
+            size
+        );
     }
 
     /**
