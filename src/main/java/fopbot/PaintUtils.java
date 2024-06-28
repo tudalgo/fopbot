@@ -21,7 +21,7 @@ import javax.imageio.ImageReadParam;
 /**
  * A utility class that provides useful drawing operations.
  */
-class PaintUtils {
+public class PaintUtils {
 
     /**
      * The inner size of a field in a 2D world.
@@ -61,7 +61,7 @@ class PaintUtils {
      * @param rotationOffset the rotation offset in degree
      * @return the loaded image
      */
-    protected static BufferedImage loadFieldImage(
+    public static BufferedImage loadFieldImage(
         final InputStream inputImage,
         final int rotationOffset,
         final int targetSize
@@ -105,7 +105,7 @@ class PaintUtils {
      * @param upRotationOffset the rotation offset in degree
      * @return the loaded, scaled and rotated image.
      */
-    protected static BufferedImage[] loadScaleRotateFieldImage(
+    public static BufferedImage[] loadScaleRotateFieldImage(
         final InputStream inputImage,
         final int upRotationOffset,
         final int targetSize
@@ -137,7 +137,7 @@ class PaintUtils {
      * @param worldHeight the height of the world
      * @return the upper left corner coordinates of a specific field (the field entity is standing on)
      */
-    protected static Point getUpperLeftCornerInField(final FieldEntity fe, final int worldHeight) {
+    public static Point getUpperLeftCornerInField(final FieldEntity fe, final int worldHeight) {
         final int yM = Math.abs(fe.getY() - worldHeight + 1);
         int width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
         int height = BOARD_OFFSET + FIELD_BORDER_THICKNESS;

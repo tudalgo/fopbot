@@ -648,7 +648,7 @@ public class GuiPanel extends JPanel {
      * @param value the value to scale
      * @return the scaled value
      */
-    private double scale(final double value) {
+    protected double scale(final double value) {
         return value * scaleFactor;
     }
 
@@ -658,7 +658,7 @@ public class GuiPanel extends JPanel {
      * @param value the value to scale
      * @return the scaled value
      */
-    private int scale(final int value) {
+    protected int scale(final int value) {
         return (int) (value * scaleFactor);
     }
 
@@ -668,7 +668,7 @@ public class GuiPanel extends JPanel {
      * @param rect the {@link Rectangle2D} to scale
      * @return the scaled {@link Rectangle2D}
      */
-    private Rectangle2D scale(final Rectangle2D rect) {
+    protected Rectangle2D scale(final Rectangle2D rect) {
         return new Rectangle2D.Double(
             rect.getX() * scaleFactor,
             rect.getY() * scaleFactor,
