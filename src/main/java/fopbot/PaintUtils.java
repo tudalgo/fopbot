@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -22,7 +21,7 @@ import javax.imageio.ImageReadParam;
 /**
  * A utility class that provides useful drawing operations.
  */
-class PaintUtils {
+public class PaintUtils {
 
     /**
      * The inner size of a field in a 2D world.
@@ -62,7 +61,7 @@ class PaintUtils {
      * @param rotationOffset the rotation offset in degree
      * @return the loaded image
      */
-    protected static BufferedImage loadFieldImage(
+    public static BufferedImage loadFieldImage(
         final InputStream inputImage,
         final int rotationOffset,
         final int targetSize
@@ -106,7 +105,7 @@ class PaintUtils {
      * @param upRotationOffset the rotation offset in degree
      * @return the loaded, scaled and rotated image.
      */
-    protected static BufferedImage[] loadScaleRotateFieldImage(
+    public static BufferedImage[] loadScaleRotateFieldImage(
         final InputStream inputImage,
         final int upRotationOffset,
         final int targetSize
@@ -138,7 +137,7 @@ class PaintUtils {
      * @param worldHeight the height of the world
      * @return the upper left corner coordinates of a specific field (the field entity is standing on)
      */
-    protected static Point getUpperLeftCornerInField(final FieldEntity fe, final int worldHeight) {
+    public static Point getUpperLeftCornerInField(final FieldEntity fe, final int worldHeight) {
         final int yM = Math.abs(fe.getY() - worldHeight + 1);
         int width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
         int height = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
@@ -147,6 +146,24 @@ class PaintUtils {
         width += FIELD_INNER_OFFSET;
         height += FIELD_INNER_OFFSET;
         return new Point(width, height);
+    }
+
+    /**
+     * Returns the bounds of a specific field (the field entity is standing on).
+     *
+     * @param fe          the entity to check
+     * @param worldHeight the height of the world
+     * @return the bounds of a specific field (the field entity is standing on)
+     */
+    public static Rectangle getFieldBounds(final FieldEntity fe, final int worldHeight) {
+        final var upperLeft = getUpperLeftCornerInField(fe, worldHeight);
+        final var size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
+        return new Rectangle(
+            upperLeft.x,
+            upperLeft.y,
+            size,
+            size
+        );
     }
 
     /**

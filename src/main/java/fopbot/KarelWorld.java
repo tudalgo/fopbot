@@ -160,6 +160,15 @@ public class KarelWorld {
     }
 
     /**
+     * Gathers a list of all field entities on this world.
+     *
+     * @return a list of all field entities on this world
+     */
+    public List<Field> getFields() {
+        return Arrays.stream(fields).flatMap(Arrays::stream).toList();
+    }
+
+    /**
      * Returns all field entities on this world.
      *
      * @return all field entities on this world
