@@ -3,6 +3,7 @@ package fopbot;
 import com.jthemedetecor.OsThemeDetector;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -37,7 +38,6 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import java.awt.BasicStroke;
 
 import static fopbot.PaintUtils.BOARD_OFFSET;
 import static fopbot.PaintUtils.FIELD_BORDER_THICKNESS;
