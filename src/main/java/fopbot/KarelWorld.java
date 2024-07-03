@@ -721,6 +721,7 @@ public class KarelWorld {
      *
      * @return the current {@link ColorProfile} that is used to draw the world
      */
+    @ApiStatus.Internal
     public ColorProfile getColorProfile() {
         return colorProfile;
     }
@@ -730,6 +731,7 @@ public class KarelWorld {
      *
      * @param colorProfile the new {@link ColorProfile} to use
      */
+    @ApiStatus.Internal
     public void setColorProfile(final ColorProfile colorProfile) {
         this.colorProfile = colorProfile;
     }
