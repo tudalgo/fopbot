@@ -74,6 +74,7 @@ $dokka.location:fopbot/GuiPanel/isDarkMode/#/PointingToDeclaration/-f-o-p-bot/f
 $dokka.location:fopbot/GuiPanel/paintComponent/#java.awt.Graphics/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/paint-component.html
 $dokka.location:fopbot/GuiPanel/saveStateAsPng/#/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/save-state-as-png.html
 $dokka.location:fopbot/GuiPanel/scale/#double/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/scale.html
+$dokka.location:fopbot/GuiPanel/scale/#float/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/scale.html
 $dokka.location:fopbot/GuiPanel/scale/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/scale.html
 $dokka.location:fopbot/GuiPanel/scale/#java.awt.geom.Rectangle2D/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/scale.html
 $dokka.location:fopbot/GuiPanel/scaleTextToWidth/#java.awt.Graphics2D#double#double#java.lang.String#java.awt.Font#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-gui-panel/scale-text-to-width.html
@@ -98,6 +99,7 @@ $dokka.location:fopbot/KarelWorld/checkYCoordinate/#int/PointingToDeclaration/-
 $dokka.location:fopbot/KarelWorld/getActionCount/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-action-count.html
 $dokka.location:fopbot/KarelWorld/getActionLimit/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-action-limit.html
 $dokka.location:fopbot/KarelWorld/getAllFieldEntities/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-all-field-entities.html
+$dokka.location:fopbot/KarelWorld/getColorProfile/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-color-profile.html
 $dokka.location:fopbot/KarelWorld/getDelay/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-delay.html
 $dokka.location:fopbot/KarelWorld/getEntityStates/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-entity-states.html
 $dokka.location:fopbot/KarelWorld/getField/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-field.html
@@ -123,6 +125,7 @@ $dokka.location:fopbot/KarelWorld/placeVerticalWall/#int#int/PointingToDeclarati
 $dokka.location:fopbot/KarelWorld/putCoins/#int#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/put-coins.html
 $dokka.location:fopbot/KarelWorld/reset/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/reset.html
 $dokka.location:fopbot/KarelWorld/setActionLimit/#long/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-action-limit.html
+$dokka.location:fopbot/KarelWorld/setColorProfile/#fopbot.ColorProfile/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-color-profile.html
 $dokka.location:fopbot/KarelWorld/setDelay/#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-delay.html
 $dokka.location:fopbot/KarelWorld/setDrawTurnedOffRobots/#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-draw-turned-off-robots.html
 $dokka.location:fopbot/KarelWorld/setFieldColor/#int#int#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/set-field-color.html
@@ -176,11 +179,11 @@ $dokka.location:fopbot/KeyPressListener/onKeyPress/#fopbot.KeyPressEvent/Pointin
 $dokka.location:fopbot/PaintUtils///PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/index.html
 $dokka.location:fopbot/PaintUtils/PaintUtils/#/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/-paint-utils.html
 $dokka.location:fopbot/PaintUtils/getBoardSize/#fopbot.KarelWorld/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-board-size.html
-$dokka.location:fopbot/PaintUtils/getFieldBounds/#fopbot.FieldEntity#int/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-field-bounds.html
+$dokka.location:fopbot/PaintUtils/getFieldBounds/#fopbot.FieldEntity#fopbot.KarelWorld/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-field-bounds.html
 $dokka.location:fopbot/PaintUtils/getMouseTilePosition/#fopbot.GuiPanel#java.awt.Point/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-mouse-tile-position.html
 $dokka.location:fopbot/PaintUtils/getPanelTransform/#fopbot.GuiPanel/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-panel-transform.html
 $dokka.location:fopbot/PaintUtils/getPanelWorldTransform/#fopbot.GuiPanel/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-panel-world-transform.html
-$dokka.location:fopbot/PaintUtils/getUpperLeftCornerInField/#fopbot.FieldEntity#int/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-upper-left-corner-in-field.html
+$dokka.location:fopbot/PaintUtils/getUpperLeftCornerInField/#fopbot.FieldEntity#fopbot.KarelWorld/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-upper-left-corner-in-field.html
 $dokka.location:fopbot/PaintUtils/getWorldTransform/#fopbot.KarelWorld/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/get-world-transform.html
 $dokka.location:fopbot/PaintUtils/loadFieldImage/#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/load-field-image.html
 $dokka.location:fopbot/PaintUtils/loadScaleRotateFieldImage/#java.io.InputStream#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-paint-utils/load-scale-rotate-field-image.html
