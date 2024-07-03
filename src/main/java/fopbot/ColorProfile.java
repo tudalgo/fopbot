@@ -18,7 +18,7 @@ import java.util.function.BiFunction;
  * @param outerBorderColorLight the color of the outer border in light mode
  * @param outerBorderColorDark  the color of the outer border in dark mode
  * @param innerBorderColorLight the color of the inner border in light mode (not wall)
- * @param InnerBorderColorDark  the color of the inner border in dark mode (not wall)
+ * @param innerBorderColorDark  the color of the inner border in dark mode (not wall)
  * @param wallColorLight        the color of {@link Wall}s in light mode
  * @param wallColorDark         the color of {@link Wall}s in dark mode
  * @param coinColorLight        the color of {@link Coin}s in light mode
@@ -36,7 +36,7 @@ public record ColorProfile(
     Color outerBorderColorLight,
     Color outerBorderColorDark,
     Color innerBorderColorLight,
-    Color InnerBorderColorDark,
+    Color innerBorderColorDark,
     Color wallColorLight,
     Color wallColorDark,
     Color coinColorLight,
@@ -55,7 +55,7 @@ public record ColorProfile(
         .outerBorderColorLight(Color.BLACK)
         .outerBorderColorDark(Color.WHITE)
         .innerBorderColorLight(Color.GRAY)
-        .InnerBorderColorDark(new Color(60, 60, 60))
+        .innerBorderColorDark(new Color(60, 60, 60))
         .wallColorLight(Color.BLACK)
         .wallColorDark(Color.WHITE)
         .coinColorLight(Color.RED)
@@ -110,7 +110,7 @@ public record ColorProfile(
      * @return the color of the inner border
      */
     public Color getInnerBorderColor() {
-        return isDarkMode() ? InnerBorderColorDark : innerBorderColorLight;
+        return isDarkMode() ? innerBorderColorDark : innerBorderColorLight;
     }
 
     /**
