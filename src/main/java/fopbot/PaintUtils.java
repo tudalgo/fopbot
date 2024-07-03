@@ -24,31 +24,15 @@ import javax.imageio.ImageReadParam;
 public class PaintUtils {
 
     /**
-     * The inner size of a field in a 2D world.
-     */
-    public static final int FIELD_INNER_SIZE = 60;
-    /**
-     * The thickness of the field borders in a 2D world.
-     */
-    public static final int FIELD_BORDER_THICKNESS = 4;
-    /**
-     * The inner offset of the size of a field in a 2D world.
-     */
-    public static final int FIELD_INNER_OFFSET = 4;
-    /**
-     * The offset of the board.
-     */
-    public static final int BOARD_OFFSET = 20;
-
-    /**
      * Returns the size of the board.
      *
      * @param world the world which is necessary for the calculation of the board size
      * @return the size of the board
      */
     public static Point getBoardSize(final KarelWorld world) {
-        final int w = FIELD_BORDER_THICKNESS * (world.getWidth() + 1) + FIELD_INNER_SIZE * world.getWidth();
-        final int h = FIELD_BORDER_THICKNESS * (world.getHeight() + 1) + FIELD_INNER_SIZE * world.getHeight();
+        final ColorProfile cp = world.getColorProfile();
+        final int w = cp.fieldBorderThickness() * (world.getWidth() + 1) + cp.fieldInnerSize() * world.getWidth();
+        final int h = cp.fieldBorderThickness() * (world.getHeight() + 1) + cp.fieldInnerSize() * world.getHeight();
         return new Point(w, h);
     }
 
@@ -133,31 +117,34 @@ public class PaintUtils {
     /**
      * Returns the upper left corner coordinates of a specific field (the field entity is standing on).
      *
-     * @param fe          the entity to check
-     * @param worldHeight the height of the world
+     * @param fe    the entity to check
+     * @param world the world which is necessary for the calculation of the board size
      * @return the upper left corner coordinates of a specific field (the field entity is standing on)
      */
-    public static Point getUpperLeftCornerInField(final FieldEntity fe, final int worldHeight) {
+    public static Point getUpperLeftCornerInField(final FieldEntity fe, final KarelWorld world) {
+        final int worldHeight = world.getHeight();
+        final ColorProfile cp = world.getColorProfile();
         final int yM = Math.abs(fe.getY() - worldHeight + 1);
-        int width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
-        int height = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
-        width += fe.getX() * (FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE);
-        height += yM * (FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE);
-        width += FIELD_INNER_OFFSET;
-        height += FIELD_INNER_OFFSET;
+        int width = cp.boardOffset() + cp.fieldBorderThickness();
+        int height = cp.boardOffset() + cp.fieldBorderThickness();
+        width += fe.getX() * (cp.fieldBorderThickness() + cp.fieldInnerSize());
+        height += yM * (cp.fieldBorderThickness() + cp.fieldInnerSize());
+        width += cp.fieldInnerOffset();
+        height += cp.fieldInnerOffset();
         return new Point(width, height);
     }
 
     /**
      * Returns the bounds of a specific field (the field entity is standing on).
      *
-     * @param fe          the entity to check
-     * @param worldHeight the height of the world
+     * @param fe    the entity to check
+     * @param world the world which is necessary for the calculation of the board size
      * @return the bounds of a specific field (the field entity is standing on)
      */
-    public static Rectangle getFieldBounds(final FieldEntity fe, final int worldHeight) {
-        final var upperLeft = getUpperLeftCornerInField(fe, worldHeight);
-        final var size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
+    public static Rectangle getFieldBounds(final FieldEntity fe, final KarelWorld world) {
+        final var upperLeft = getUpperLeftCornerInField(fe, world);
+        final ColorProfile cp = world.getColorProfile();
+        final var size = cp.fieldInnerSize() - cp.fieldInnerOffset() * 2;
         return new Rectangle(
             upperLeft.x,
             upperLeft.y,
@@ -193,15 +180,16 @@ public class PaintUtils {
      * @return the transform
      */
     public static AffineTransform getWorldTransform(final KarelWorld world) {
+        final ColorProfile cp = world.getColorProfile();
         final var h = world.getHeight();
         final var transform = new AffineTransform();
         transform.translate(
-            BOARD_OFFSET + .5 * FIELD_BORDER_THICKNESS,
-            BOARD_OFFSET + (h + .5) * FIELD_BORDER_THICKNESS + h * FIELD_INNER_SIZE
+            cp.boardOffset() + .5 * cp.fieldBorderThickness(),
+            cp.boardOffset() + (h + .5) * cp.fieldBorderThickness() + h * cp.fieldInnerSize()
         );
         transform.scale(
-            FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE,
-            -1 * (FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE)
+            cp.fieldBorderThickness() + cp.fieldInnerSize(),
+            -1 * (cp.fieldBorderThickness() + cp.fieldInnerSize())
         );
         return transform;
     }

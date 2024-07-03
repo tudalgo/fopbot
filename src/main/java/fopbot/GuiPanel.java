@@ -39,10 +39,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import static fopbot.PaintUtils.BOARD_OFFSET;
-import static fopbot.PaintUtils.FIELD_BORDER_THICKNESS;
-import static fopbot.PaintUtils.FIELD_INNER_OFFSET;
-import static fopbot.PaintUtils.FIELD_INNER_SIZE;
 import static fopbot.PaintUtils.getBoardSize;
 import static fopbot.PaintUtils.getFieldBounds;
 import static fopbot.PaintUtils.getUpperLeftCornerInField;
@@ -95,10 +91,6 @@ public class GuiPanel extends JPanel {
      */
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-    /**
-     * The color profile of the graphical user interface.
-     */
-    private ColorProfile colorProfile = ColorProfile.DEFAULT;
 
     /**
      * Constructs and initializes graphical use interface to represent the FOP Bot world.
@@ -106,6 +98,7 @@ public class GuiPanel extends JPanel {
      * @param world the FOP Bot world to represent on the graphical user interface
      */
     public GuiPanel(final KarelWorld world) {
+        super();
         this.world = world;
         this.inputHandler = new InputHandler(this);
         setSize(getPreferredSize());
@@ -160,16 +153,16 @@ public class GuiPanel extends JPanel {
      * @return the current {@link ColorProfile} that is used to draw the world
      */
     public ColorProfile getColorProfile() {
-        return colorProfile;
+        return world.getColorProfile();
     }
 
     /**
-     * Sets the {@link ColorProfile} that is used to draw the world to the given value.
+     * Sets the {@link ColorProfile} that is used to draw the world.
      *
-     * @param colorProfile the new {@link ColorProfile} to use
+     * @param colorProfile the {@link ColorProfile} that is used to draw the world
      */
     public void setColorProfile(final ColorProfile colorProfile) {
-        this.colorProfile = colorProfile;
+        world.setColorProfile(colorProfile);
     }
 
     /**
@@ -181,8 +174,8 @@ public class GuiPanel extends JPanel {
         final Point p = getBoardSize(world);
         int width = p.x;
         int height = p.y;
-        width += 2 * BOARD_OFFSET;
-        height += 2 * BOARD_OFFSET;
+        width += 2 * getColorProfile().boardOffset();
+        height += 2 * getColorProfile().boardOffset();
         return new Dimension(width, height);
     }
 
@@ -223,8 +216,8 @@ public class GuiPanel extends JPanel {
         draw(g);
         g.dispose();
         image = image.getSubimage(
-            scale(BOARD_OFFSET),
-            scale(BOARD_OFFSET),
+            scale(getColorProfile().boardOffset()),
+            scale(getColorProfile().boardOffset()),
             scale(getBoardSize(world).x),
             scale(getBoardSize(world).y)
         );
@@ -267,7 +260,7 @@ public class GuiPanel extends JPanel {
         final Graphics2D gImage = (Graphics2D) image.getGraphics();
         gImage.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         draw(gImage);
-        g.setColor(colorProfile.getBackgroundColor());
+        g.setColor(getColorProfile().getBackgroundColor());
         g.fillRect(0, 0, getWidth(), getHeight());
         g.drawImage(
             PaintUtils.scaleImageWithGPU(image, bounds.width, bounds.height),
@@ -353,46 +346,80 @@ public class GuiPanel extends JPanel {
      * @param g the {@code Graphics} context in which to paint
      */
     protected void drawBoard(final Graphics g) {
-        // draw outer borders
-        int width = BOARD_OFFSET;
-        int height = BOARD_OFFSET;
-        g.setColor(colorProfile.getOuterBorderColor());
+        final var g2d = (Graphics2D) g;
+        int width = getColorProfile().boardOffset();
+        int height = getColorProfile().boardOffset();
         final Point p = getBoardSize(world);
-        g.fillRect(scale(width), scale(height), scale(p.x), scale(p.y));
+
 
         // draw inner borders
-        width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
-        height = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
-        g.setColor(colorProfile.getInnerBorderColor());
-        g.fillRect(
-            scale(width),
-            scale(height),
-            scale(p.x - FIELD_BORDER_THICKNESS * 2),
-            scale(p.y - FIELD_BORDER_THICKNESS * 2)
+        width = getColorProfile().boardOffset() + getColorProfile().fieldBorderThickness();
+        height = getColorProfile().boardOffset() + getColorProfile().fieldBorderThickness();
+        g.setColor(getColorProfile().getInnerBorderColor());
+        g2d.fill(
+            new Rectangle2D.Double(
+                scale(width),
+                scale(height),
+                scale(p.x - getColorProfile().fieldBorderThickness() * 2),
+                scale(p.y - getColorProfile().fieldBorderThickness() * 2)
+            )
         );
 
         // draw fields
         for (int h = 0; h < world.getHeight(); h++) {
             for (int w = 0; w < world.getWidth(); w++) {
                 final var pos = new Point(w, h);
-                g.setColor(colorProfile.getFieldColor(pos));
+                g2d.setColor(getColorProfile().getFieldColor(pos));
                 if (world.getField(w, World.getHeight() - h - 1).getFieldColor() != null) {
-                    g.setColor(world.getField(w, World.getHeight() - h - 1).getFieldColor());
+                    g2d.setColor(world.getField(w, World.getHeight() - h - 1).getFieldColor());
                 }
-                g.fillRect(scale(width), scale(height), scale(FIELD_INNER_SIZE), scale(FIELD_INNER_SIZE));
-                g.setColor(colorProfile.getFieldColor(pos));
+                g2d.fill(
+                    new Rectangle2D.Double(
+                        scale(width),
+                        scale(height),
+                        scale(getColorProfile().fieldInnerSize()),
+                        scale(getColorProfile().fieldInnerSize())
+                    )
+                );
+                g2d.setColor(getColorProfile().getFieldColor(pos));
 
                 if (h == 99) {
-                    g.setColor(Color.GREEN);
-                    g.drawString(width + ";" + height, width, height);
-                    g.setColor(colorProfile.getFieldColor(pos));
+                    g2d.setColor(Color.GREEN);
+                    g2d.drawString(width + ";" + height, width, height);
+                    g2d.setColor(getColorProfile().getFieldColor(pos));
                 }
 
-                width += FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE;
+                width += getColorProfile().fieldBorderThickness() + getColorProfile().fieldInnerSize();
             }
-            width = BOARD_OFFSET + FIELD_BORDER_THICKNESS;
-            height += FIELD_BORDER_THICKNESS + FIELD_INNER_SIZE;
+            width = getColorProfile().boardOffset() + getColorProfile().fieldBorderThickness();
+            height += getColorProfile().fieldBorderThickness() + getColorProfile().fieldInnerSize();
         }
+
+        // draw outer borders
+        g2d.setColor(getColorProfile().getOuterBorderColor());
+        final var oldStroke = g2d.getStroke();
+        g2d.setStroke(new BasicStroke(scale((float) getColorProfile().fieldOuterBorderThickness())));
+        g2d.draw(
+            new Rectangle2D.Double(
+                scale(
+                    (double) getColorProfile().boardOffset() + getColorProfile().fieldBorderThickness()
+                        - (double) getColorProfile().fieldOuterBorderThickness() / 2
+                ),
+                scale(
+                    (double) getColorProfile().boardOffset() + getColorProfile().fieldBorderThickness()
+                        - (double) getColorProfile().fieldOuterBorderThickness() / 2
+                ),
+                scale(
+                    p.getX() - getColorProfile().fieldBorderThickness() * 2d
+                        + getColorProfile().fieldOuterBorderThickness() - 1d
+                ),
+                scale(
+                    p.getY() - getColorProfile().fieldBorderThickness() * 2d
+                        + getColorProfile().fieldOuterBorderThickness() - 1d
+                )
+            )
+        );
+        g2d.setStroke(oldStroke);
     }
 
     /**
@@ -405,11 +432,11 @@ public class GuiPanel extends JPanel {
         if (r.isTurnedOff() && !world.isDrawTurnedOffRobots()) {
             return;
         }
-        final Point upperLeft = getUpperLeftCornerInField(r, world.getHeight());
+        final Point upperLeft = getUpperLeftCornerInField(r, world);
 
         final int directionIndex = r.getDirection().ordinal();
 
-        final int targetRobotImageSize = scale(FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2);
+        final int targetRobotImageSize = scale(getColorProfile().fieldInnerSize() - getColorProfile().fieldInnerOffset() * 2);
 
         final Image robotImage = r.getRobotFamily().render(
             targetRobotImageSize,
@@ -495,8 +522,8 @@ public class GuiPanel extends JPanel {
         final var g2d = (Graphics2D) g;
         final var text = Integer.toString(c.getCount());
 
-        final Rectangle2D fieldBounds = scale(getFieldBounds(c, world.getHeight()));
-        g.setColor(colorProfile.getCoinColor());
+        final Rectangle2D fieldBounds = scale(getFieldBounds(c, world));
+        g.setColor(getColorProfile().getCoinColor());
         if (!evadeRobots) {
             g2d.fill(
                 new Ellipse2D.Double(
@@ -509,8 +536,8 @@ public class GuiPanel extends JPanel {
         }
 
         // draw the count of the coin in the middle of the coin
-        final double borderWidth = scale((double) FIELD_BORDER_THICKNESS);
-        final double padding = scale((double) FIELD_INNER_OFFSET);
+        final double borderWidth = scale((double) getColorProfile().fieldBorderThickness());
+        final double padding = scale((double) getColorProfile().fieldInnerOffset());
         final double wantedSize = evadeRobots ? scale(20d) : fieldBounds.getWidth();
         final Point2D wantedCenter =
             evadeRobots ? new Point2D.Double(
@@ -539,7 +566,7 @@ public class GuiPanel extends JPanel {
 
         if (evadeRobots) {
             // draw white box background
-            g.setColor(colorProfile.getCoinColor());
+            g.setColor(getColorProfile().getCoinColor());
             g2d.fill(
                 new Ellipse2D.Double(
                     wantedCenter.getX() - wantedSize / 2d,
@@ -578,9 +605,9 @@ public class GuiPanel extends JPanel {
     protected void drawBlock(final Block b, final Graphics g) {
         final Color cBackup = g.getColor();
 
-        final Point upperLeft = getUpperLeftCornerInField(b, world.getHeight());
-        g.setColor(colorProfile.getBlockColor());
-        final int size = FIELD_INNER_SIZE - FIELD_INNER_OFFSET * 2;
+        final Point upperLeft = getUpperLeftCornerInField(b, world);
+        g.setColor(getColorProfile().getBlockColor());
+        final int size = getColorProfile().fieldInnerSize() - getColorProfile().fieldInnerOffset() * 2;
         g.fillRect(scale(upperLeft.x), scale(upperLeft.y), scale(size), scale(size));
 
         g.setColor(cBackup);
@@ -594,26 +621,26 @@ public class GuiPanel extends JPanel {
      */
     protected void drawWall(final Wall w, final Graphics g) {
         final Color cBackup = g.getColor();
-        g.setColor(colorProfile.getWallColor());
+        g.setColor(getColorProfile().getWallColor());
 
-        final Point upperLeft = getUpperLeftCornerInField(w, world.getHeight());
+        final Point upperLeft = getUpperLeftCornerInField(w, world);
         if (w.isHorizontal()) {
-            final int x = upperLeft.x - FIELD_INNER_OFFSET * 2;
-            final int y = upperLeft.y - FIELD_INNER_OFFSET - FIELD_BORDER_THICKNESS;
+            final int x = upperLeft.x - getColorProfile().fieldInnerOffset() * 2;
+            final int y = upperLeft.y - getColorProfile().fieldInnerOffset() - getColorProfile().fieldBorderThickness();
             g.fillRect(
                 scale(x),
                 scale(y),
-                scale(FIELD_INNER_SIZE + FIELD_INNER_OFFSET * 2),
-                scale(FIELD_BORDER_THICKNESS)
+                scale(getColorProfile().fieldInnerSize() + getColorProfile().fieldInnerOffset() * 2),
+                scale(getColorProfile().fieldBorderThickness())
             );
         } else {
-            final int x = upperLeft.x - FIELD_INNER_OFFSET + FIELD_INNER_SIZE;
-            final int y = upperLeft.y - FIELD_INNER_OFFSET * 2;
+            final int x = upperLeft.x - getColorProfile().fieldInnerOffset() + getColorProfile().fieldInnerSize();
+            final int y = upperLeft.y - getColorProfile().fieldInnerOffset() * 2;
             g.fillRect(
                 scale(x),
                 scale(y),
-                scale(FIELD_BORDER_THICKNESS),
-                scale(FIELD_INNER_SIZE + FIELD_INNER_OFFSET * 2)
+                scale(getColorProfile().fieldBorderThickness()),
+                scale(getColorProfile().fieldInnerSize() + getColorProfile().fieldInnerOffset() * 2)
             );
         }
 
@@ -650,6 +677,16 @@ public class GuiPanel extends JPanel {
      */
     protected double scale(final double value) {
         return value * scaleFactor;
+    }
+
+    /**
+     * Scales the given value with the current scale factor.
+     *
+     * @param value the value to scale
+     * @return the scaled value
+     */
+    protected float scale(final float value) {
+        return (float) (value * scaleFactor);
     }
 
     /**

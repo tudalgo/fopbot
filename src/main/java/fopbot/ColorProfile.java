@@ -10,21 +10,26 @@ import java.util.function.BiFunction;
 /**
  * A color profile for drawing the world.
  *
- * @param backgroundColorLight  the background color in light mode
- * @param backgroundColorDark   the background color in dark mode
- * @param fieldColorLight       the default background color for {@link Field}s in light mode
- * @param fieldColorDark        the default background color for {@link Field}s in dark mode
- * @param customFieldColorPattern a function for creating custom field color patterns, like chess boards
- * @param outerBorderColorLight the color of the outer border in light mode
- * @param outerBorderColorDark  the color of the outer border in dark mode
- * @param innerBorderColorLight the color of the inner border in light mode (not wall)
- * @param innerBorderColorDark  the color of the inner border in dark mode (not wall)
- * @param wallColorLight        the color of {@link Wall}s in light mode
- * @param wallColorDark         the color of {@link Wall}s in dark mode
- * @param coinColorLight        the color of {@link Coin}s in light mode
- * @param coinColorDark         the color of {@link Coin}s in dark mode
- * @param blockColorLight       the color of {@link Block}s in light mode
- * @param blockColorDark        the color of {@link Block}s in dark mode
+ * @param backgroundColorLight      the background color in light mode
+ * @param backgroundColorDark       the background color in dark mode
+ * @param fieldColorLight           the default background color for {@link Field}s in light mode
+ * @param fieldColorDark            the default background color for {@link Field}s in dark mode
+ * @param customFieldColorPattern   a function for creating custom field color patterns, like chess boards
+ * @param outerBorderColorLight     the color of the outer border in light mode
+ * @param outerBorderColorDark      the color of the outer border in dark mode
+ * @param innerBorderColorLight     the color of the inner border in light mode (not wall)
+ * @param innerBorderColorDark      the color of the inner border in dark mode (not wall)
+ * @param wallColorLight            the color of {@link Wall}s in light mode
+ * @param wallColorDark             the color of {@link Wall}s in dark mode
+ * @param coinColorLight            the color of {@link Coin}s in light mode
+ * @param coinColorDark             the color of {@link Coin}s in dark mode
+ * @param blockColorLight           the color of {@link Block}s in light mode
+ * @param blockColorDark            the color of {@link Block}s in dark mode
+ * @param fieldInnerSize            The inner size of a field in a 2D world.
+ * @param fieldBorderThickness      The thickness of the field borders in a 2D world.
+ * @param fieldOuterBorderThickness The thickness of the outer border of the field in a 2D world.
+ * @param fieldInnerOffset          The inner offset of the size of a field in a 2D world.
+ * @param boardOffset               The offset of the board.
  */
 @Builder(toBuilder = true)
 public record ColorProfile(
@@ -42,12 +47,22 @@ public record ColorProfile(
     Color coinColorLight,
     Color coinColorDark,
     Color blockColorLight,
-    Color blockColorDark
+    Color blockColorDark,
+    int fieldInnerSize,
+    int fieldBorderThickness,
+    int fieldOuterBorderThickness,
+    int fieldInnerOffset,
+    int boardOffset
 ) {
     /**
      * The default color profile.
      */
     public static ColorProfile DEFAULT = ColorProfile.builder()
+        .fieldInnerSize(60)
+        .fieldBorderThickness(4)
+        .fieldOuterBorderThickness(4)
+        .fieldInnerOffset(4)
+        .boardOffset(20)
         .backgroundColorLight(Color.WHITE)
         .backgroundColorDark(Color.BLACK)
         .fieldColorLight(Color.LIGHT_GRAY)
