@@ -63,18 +63,27 @@ public class KarelWorld {
      * The fields of this world.
      */
     private List<Field> entityStates;
+
     /**
      * The delay in milliseconds of this world.
      */
     private int delay = 100;
+
     /**
      * The robot ID generator.
      */
     private final PrimitiveIterator.OfInt robotIdGenerator = IntStream.iterate(0, i -> i + 1).iterator();
+
+    /**
+     * The color profile of the graphical user interface.
+     */
+    private ColorProfile colorProfile = ColorProfile.DEFAULT;
+
     /**
      * The graphical user interface window on which the FOP Bot world panel is visible.
      */
     private JFrame guiFrame;
+
     /**
      * The graphical user interface panel on which this world is drawn.
      */
@@ -705,5 +714,23 @@ public class KarelWorld {
             .flatMap(Collection::stream)
             .filter(Robot.class::isInstance)
             .count();
+    }
+
+    /**
+     * Returns the current {@link ColorProfile} that is used to draw the world.
+     *
+     * @return the current {@link ColorProfile} that is used to draw the world
+     */
+    public ColorProfile getColorProfile() {
+        return colorProfile;
+    }
+
+    /**
+     * Sets the {@link ColorProfile} that is used to draw the world to the given value.
+     *
+     * @param colorProfile the new {@link ColorProfile} to use
+     */
+    public void setColorProfile(final ColorProfile colorProfile) {
+        this.colorProfile = colorProfile;
     }
 }
