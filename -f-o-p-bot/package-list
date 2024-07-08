@@ -253,6 +253,7 @@ $dokka.location:fopbot/SvgBasedRobotFamily/SvgBasedRobotFamily/#java.lang.String
 $dokka.location:fopbot/SvgBasedRobotFamily/getImage/#int#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/get-image.html
 $dokka.location:fopbot/SvgBasedRobotFamily/render/#int#int#boolean/PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/render.html
 $dokka.location:fopbot/SvgBasedRobotFamily/setColor/#java.awt.Color/PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/set-color.html
+$dokka.location:fopbot/SvgBasedRobotFamily/toString/#/PointingToDeclaration/-f-o-p-bot/fopbot/-svg-based-robot-family/to-string.html
 $dokka.location:fopbot/Transition.RobotAction.MOVE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-transition/-robot-action/-m-o-v-e/index.html
 $dokka.location:fopbot/Transition.RobotAction.NONE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-transition/-robot-action/-n-o-n-e/index.html
 $dokka.location:fopbot/Transition.RobotAction.PICK_COIN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-f-o-p-bot/fopbot/-transition/-robot-action/-p-i-c-k_-c-o-i-n/index.html
