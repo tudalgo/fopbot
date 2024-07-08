@@ -148,4 +148,9 @@ public class SvgBasedRobotFamily implements RobotFamily {
         imageSize = targetSize;
         return getImage(rotationOffset, turnedOff);
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
