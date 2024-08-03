@@ -633,6 +633,7 @@ public class KarelWorld {
 
     /**
      * Returns the {@link JFrame} of this world.
+     *
      * @return the {@link JFrame} of this world
      */
     @ApiStatus.Internal
