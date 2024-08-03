@@ -632,6 +632,15 @@ public class KarelWorld {
     }
 
     /**
+     * Returns the {@link JFrame} of this world.
+     * @return the {@link JFrame} of this world
+     */
+    @ApiStatus.Internal
+    public JFrame getGuiFrame() {
+        return guiFrame;
+    }
+
+    /**
      * Returns the {@link InputHandler} of this world. This method returns {@code null} in headless mode.
      *
      * @return the {@link InputHandler} of this world or {@code null} in headless mode
