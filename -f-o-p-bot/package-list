@@ -105,6 +105,7 @@ $dokka.location:fopbot/KarelWorld/getEntityStates/#/PointingToDeclaration/-f-o-
 $dokka.location:fopbot/KarelWorld/getField/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-field.html
 $dokka.location:fopbot/KarelWorld/getFieldColor/#int#int/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-field-color.html
 $dokka.location:fopbot/KarelWorld/getFields/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-fields.html
+$dokka.location:fopbot/KarelWorld/getGuiFrame/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-gui-frame.html
 $dokka.location:fopbot/KarelWorld/getGuiPanel/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-gui-panel.html
 $dokka.location:fopbot/KarelWorld/getHeight/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-height.html
 $dokka.location:fopbot/KarelWorld/getInputHandler/#/PointingToDeclaration/-f-o-p-bot/fopbot/-karel-world/get-input-handler.html
