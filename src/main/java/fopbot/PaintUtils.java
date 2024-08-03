@@ -43,6 +43,7 @@ public class PaintUtils {
      *
      * @param inputImage     the image to load
      * @param rotationOffset the rotation offset in degree
+     * @param targetSize     the target size of the image
      * @return the loaded image
      */
     public static BufferedImage loadFieldImage(
@@ -87,6 +88,7 @@ public class PaintUtils {
      *
      * @param inputImage       the image to load, scale and rotate
      * @param upRotationOffset the rotation offset in degree
+     * @param targetSize       the target size of the image
      * @return the loaded, scaled and rotated image.
      */
     public static BufferedImage[] loadScaleRotateFieldImage(
@@ -211,7 +213,8 @@ public class PaintUtils {
     /**
      * Returns the coordinates of the field the mouse is currently pointing at.
      *
-     * @param panel the panel
+     * @param panel         the panel
+     * @param mousePosition the mouse position
      * @return the coordinates of the field the mouse is currently pointing at
      */
     public static Point getMouseTilePosition(final GuiPanel panel, final Point mousePosition) {
@@ -225,6 +228,12 @@ public class PaintUtils {
         return new Point((int) point.getX(), (int) point.getY());
     }
 
+    /**
+     * Converts a point to a point2D.
+     *
+     * @param point the point to convert
+     * @return the point2D
+     */
     public static Point2D toPoint2D(final Point point) {
         return new Point2D.Double(point.getX(), point.getY());
     }
