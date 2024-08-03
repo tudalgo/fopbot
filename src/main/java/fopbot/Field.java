@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -76,7 +77,7 @@ public class Field {
      */
     public void setFieldColor(final Supplier<@Nullable Color> fieldColorSupplier) {
         this.fieldColorSupplier = fieldColorSupplier;
-        world.getGuiPanel().updateGui();
+        Optional.ofNullable(world.getGuiPanel()).ifPresent(GuiPanel::updateGui);
     }
 
     /**
