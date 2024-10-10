@@ -12,6 +12,6 @@ lombok = { module = "org.projectlombok:lombok", version = "1.18.34" }
 jSystemThemeDetector = "com.github.Dansoftowner:jSystemThemeDetector:3.9.1"
 
 [plugins]
-kotlin-jvm = "org.jetbrains.kotlin.jvm:2.0.0"
+kotlin-jvm = "org.jetbrains.kotlin.jvm:2.0.21"
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 style = "org.sourcegrade.style:3.0.0"
