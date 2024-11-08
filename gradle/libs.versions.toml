@@ -10,6 +10,7 @@ imageio-batik = "com.twelvemonkeys.imageio:imageio-batik:3.12.0"
 batik = "org.apache.xmlgraphics:batik-all:1.18"
 lombok = { module = "org.projectlombok:lombok", version = "1.18.34" }
 jSystemThemeDetector = "com.github.Dansoftowner:jSystemThemeDetector:3.9.1"
+slf4jSimple = "org.slf4j:slf4j-simple:2.0.16"
 
 [plugins]
 kotlin-jvm = "org.jetbrains.kotlin.jvm:2.0.21"

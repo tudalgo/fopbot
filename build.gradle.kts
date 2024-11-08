@@ -28,6 +28,7 @@ java {
 }
 
 dependencies {
+    implementation(libs.slf4jSimple)
     implementation(libs.annotations)
     implementation(libs.batik)
     implementation(libs.imageio.batik)
