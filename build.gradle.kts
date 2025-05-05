@@ -23,8 +23,8 @@ group = "org.tudalgo"
 version = file("version").readLines().first()
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 dependencies {
@@ -45,7 +45,7 @@ tasks.withType<DokkaTask>().configureEach {
     moduleName.set("FOPBot")
     dokkaSourceSets.configureEach {
         includes.from("Module.md")
-        jdkVersion.set(17)
+        jdkVersion.set(21)
         sourceLink {
             localDirectory.set(projectDir.resolve("src"))
             remoteUrl.set(URL("https://github.com/tudalgo/fopbot/tree/master/src"))
