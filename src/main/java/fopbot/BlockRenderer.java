@@ -11,9 +11,9 @@ class BlockRenderer implements FieldEntityRenderer<Block> {
 
     @Override
     public void draw(Graphics g, FieldEntityRenderContext<Block> context) {
-      final  Color oldColor = g.getColor();
-  final      ColorProfile colorProfile = context.colorProfile();
-   final     Point upperLeft = context.upperLeft();
+        final Color oldColor = g.getColor();
+        final ColorProfile colorProfile = context.colorProfile();
+        final Point upperLeft = context.upperLeft();
 
         g.setColor(colorProfile.getBlockColor());
         final int size = colorProfile.fieldInnerSize() - colorProfile.fieldInnerOffset() * 2;
