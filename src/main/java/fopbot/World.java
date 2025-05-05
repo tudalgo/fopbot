@@ -1,5 +1,7 @@
 package fopbot;
 
+import java.util.Comparator;
+
 /**
  * A wrapper of a {@code KarelWorld} which represents a global world.
  */
@@ -148,6 +150,7 @@ public class World {
      * @param x             the X coordinate of the coins to place
      * @param y             the Y coordinate of the coins to place
      * @param numberOfCoins the number of coins to place
+     *
      * @throws IllegalArgumentException if the number of coins is smaller than 1 or the position is invalid
      */
     public static void putCoins(int x, int y, int numberOfCoins) throws IllegalArgumentException {
@@ -182,6 +185,48 @@ public class World {
      */
     public static void addFieldClickListener(FieldClickListener fieldClickListener) {
         getInputHandler().addFieldClickListener(fieldClickListener);
+    }
+
+    /**
+     * /**
+     * Sets the rendering order for all {@link FieldEntity} objects.
+     * <p>
+     * The provided {@link Comparator} determines the sequence in which entities are drawn
+     * on the GUI. Entities with higher priority should appear on top of others. This is
+     * particularly important when multiple entities occupy the same field.
+     *
+     * @param renderOrder a {@link Comparator} that defines the visual stacking order of {@link FieldEntity} instances
+     */
+    public static void setRenderOrder(Comparator<FieldEntity> renderOrder) {
+        if (world == null) {
+            setSize(10, 10);
+        }
+        world.getGuiPanel().setRenderOrder(renderOrder);
+    }
+
+    /**
+     * Registers or replaces the {@link FieldEntityRenderer} for a given {@link FieldEntity} type.
+     * <p>
+     * If a renderer is already registered for the specified entity class, it will be replaced.
+     * This enables dynamic customization or extension of the rendering system to support
+     * additional or user-defined {@link FieldEntity} types.
+     * <p>
+     * <strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
+     * If you register a new {@link FieldEntityRenderer} for a custom entity type,
+     * you must also update the comparator to ensure it is drawn in the correct layer.
+     * Otherwise, it will be rendered last by default.
+     *
+     * @param entityClass the class of the {@link FieldEntity} to associate with a renderer
+     * @param renderer    the {@link FieldEntityRenderer} responsible for rendering the given entity type
+     */
+    public static void registerFieldEntityRenderer(
+        final Class<? extends FieldEntity> entityClass,
+        final FieldEntityRenderer<? extends FieldEntity> renderer
+    ) {
+        if (world == null) {
+            setSize(10, 10);
+        }
+        world.getGuiPanel().registerFieldEntityRenderer(entityClass, renderer);
     }
 
     /**
