@@ -2,7 +2,6 @@ package fopbot;
 
 import com.jthemedetecor.OsThemeDetector;
 import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.awt.BasicStroke;
@@ -138,7 +137,6 @@ public class GuiPanel extends JPanel {
      * This prevents visual overlap issues.
      */
     @Getter
-    @Setter
     private Comparator<? super FieldEntity> renderOrder = DEFAULT_RENDER_ORDER;
 
     /**
@@ -230,6 +228,43 @@ public class GuiPanel extends JPanel {
     }
 
     /**
+     * Sets the render order for the {@link FieldEntity} objects.
+     *
+     * @param renderOrder the {@link Comparator} that defines the render order for the {@link FieldEntity} objects
+     */
+    public void setRenderOrder(Comparator<? super FieldEntity> renderOrder) {
+        this.renderOrder = renderOrder;
+        updateGui();
+    }
+
+    /**
+     * Configures the rendering system by setting the render order and the associated {@link FieldEntity} renderers.
+     * <p>
+     * This method allows for customizing the order in which {@link FieldEntity} objects are rendered on the screen
+     * and specifying the renderers responsible for drawing each entity type. Calling this method will replace any
+     * previously configured renderers with the new ones provided in the {@code renderers} map. The render order,
+     * defined by the {@link Comparator}, controls the layering of entities, with entities of lower priority being drawn first.
+     *
+     * <p><strong>Important:</strong> If you register custom renderers, ensure that the {@link #renderOrder} comparator
+     * is updated accordingly to reflect the intended rendering layer. Failing to update the comparator may result in
+     * entities being drawn in the wrong order.
+     *
+     * @param renderOrder a {@link Comparator} that defines the order in which entities should be rendered.
+     *                    Entities with a lower priority value will be rendered first.
+     * @param renderers   a map of {@link Class} to {@link FieldEntityRenderer} that associates each {@link FieldEntity}
+     *                    type with its corresponding renderer. This will replace any existing renderers in the system.
+     */
+    public void setRenderConfiguration(
+        Comparator<FieldEntity> renderOrder,
+        Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> renderers
+    ) {
+        this.renderOrder = renderOrder;
+        entityRenderers.clear();
+        entityRenderers.putAll(renderers);
+        updateGui();
+    }
+
+    /**
      * Registers or replaces the {@link FieldEntityRenderer} for a given {@link FieldEntity} type.
      * <p>
      * If a renderer is already registered for the specified entity class, it will be replaced.
@@ -249,6 +284,26 @@ public class GuiPanel extends JPanel {
         final FieldEntityRenderer<? extends FieldEntity> renderer
     ) {
         entityRenderers.put(entityClass, renderer);
+        updateGui();
+    }
+
+    /**
+     * Registers or replaces the renderers for a given entities type.
+     * <p>
+     * If a renderer is already registered for the specified entity class, it will be replaced.
+     * This enables dynamic customization or extension of the rendering system to support
+     * additional or user-defined {@link FieldEntity} types.
+     * <p>
+     * <strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
+     * If you register a new {@link FieldEntityRenderer} for a custom entity type,
+     * you must also update the comparator to ensure it is drawn in the correct layer.
+     * Otherwise, it will be rendered last by default.
+     *
+     * @param renderers a map of {@link Class} to {@link FieldEntityRenderer} that associates each {@link FieldEntity}
+     */
+    public void registerFieldEntityRenderers(Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> renderers) {
+        entityRenderers.putAll(renderers);
+        updateGui();
     }
 
     /**

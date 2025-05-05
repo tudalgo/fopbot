@@ -1,6 +1,7 @@
 package fopbot;
 
 import java.util.Comparator;
+import java.util.Map;
 
 /**
  * A wrapper of a {@code KarelWorld} which represents a global world.
@@ -188,6 +189,33 @@ public class World {
     }
 
     /**
+     * Configures the rendering system by setting the render order and the associated {@link FieldEntity} renderers.
+     * <p>
+     * This method allows for customizing the order in which {@link FieldEntity} objects are rendered on the screen
+     * and specifying the renderers responsible for drawing each entity type. Calling this method will replace any
+     * previously configured renderers with the new ones provided in the {@code renderers} map. The render order,
+     * defined by the {@link Comparator}, controls the layering of entities, with entities of lower priority being drawn first.
+     *
+     * <p><strong>Important:</strong> If you register custom renderers, ensure that the comparator
+     * is updated accordingly to reflect the intended rendering layer. Failing to update the comparator may result in
+     * entities being drawn in the wrong order.
+     *
+     * @param renderOrder a {@link Comparator} that defines the order in which entities should be rendered.
+     *                    Entities with a lower priority value will be rendered first.
+     * @param renderers   a map of {@link Class} to {@link FieldEntityRenderer} that associates each {@link FieldEntity}
+     *                    type with its corresponding renderer. This will replace any existing renderers in the system.
+     */
+    public static void setRenderConfiguration(
+        Comparator<FieldEntity> renderOrder,
+        Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> renderers
+    ) {
+        if (world == null) {
+            setSize(10, 10);
+        }
+        world.getGuiPanel().setRenderConfiguration(renderOrder, renderers);
+    }
+
+    /**
      * /**
      * Sets the rendering order for all {@link FieldEntity} objects.
      * <p>
@@ -202,6 +230,7 @@ public class World {
             setSize(10, 10);
         }
         world.getGuiPanel().setRenderOrder(renderOrder);
+        world.triggerUpdate();
     }
 
     /**
@@ -211,7 +240,7 @@ public class World {
      * This enables dynamic customization or extension of the rendering system to support
      * additional or user-defined {@link FieldEntity} types.
      * <p>
-     * <strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
+     * <strong>Note:</strong> The rendering order is determined by the comparator.
      * If you register a new {@link FieldEntityRenderer} for a custom entity type,
      * you must also update the comparator to ensure it is drawn in the correct layer.
      * Otherwise, it will be rendered last by default.
@@ -227,6 +256,27 @@ public class World {
             setSize(10, 10);
         }
         world.getGuiPanel().registerFieldEntityRenderer(entityClass, renderer);
+    }
+
+    /**
+     * Registers or replaces the renderers for a given entities type.
+     * <p>
+     * If a renderer is already registered for the specified entity class, it will be replaced.
+     * This enables dynamic customization or extension of the rendering system to support
+     * additional or user-defined {@link FieldEntity} types.
+     * <p>
+     * <strong>Note:</strong> The rendering order is determined by the comparator.
+     * If you register a new {@link FieldEntityRenderer} for a custom entity type,
+     * you must also update the comparator to ensure it is drawn in the correct layer.
+     * Otherwise, it will be rendered last by default.
+     *
+     * @param renderers a map of {@link Class} to {@link FieldEntityRenderer} that associates each {@link FieldEntity}
+     */
+    public static void registerFieldEntityRenderers(Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> renderers) {
+        if (world == null) {
+            setSize(10, 10);
+        }
+        world.getGuiPanel().registerFieldEntityRenderers(renderers);
     }
 
     /**
