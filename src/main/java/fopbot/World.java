@@ -212,7 +212,7 @@ public class World {
         if (world == null) {
             setSize(10, 10);
         }
-        world.getGuiPanel().setRenderConfiguration(renderOrder, renderers);
+        world.setRenderConfiguration(renderOrder, renderers);
     }
 
     /**
@@ -228,7 +228,7 @@ public class World {
         if (world == null) {
             setSize(10, 10);
         }
-        world.getGuiPanel().setRenderOrder(renderOrder);
+        world.setRenderOrder(renderOrder);
         world.triggerUpdate();
     }
 
@@ -253,7 +253,7 @@ public class World {
         if (world == null) {
             setSize(10, 10);
         }
-        world.getGuiPanel().registerFieldEntityRenderer(entityClass, renderer);
+        world.registerFieldEntityRenderer(entityClass, renderer);
     }
 
     /**
@@ -276,7 +276,7 @@ public class World {
         if (world == null) {
             setSize(10, 10);
         }
-        world.getGuiPanel().registerFieldEntityRenderers(renderers);
+        world.registerFieldEntityRenderers(renderers);
     }
 
     /**

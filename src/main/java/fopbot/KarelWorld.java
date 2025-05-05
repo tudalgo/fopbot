@@ -2,6 +2,7 @@ package fopbot;
 
 
 import fopbot.Transition.RobotAction;
+import lombok.Getter;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,6 +12,7 @@ import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,6 +29,29 @@ import javax.swing.WindowConstants;
  * Represents the FOP Bot world on a graphical user interface.
  */
 public class KarelWorld {
+
+
+    /**
+     * The default mapping of {@link FieldEntity} types to their corresponding {@link FieldEntityRenderer} instances.
+     *
+     * <p>This map provides the standard renderers used to visually represent each known {@link FieldEntity} subtype
+     * on the board. It serves as the baseline configuration for rendering and can be extended or overridden
+     * to support custom entities.
+     */
+    public static final Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> DEFAULT_ENTITY_RENDERS = Map.ofEntries(
+        Map.entry(Coin.class, new CoinRenderer()),
+        Map.entry(Block.class, new BlockRenderer()),
+        Map.entry(Wall.class, new WallRenderer()),
+        Map.entry(Robot.class, new RobotRenderer())
+    );
+
+    /**
+     * The default rendering order used to sort {@link FieldEntity} instances before drawing.
+     *
+     * <p>Entities are ordered based on their render priority as defined: Walls &lt; Robots &lt; Coins &lt; Blocks.
+     * Lower values indicate lower layers (drawn first), and higher values indicate upper layers (drawn later).
+     */
+    public static final Comparator<FieldEntity> DEFAULT_RENDER_ORDER = Comparator.comparingInt(KarelWorld::getRenderPriority);
 
     /**
      * The state whether a screenshot should be done before a graphical user interface update.
@@ -96,6 +121,26 @@ public class KarelWorld {
     private boolean drawTurnedOffRobots = true;
 
     /**
+     * Maps each {@link FieldEntity} subclass to its corresponding {@link FieldEntityRenderer},
+     * which is responsible for drawing that specific type of entity on the GUI.
+     *
+     * <p>This allows for type-specific rendering logic and easy extensibility by adding new entity-renderer pairs.
+     */
+    @Getter
+    private final Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> entityRenderers =
+        new HashMap<>(DEFAULT_ENTITY_RENDERS);
+
+    /**
+     * Defines the drawing order of {@link FieldEntity} objects on the board.
+     *
+     * <p>Entities are sorted based on visual layering priority, ensuring correct rendering:
+     * Default layering priority: Walls are drawn first, followed by Robots, Coins, and finally Blocks.
+     * This prevents visual overlap issues.
+     */
+    @Getter
+    private Comparator<? super FieldEntity> renderOrder = DEFAULT_RENDER_ORDER;
+
+    /**
      * Constructs and initializes a world with the specified size.
      *
      * @param width  the width of the newly constructed world
@@ -119,6 +164,29 @@ public class KarelWorld {
                 fields[y][x] = new Field(this, x, y);
             }
         }
+    }
+
+    /**
+     * Returns the default rendering order for {@link FieldEntity} objects.
+     *
+     * @param entity the {@link FieldEntity} to get the render priority for
+     *
+     * @return the render priority of the {@link FieldEntity}
+     */
+    private static int getRenderPriority(FieldEntity entity) {
+        if (entity instanceof Wall) {
+            return 0;
+        }
+        if (entity instanceof Robot) {
+            return 1;
+        }
+        if (entity instanceof Coin) {
+            return 2;
+        }
+        if (entity instanceof Block) {
+            return 3;
+        }
+        return Integer.MAX_VALUE; // unknown types last
     }
 
     /**
@@ -542,6 +610,7 @@ public class KarelWorld {
      */
     public void placeEntity(int x, int y, FieldEntity entity) {
         placeEntity(x, y, entity, field -> false);
+        triggerUpdate();
     }
 
     /**
@@ -668,6 +737,86 @@ public class KarelWorld {
     public GuiPanel getGuiPanel() {
         return guiGp;
     }
+
+    /**
+     * Sets the render order for the {@link FieldEntity} objects.
+     *
+     * @param renderOrder the {@link Comparator} that defines the render order for the {@link FieldEntity} objects
+     */
+    public void setRenderOrder(Comparator<? super FieldEntity> renderOrder) {
+        this.renderOrder = renderOrder;
+        updateGui();
+    }
+
+    /**
+     * Configures the rendering system by setting the render order and the associated {@link FieldEntity} renderers.
+     *
+     * <p>This method allows for customizing the order in which {@link FieldEntity} objects are rendered on the screen
+     * and specifying the renderers responsible for drawing each entity type. Calling this method will replace any
+     * previously configured renderers with the new ones provided in the {@code renderers} map. The render order,
+     * defined by the {@link Comparator}, controls the layering of entities, with entities of lower priority being drawn first.
+     *
+     * <p><strong>Important:</strong> If you register custom renderers, ensure that the {@link #renderOrder} comparator
+     * is updated accordingly to reflect the intended rendering layer. Failing to update the comparator may result in
+     * entities being drawn in the wrong order.
+     *
+     * @param renderOrder a {@link Comparator} that defines the order in which entities should be rendered.
+     *                    Entities with a lower priority value will be rendered first.
+     * @param renderers   a map of {@link Class} to {@link FieldEntityRenderer} that associates each {@link FieldEntity}
+     *                    type with its corresponding renderer. This will replace any existing renderers in the system.
+     */
+    public void setRenderConfiguration(
+        Comparator<FieldEntity> renderOrder,
+        Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> renderers
+    ) {
+        this.renderOrder = renderOrder;
+        entityRenderers.clear();
+        entityRenderers.putAll(renderers);
+        triggerUpdate();
+    }
+
+    /**
+     * Registers or replaces the {@link FieldEntityRenderer} for a given {@link FieldEntity} type.
+     *
+     * <p>If a renderer is already registered for the specified entity class, it will be replaced.
+     * This enables dynamic customization or extension of the rendering system to support
+     * additional or user-defined {@link FieldEntity} types.
+     *
+     * <p><strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
+     * If you register a new {@link FieldEntityRenderer} for a custom entity type,
+     * you must also update the comparator to ensure it is drawn in the correct layer.
+     * Otherwise, it will be rendered last by default.
+     *
+     * @param entityClass the class of the {@link FieldEntity} to associate with a renderer
+     * @param renderer    the {@link FieldEntityRenderer} responsible for rendering the given entity type
+     */
+    public void registerFieldEntityRenderer(
+        final Class<? extends FieldEntity> entityClass,
+        final FieldEntityRenderer<? extends FieldEntity> renderer
+    ) {
+        entityRenderers.put(entityClass, renderer);
+        triggerUpdate();
+    }
+
+    /**
+     * Registers or replaces the renderers for a given entities type.
+     *
+     * <p>If a renderer is already registered for the specified entity class, it will be replaced.
+     * This enables dynamic customization or extension of the rendering system to support
+     * additional or user-defined {@link FieldEntity} types.
+     *
+     * <p><strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
+     * If you register a new {@link FieldEntityRenderer} for a custom entity type,
+     * you must also update the comparator to ensure it is drawn in the correct layer.
+     * Otherwise, it will be rendered last by default.
+     *
+     * @param renderers a map of {@link Class} to {@link FieldEntityRenderer} that associates each {@link FieldEntity}
+     */
+    public void registerFieldEntityRenderers(Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> renderers) {
+        entityRenderers.putAll(renderers);
+        triggerUpdate();
+    }
+
 
     /**
      * Sets the {@link GuiPanel} of this world.
