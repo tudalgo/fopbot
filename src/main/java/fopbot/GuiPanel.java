@@ -63,7 +63,7 @@ public class GuiPanel extends JPanel {
     /**
      * The default rendering order used to sort {@link FieldEntity} instances before drawing.
      *
-     * <p>Entities are ordered based on their render priority as defined: Walls < Robots < Coins < Blocks.
+     * <p>Entities are ordered based on their render priority as defined: Walls &lt; Robots &lt; Coins &lt; Blocks.
      * Lower values indicate lower layers (drawn first), and higher values indicate upper layers (drawn later).
      */
     public static final Comparator<FieldEntity> DEFAULT_RENDER_ORDER = Comparator.comparingInt(GuiPanel::getRenderPriority);
@@ -85,12 +85,6 @@ public class GuiPanel extends JPanel {
 
     /**
      * The input handler that handles the input of the user.
-     * -- GETTER --
-     * Gets the
-     * of this
-     * .
-     *
-     * @return the {@link InputHandler} of this {@code Gui}
      */
     @Getter
     protected InputHandler inputHandler;
@@ -106,11 +100,7 @@ public class GuiPanel extends JPanel {
     final OsThemeDetector osThemeDetector = OsThemeDetector.getDetector();
 
     /**
-     * Whether the dark mode is enabled.
-     * -- GETTER --
-     * Returns whether the dark mode is enabled.
-     *
-     * @return true if the dark mode is enabled, false otherwise
+     * Whether the dark mode is enabled.the dark mode is enabled, false otherwise
      */
     @Getter
     private boolean darkMode = osThemeDetector.isDark();
