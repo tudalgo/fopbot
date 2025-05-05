@@ -8,7 +8,7 @@ dokkaVersioningPlugin = { module = "org.jetbrains.dokka:versioning-plugin", vers
 dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 imageio-batik = "com.twelvemonkeys.imageio:imageio-batik:3.12.0"
 batik = "org.apache.xmlgraphics:batik-all:1.18"
-lombok = { module = "org.projectlombok:lombok", version = "1.18.34" }
+lombok = { module = "org.projectlombok:lombok", version = "1.18.38" }
 jSystemThemeDetector = "com.github.Dansoftowner:jSystemThemeDetector:3.9.1"
 slf4jSimple = "org.slf4j:slf4j-simple:2.0.17"
 
