@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PrimitiveIterator;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.swing.JFrame;
@@ -99,6 +100,7 @@ public class KarelWorld {
      *
      * @param width  the width of the newly constructed world
      * @param height the height of the newly constructed world
+     *
      * @throws RuntimeException if the world size is smaller than one
      */
     public KarelWorld(final int width, final int height) {
@@ -136,6 +138,7 @@ public class KarelWorld {
      * Validates that the number of coins is not negative.
      *
      * @param numberOfCoins the number of coins to check
+     *
      * @throws IllegalArgumentException if the number of coins is negative
      */
     protected void checkNumberOfCoins(final int numberOfCoins) {
@@ -148,6 +151,7 @@ public class KarelWorld {
      * Validates if the specified X coordinate is within the world.
      *
      * @param x the X coordinate to validate
+     *
      * @throws IllegalArgumentException if the X coordinate is outside the world borders
      */
     protected void checkXCoordinate(final int x) {
@@ -160,6 +164,7 @@ public class KarelWorld {
      * Validates if the specified Y coordinate is within the world.
      *
      * @param y the Y coordinate to validate
+     *
      * @throws IllegalArgumentException if the Y coordinate is outside the world borders
      */
     protected void checkYCoordinate(final int y) {
@@ -239,6 +244,7 @@ public class KarelWorld {
      *
      * @param x the X coordinate of the field.
      * @param y the Y coordinate of the field.
+     *
      * @return the field of this world at the specified coordinate
      */
     public Field getField(final int x, final int y) {
@@ -258,6 +264,7 @@ public class KarelWorld {
      * Returns the previous robot tracing of the specified robot.
      *
      * @param robot the robot to retrieve its tracing
+     *
      * @return the previous robot tracing of the specified robot
      */
     public RobotTrace getTrace(final Robot robot) {
@@ -302,6 +309,7 @@ public class KarelWorld {
      * @param x     the X coordinate to check with the robot X coordinate
      * @param y     the Y coordinate to check with the robot Y coordinate
      * @param robot the robot to check with the coordinate
+     *
      * @return {@code true} if the specified robot is located at the specified coordinate
      */
     protected boolean isAnotherRobotInField(final int x, final int y, final Robot robot) {
@@ -314,6 +322,7 @@ public class KarelWorld {
      *
      * @param x the X coordinate to check
      * @param y the Y coordinate to check
+     *
      * @return {@code true} if a block is at the specified coordinate
      */
     protected boolean isBlockInField(final int x, final int y) {
@@ -326,6 +335,7 @@ public class KarelWorld {
      *
      * @param x the X coordinate to check
      * @param y the Y coordinate to check
+     *
      * @return {@code true} if at least one coin is on the specified coordinate
      */
     protected boolean isCoinInField(final int x, final int y) {
@@ -381,6 +391,7 @@ public class KarelWorld {
      * @param x          the X coordinate to check
      * @param y          the Y coordinate to check
      * @param horizontal if {@code true} check its horizontal orientation
+     *
      * @return {@code true} if the specified wall and its orientation are on the specified field
      */
     protected boolean isWallInField(final int x, final int y, final boolean horizontal) {
@@ -394,6 +405,7 @@ public class KarelWorld {
      *
      * @param x the X coordinate to pick up the coin
      * @param y the Y coordinate to pick up the coin
+     *
      * @return {@code true} if a coin was removed at the specified coordinate after this call
      */
     protected boolean pickCoin(final int x, final int y) {
@@ -473,6 +485,7 @@ public class KarelWorld {
      * @param x             the X coordinate of the coin
      * @param y             the Y coordinate of the coin
      * @param numberOfCoins the number of coins to place
+     *
      * @throws IllegalArgumentException if the number of coins is smaller than 1 or the position is invalid
      */
     public void putCoins(final int x, final int y, final int numberOfCoins) throws IllegalArgumentException {
@@ -494,6 +507,41 @@ public class KarelWorld {
         final Coin c = new Coin(x, y, numberOfCoins);
         fields[y][x].getEntities().add(c);
         triggerUpdate();
+    }
+
+
+    /**
+     * Places a {@link FieldEntity} on a specified field location (x, y) in the grid if the specified condition
+     * for the field is met.
+     * <p>
+     * This method checks the condition defined by the provided predicate and only places the entity if the condition
+     * evaluates to {@code false}. If the condition is satisfied, the entity is added to the field's list of entities.
+     *
+     * @param x                the x-coordinate of the field where the entity should be placed
+     * @param y                the y-coordinate of the field where the entity should be placed
+     * @param entity           the {@link FieldEntity} to be placed on the field
+     * @param placingCondition a {@link Predicate} that tests the condition of the field at (x, y). If the condition
+     *                         returns {@code false}, the entity will be placed; otherwise, the entity will not be added.
+     */
+    public void placeEntity(int x, int y, FieldEntity entity, Predicate<Field> placingCondition) {
+        checkXCoordinate(x);
+        checkYCoordinate(y);
+        Field field = fields[y][x];
+        if (placingCondition.test(field)) {
+            return;
+        }
+        field.getEntities().add(entity);
+    }
+
+    /**
+     * Places a {@link FieldEntity} on a specified field location (x, y).
+     *
+     * @param x      the x-coordinate of the field where the entity should be placed
+     * @param y      the y-coordinate of the field where the entity should be placed
+     * @param entity the {@link FieldEntity} to be placed on the field
+     */
+    public void placeEntity(int x, int y, FieldEntity entity) {
+        placeEntity(x, y, entity, field -> false);
     }
 
     /**
@@ -666,6 +714,7 @@ public class KarelWorld {
      *
      * @param x the x coordinate of the field
      * @param y the y coordinate of the field
+     *
      * @return the color of the field at the specified coordinates or {@code null} if no color is set
      */
     public @Nullable Color getFieldColor(final int x, final int y) {
