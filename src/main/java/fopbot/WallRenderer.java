@@ -12,8 +12,8 @@ public class WallRenderer implements FieldEntityRenderer<Wall> {
     @Override
     public void draw(Graphics g, FieldEntityRenderContext<Wall> context) {
         final Color oldColor = g.getColor();
-        ColorProfile colorProfile = context.colorProfile();
-        Point upperLeft = context.upperLeft();
+     final   ColorProfile colorProfile = context.colorProfile();
+      final  Point upperLeft = context.upperLeft();
 
         g.setColor(colorProfile.getWallColor());
         if (context.entity().isHorizontal()) {

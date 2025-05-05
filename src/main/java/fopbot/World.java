@@ -190,8 +190,8 @@ public class World {
 
     /**
      * Configures the rendering system by setting the render order and the associated {@link FieldEntity} renderers.
-     * <p>
-     * This method allows for customizing the order in which {@link FieldEntity} objects are rendered on the screen
+     *
+     * <p>This method allows for customizing the order in which {@link FieldEntity} objects are rendered on the screen
      * and specifying the renderers responsible for drawing each entity type. Calling this method will replace any
      * previously configured renderers with the new ones provided in the {@code renderers} map. The render order,
      * defined by the {@link Comparator}, controls the layering of entities, with entities of lower priority being drawn first.
@@ -216,10 +216,9 @@ public class World {
     }
 
     /**
-     * /**
      * Sets the rendering order for all {@link FieldEntity} objects.
-     * <p>
-     * The provided {@link Comparator} determines the sequence in which entities are drawn
+     *
+     * <p>The provided {@link Comparator} determines the sequence in which entities are drawn
      * on the GUI. Entities with higher priority should appear on top of others. This is
      * particularly important when multiple entities occupy the same field.
      *
@@ -235,12 +234,12 @@ public class World {
 
     /**
      * Registers or replaces the {@link FieldEntityRenderer} for a given {@link FieldEntity} type.
-     * <p>
-     * If a renderer is already registered for the specified entity class, it will be replaced.
+     *
+     * <p>If a renderer is already registered for the specified entity class, it will be replaced.
      * This enables dynamic customization or extension of the rendering system to support
      * additional or user-defined {@link FieldEntity} types.
-     * <p>
-     * <strong>Note:</strong> The rendering order is determined by the comparator.
+     *
+     * <p><strong>Note:</strong> The rendering order is determined by the comparator.
      * If you register a new {@link FieldEntityRenderer} for a custom entity type,
      * you must also update the comparator to ensure it is drawn in the correct layer.
      * Otherwise, it will be rendered last by default.
@@ -249,9 +248,8 @@ public class World {
      * @param renderer    the {@link FieldEntityRenderer} responsible for rendering the given entity type
      */
     public static void registerFieldEntityRenderer(
-        final Class<? extends FieldEntity> entityClass,
-        final FieldEntityRenderer<? extends FieldEntity> renderer
-    ) {
+        Class<? extends FieldEntity> entityClass,
+        FieldEntityRenderer<? extends FieldEntity> renderer) {
         if (world == null) {
             setSize(10, 10);
         }
@@ -260,19 +258,21 @@ public class World {
 
     /**
      * Registers or replaces the renderers for a given entities type.
-     * <p>
-     * If a renderer is already registered for the specified entity class, it will be replaced.
+     *
+     * <p>If a renderer is already registered for the specified entity class, it will be replaced.
      * This enables dynamic customization or extension of the rendering system to support
      * additional or user-defined {@link FieldEntity} types.
-     * <p>
-     * <strong>Note:</strong> The rendering order is determined by the comparator.
+     *
+     * <p><strong>Note:</strong> The rendering order is determined by the comparator.
      * If you register a new {@link FieldEntityRenderer} for a custom entity type,
      * you must also update the comparator to ensure it is drawn in the correct layer.
      * Otherwise, it will be rendered last by default.
      *
      * @param renderers a map of {@link Class} to {@link FieldEntityRenderer} that associates each {@link FieldEntity}
      */
-    public static void registerFieldEntityRenderers(Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> renderers) {
+    public static void registerFieldEntityRenderers(
+        Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> renderers
+    ) {
         if (world == null) {
             setSize(10, 10);
         }

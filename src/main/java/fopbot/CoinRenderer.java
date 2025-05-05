@@ -18,13 +18,12 @@ public class CoinRenderer implements FieldEntityRenderer<Coin> {
 
     @Override
     public void draw(Graphics g, FieldEntityRenderContext<Coin> context) {
-        Color oldColor = g.getColor();
-        var g2d = (Graphics2D) g;
-        Coin c = context.entity();
-        var text = Integer.toString(c.getCount());
-        Rectangle2D fieldBounds = scale(getFieldBounds(c, context.world()), context);
-        ColorProfile colorProfile = context.colorProfile();
-        boolean isRobotOnField = context.isRobotOnField();
+        final var g2d = (Graphics2D) g;
+        final Coin c = context.entity();
+        final Rectangle2D fieldBounds = scale(getFieldBounds(c, context.world()), context);
+        final ColorProfile colorProfile = context.colorProfile();
+        final boolean isRobotOnField = context.isRobotOnField();
+        final Color oldColor = g.getColor();
         g.setColor(colorProfile.getCoinColor());
 
         g.setColor(colorProfile.getCoinColor());
@@ -52,6 +51,7 @@ public class CoinRenderer implements FieldEntityRenderer<Coin> {
                 fieldBounds.getCenterY()
             );
 
+        final String text = Integer.toString(c.getCount());
         final var scaledText = scaleTextToWidth(
             g2d,
             context.bounds(),

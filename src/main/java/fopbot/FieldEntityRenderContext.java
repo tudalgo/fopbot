@@ -5,8 +5,8 @@ import java.awt.Rectangle;
 
 /**
  * A context object containing the necessary information for rendering a {@link FieldEntity}.
- * <p>
- * This record stores information about the specific {@link FieldEntity}, the world in which it exists,
+ *
+ * <p>This record stores information about the specific {@link FieldEntity}, the world in which it exists,
  * the rendering bounds, the color profile to be used for rendering, the scale factor for scaling graphics,
  * and a flag indicating whether a robot is present on the field. This context is passed to renderers to provide
  * the required information for drawing the entity on the screen.
@@ -30,8 +30,8 @@ public record FieldEntityRenderContext<E extends FieldEntity>(
 
     /**
      * Calculates and returns the upper-left corner position of the {@link FieldEntity} in the field.
-     * <p>
-     * This method uses the entity and the world to determine the exact position where the entity should
+     *
+     * <p>This method uses the entity and the world to determine the exact position where the entity should
      * be drawn within the field.
      *
      * @return the {@link Point} representing the upper-left corner of the entity's location on the field

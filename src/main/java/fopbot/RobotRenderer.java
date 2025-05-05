@@ -11,14 +11,14 @@ public class RobotRenderer implements FieldEntityRenderer<Robot> {
 
     @Override
     public void draw(Graphics g, FieldEntityRenderContext<Robot> context) {
-        Robot r = context.entity();
+      final  Robot r = context.entity();
 
         if (r.isTurnedOff() && !context.world().isDrawTurnedOffRobots()) {
             return;
         }
 
-        ColorProfile colorProfile = context.colorProfile();
-        Point upperLeft = context.upperLeft();
+     final   ColorProfile colorProfile = context.colorProfile();
+     final   Point upperLeft = context.upperLeft();
 
         final int directionIndex = r.getDirection().ordinal();
         final int targetRobotImageSize = scale(colorProfile.fieldInnerSize() - colorProfile.fieldInnerOffset() * 2, context);

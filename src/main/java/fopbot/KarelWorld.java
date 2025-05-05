@@ -513,8 +513,8 @@ public class KarelWorld {
     /**
      * Places a {@link FieldEntity} on a specified field location (x, y) in the grid if the specified condition
      * for the field is met.
-     * <p>
-     * This method checks the condition defined by the provided predicate and only places the entity if the condition
+     *
+     * <p>This method checks the condition defined by the provided predicate and only places the entity if the condition
      * evaluates to {@code false}. If the condition is satisfied, the entity is added to the field's list of entities.
      *
      * @param x                the x-coordinate of the field where the entity should be placed

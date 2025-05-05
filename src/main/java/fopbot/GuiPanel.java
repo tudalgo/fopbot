@@ -48,8 +48,8 @@ public class GuiPanel extends JPanel {
 
     /**
      * The default mapping of {@link FieldEntity} types to their corresponding {@link FieldEntityRenderer} instances.
-     * <p>
-     * This map provides the standard renderers used to visually represent each known {@link FieldEntity} subtype
+     *
+     * <p>This map provides the standard renderers used to visually represent each known {@link FieldEntity} subtype
      * on the board. It serves as the baseline configuration for rendering and can be extended or overridden
      * to support custom entities.
      */
@@ -62,8 +62,8 @@ public class GuiPanel extends JPanel {
 
     /**
      * The default rendering order used to sort {@link FieldEntity} instances before drawing.
-     * <p>
-     * Entities are ordered based on their render priority as defined: Walls < Robots < Coins < Blocks.
+     *
+     * <p>Entities are ordered based on their render priority as defined: Walls < Robots < Coins < Blocks.
      * Lower values indicate lower layers (drawn first), and higher values indicate upper layers (drawn later).
      */
     public static final Comparator<FieldEntity> DEFAULT_RENDER_ORDER = Comparator.comparingInt(GuiPanel::getRenderPriority);
@@ -124,15 +124,16 @@ public class GuiPanel extends JPanel {
     /**
      * Maps each {@link FieldEntity} subclass to its corresponding {@link FieldEntityRenderer},
      * which is responsible for drawing that specific type of entity on the GUI.
-     * <p>
-     * This allows for type-specific rendering logic and easy extensibility by adding new entity-renderer pairs.
+     *
+     * <p>This allows for type-specific rendering logic and easy extensibility by adding new entity-renderer pairs.
      */
-    private final Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> entityRenderers = new HashMap<>(DEFAULT_ENTITY_RENDERS);
+    private final Map<Class<? extends FieldEntity>, FieldEntityRenderer<?>> entityRenderers =
+        new HashMap<>(DEFAULT_ENTITY_RENDERS);
 
     /**
      * Defines the drawing order of {@link FieldEntity} objects on the board.
-     * <p>
-     * Entities are sorted based on visual layering priority, ensuring correct rendering:
+     *
+     * <p>Entities are sorted based on visual layering priority, ensuring correct rendering:
      * Default layering priority: Walls are drawn first, followed by Robots, Coins, and finally Blocks.
      * This prevents visual overlap issues.
      */
@@ -202,10 +203,18 @@ public class GuiPanel extends JPanel {
      * @return the render priority of the {@link FieldEntity}
      */
     private static int getRenderPriority(FieldEntity entity) {
-        if (entity instanceof Wall) return 0;
-        if (entity instanceof Robot) return 1;
-        if (entity instanceof Coin) return 2;
-        if (entity instanceof Block) return 3;
+        if (entity instanceof Wall) {
+            return 0;
+        }
+        if (entity instanceof Robot) {
+            return 1;
+        }
+        if (entity instanceof Coin) {
+            return 2;
+        }
+        if (entity instanceof Block) {
+            return 3;
+        }
         return Integer.MAX_VALUE; // unknown types last
     }
 
@@ -239,8 +248,8 @@ public class GuiPanel extends JPanel {
 
     /**
      * Configures the rendering system by setting the render order and the associated {@link FieldEntity} renderers.
-     * <p>
-     * This method allows for customizing the order in which {@link FieldEntity} objects are rendered on the screen
+     *
+     * <p>This method allows for customizing the order in which {@link FieldEntity} objects are rendered on the screen
      * and specifying the renderers responsible for drawing each entity type. Calling this method will replace any
      * previously configured renderers with the new ones provided in the {@code renderers} map. The render order,
      * defined by the {@link Comparator}, controls the layering of entities, with entities of lower priority being drawn first.
@@ -266,12 +275,12 @@ public class GuiPanel extends JPanel {
 
     /**
      * Registers or replaces the {@link FieldEntityRenderer} for a given {@link FieldEntity} type.
-     * <p>
-     * If a renderer is already registered for the specified entity class, it will be replaced.
+     *
+     * <p>If a renderer is already registered for the specified entity class, it will be replaced.
      * This enables dynamic customization or extension of the rendering system to support
      * additional or user-defined {@link FieldEntity} types.
-     * <p>
-     * <strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
+     *
+     * <p><strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
      * If you register a new {@link FieldEntityRenderer} for a custom entity type,
      * you must also update the comparator to ensure it is drawn in the correct layer.
      * Otherwise, it will be rendered last by default.
@@ -289,12 +298,12 @@ public class GuiPanel extends JPanel {
 
     /**
      * Registers or replaces the renderers for a given entities type.
-     * <p>
-     * If a renderer is already registered for the specified entity class, it will be replaced.
+     *
+     * <p>If a renderer is already registered for the specified entity class, it will be replaced.
      * This enables dynamic customization or extension of the rendering system to support
      * additional or user-defined {@link FieldEntity} types.
-     * <p>
-     * <strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
+     *
+     * <p><strong>Note:</strong> The rendering order is determined by the {@link #renderOrder} comparator.
      * If you register a new {@link FieldEntityRenderer} for a custom entity type,
      * you must also update the comparator to ensure it is drawn in the correct layer.
      * Otherwise, it will be rendered last by default.

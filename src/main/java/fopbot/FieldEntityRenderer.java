@@ -11,8 +11,8 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * A renderer interface for drawing {@link FieldEntity} instances.
- * <p>
- * This interface provides methods for scaling and rendering {@link FieldEntity} objects.
+ *
+ * <p>This interface provides methods for scaling and rendering {@link FieldEntity} objects.
  * Implementations of this interface should handle specific rendering logic for each type
  * of {@link FieldEntity}.
  *
@@ -76,8 +76,8 @@ public interface FieldEntityRenderer<E extends FieldEntity> {
 
     /**
      * Scales a text to fit within a specified width and bounds.
-     * <p>
-     * This method resizes the text so that it fits within the specified width, adjusting the font size
+     *
+     * <p>This method resizes the text so that it fits within the specified width, adjusting the font size
      * if necessary. It also ensures that the text is centered within the provided bounds.
      *
      * @param g2d             the {@link Graphics2D} object used for rendering
