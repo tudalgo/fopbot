@@ -87,7 +87,6 @@ public class KarelWorld {
      */
     private DrawingRegistry drawingRegistry = DrawingRegistry.DEFAULT;
 
-
     /**
      * The graphical user interface window on which the FOP Bot world panel is visible.
      */
@@ -553,6 +552,17 @@ public class KarelWorld {
                 return;
             }
         }
+    }
+
+    /**
+     * Removes the first {@link FieldEntity} from the field at the specified coordinates.
+     *
+     * @param x     the x-coordinate of the field
+     * @param y     the y-coordinate of the field
+     * @param clazz the class of the {@link FieldEntity} to remove
+     */
+    public void removeEntity(int x, int y, Class<? extends FieldEntity> clazz) {
+        removeEntity(x, y, e -> e.getClass() == clazz);
     }
 
     /**
