@@ -21,12 +21,12 @@ public class CoinDrawing implements Drawable<Coin> {
 
     @Override
     public void draw(Graphics g, DrawingContext<Coin> context) {
-        Graphics2D g2d = (Graphics2D) g;
-        Coin coin = context.entity();
-        Rectangle2D fieldBounds = scale(getFieldBounds(coin, context.world()), context);
-        ColorProfile profile = context.colorProfile();
-        boolean isRobotOnField = context.field().contains(Robot.class);
-        Color oldColor = g.getColor();
+        final Graphics2D g2d = (Graphics2D) g;
+        final Coin coin = context.entity();
+        final Rectangle2D fieldBounds = scale(getFieldBounds(coin, context.world()), context);
+        final ColorProfile profile = context.colorProfile();
+        final boolean isRobotOnField = context.field().contains(Robot.class);
+        final Color oldColor = g.getColor();
 
         if (!isRobotOnField) {
             g.setColor(profile.getCoinColor());
@@ -43,32 +43,32 @@ public class CoinDrawing implements Drawable<Coin> {
 
     private void drawCoinCount(Graphics2D g2d, DrawingContext<Coin> context, int count,
                                Rectangle2D fieldBounds, boolean isRobotOnField) {
-        ColorProfile profile = context.colorProfile();
-        double borderWidth = scale((double) profile.fieldBorderThickness(), context);
-        double padding = scale((double) profile.fieldInnerOffset(), context);
-        double wantedSize = isRobotOnField ? scale(20d, context) : fieldBounds.getWidth();
+        final ColorProfile profile = context.colorProfile();
+        final double borderWidth = scale((double) profile.fieldBorderThickness(), context);
+        final double padding = scale((double) profile.fieldInnerOffset(), context);
+        final double wantedSize = isRobotOnField ? scale(20d, context) : fieldBounds.getWidth();
 
-        Point2D center = isRobotOnField
+        final Point2D center = isRobotOnField
             ? new Point2D.Double(fieldBounds.getMaxX() - wantedSize / 2d, fieldBounds.getY() + wantedSize / 2d)
             : new Point2D.Double(fieldBounds.getCenterX(), fieldBounds.getCenterY());
 
-        String text = Integer.toString(count);
-        Font font = g2d.getFont().deriveFont((float) scale(16d, context));
-        Shape scaledText = scaleTextToWidth(
+        final String text = Integer.toString(count);
+        final Font font = g2d.getFont().deriveFont((float) scale(16d, context));
+        final Shape scaledText = scaleTextToWidth(
             g2d, context.bounds(), wantedSize, borderWidth + padding, text, font, false
         );
 
         // Center text
-        AffineTransform at = AffineTransform.getTranslateInstance(
+        final AffineTransform at = AffineTransform.getTranslateInstance(
             center.getX() - scaledText.getBounds2D().getCenterX(),
             center.getY() - scaledText.getBounds2D().getCenterY()
         );
-        Shape textShape = at.createTransformedShape(scaledText);
+        final Shape textShape = at.createTransformedShape(scaledText);
 
         if (isRobotOnField) {
             // Draw overlay circle
-            double radius = wantedSize / 2d;
-            Ellipse2D.Double ellipse = new Ellipse2D.Double(
+            final double radius = wantedSize / 2d;
+            final Ellipse2D.Double ellipse = new Ellipse2D.Double(
                 center.getX() - radius, center.getY() - radius, wantedSize, wantedSize
             );
 
@@ -76,7 +76,7 @@ public class CoinDrawing implements Drawable<Coin> {
             g2d.fill(ellipse);
 
             g2d.setColor(Color.BLACK);
-            Stroke oldStroke = g2d.getStroke();
+            final Stroke oldStroke = g2d.getStroke();
             g2d.setStroke(new BasicStroke(scale(2, context)));
             g2d.draw(ellipse);
             g2d.setStroke(oldStroke);
