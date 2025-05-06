@@ -27,7 +27,7 @@ public class Wall extends FieldEntity {
      *
      * @return {@code true} if the orientation of this wall was horizontal
      */
-    protected boolean isHorizontal() {
+    public boolean isHorizontal() {
         return horizontal;
     }
 }
