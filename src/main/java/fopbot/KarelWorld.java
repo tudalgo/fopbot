@@ -549,6 +549,7 @@ public class KarelWorld {
         while (it.hasNext()) {
             if (filter.test(it.next())) {
                 it.remove();
+                triggerUpdate();
                 return;
             }
         }
@@ -577,7 +578,11 @@ public class KarelWorld {
         int y = entity.getY();
         checkXCoordinate(x);
         checkYCoordinate(y);
-        fields[y][x].getEntities().remove(entity);
+        Field field = fields[y][x];
+        if (field.contains(entity)) {
+            field.removeEntity(entity);
+            triggerUpdate();
+        }
     }
 
     /**

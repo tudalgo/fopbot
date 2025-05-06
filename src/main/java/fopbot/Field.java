@@ -77,6 +77,17 @@ public class Field {
     }
 
     /**
+     * Returns {@code true} if this field contains the specified {@link FieldEntity}.
+     *
+     * @param entity the {@link FieldEntity} to check for
+     *
+     * @return {@code true} if the entity is present; {@code false} otherwise
+     */
+    public boolean contains(FieldEntity entity) {
+        return entities.contains(entity);
+    }
+
+    /**
      * Removes the specified {@link FieldEntity} from this field.
      *
      * @param entity the {@link FieldEntity} to remove
