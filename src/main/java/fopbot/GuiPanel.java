@@ -273,7 +273,6 @@ public class GuiPanel extends JPanel {
         Rectangle bounds = getBounds();
         ColorProfile colorProfile = getColorProfile();
         world.getFields().forEach(field -> {
-            boolean isRobotOnField = field.contains(Robot.class);
             List<FieldEntity> sorted = new ArrayList<>(field.getEntities());
             sorted.sort(drawingOrder);
             sorted.forEach(entity -> {
@@ -283,7 +282,7 @@ public class GuiPanel extends JPanel {
                     bounds,
                     colorProfile,
                     scaleFactor,
-                    isRobotOnField
+                    field
                 );
                 @SuppressWarnings("unchecked")
                 Drawable<FieldEntity> drawable = (Drawable<FieldEntity>) config.getDrawing(entity.getClass());

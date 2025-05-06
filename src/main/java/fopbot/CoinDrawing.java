@@ -22,7 +22,7 @@ public class CoinDrawing implements Drawable<Coin> {
         final Coin c = context.entity();
         final Rectangle2D fieldBounds = scale(getFieldBounds(c, context.world()), context);
         final ColorProfile colorProfile = context.colorProfile();
-        final boolean isRobotOnField = context.isRobotOnField();
+        final boolean isRobotOnField = context.field().contains(Robot.class);
         final Color oldColor = g.getColor();
         g.setColor(colorProfile.getCoinColor());
 
