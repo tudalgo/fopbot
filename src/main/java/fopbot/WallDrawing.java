@@ -12,30 +12,38 @@ public class WallDrawing implements Drawable<Wall> {
     @Override
     public void draw(Graphics g, DrawingContext<Wall> context) {
         final Color oldColor = g.getColor();
-        final ColorProfile colorProfile = context.colorProfile();
+        final ColorProfile profile = context.colorProfile();
         final Point upperLeft = context.upperLeftCorner();
 
-        g.setColor(colorProfile.getWallColor());
+        final int offset = profile.fieldInnerOffset();
+        final int thickness = profile.fieldBorderThickness();
+        final int innerSize = profile.fieldInnerSize();
+
+        g.setColor(profile.getWallColor());
+
+        int x;
+        int y;
+        int width;
+        int height;
         if (context.entity().isHorizontal()) {
-            final int x = upperLeft.x - colorProfile.fieldInnerOffset() * 2;
-            final int y = upperLeft.y - colorProfile.fieldInnerOffset() - colorProfile.fieldBorderThickness();
-            g.fillRect(
-                scale(x, context),
-                scale(y, context),
-                scale(colorProfile.fieldInnerSize() + colorProfile.fieldInnerOffset() * 2, context),
-                scale(colorProfile.fieldBorderThickness(), context)
-            );
+            x = upperLeft.x - offset * 2;
+            y = upperLeft.y - offset - thickness;
+            width = innerSize + offset * 2;
+            height = thickness;
         } else {
-            final int x = upperLeft.x - colorProfile.fieldInnerOffset() + colorProfile.fieldInnerSize();
-            final int y = upperLeft.y - colorProfile.fieldInnerOffset() * 2;
-            g.fillRect(
-                scale(x, context),
-                scale(y, context),
-                scale(colorProfile.fieldBorderThickness(), context),
-                scale(colorProfile.fieldInnerSize() + colorProfile.fieldInnerOffset() * 2, context)
-            );
+            x = upperLeft.x - offset + innerSize;
+            y = upperLeft.y - offset * 2;
+            width = thickness;
+            height = innerSize + offset * 2;
         }
+        g.fillRect(
+            scale(x, context),
+            scale(y, context),
+            scale(width, context),
+            scale(height, context)
+        );
 
         g.setColor(oldColor);
     }
+
 }

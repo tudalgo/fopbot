@@ -11,25 +11,22 @@ public class BlockDrawing implements Drawable<Block> {
 
     @Override
     public void draw(Graphics g, DrawingContext<Block> context) {
-        final Color oldColor = g.getColor();
-        final ColorProfile colorProfile = context.colorProfile();
-        final Point upperLeftCorner = context.upperLeftCorner();
+        Color oldColor = g.getColor();
+        ColorProfile profile = context.colorProfile();
+        Point upperLeftCorner = context.upperLeftCorner();
 
-        // Set the color for the block
-        g.setColor(colorProfile.getBlockColor());
+        g.setColor(profile.getBlockColor());
 
-        // Calculate the size of the block based on the color profile
-        final int size = colorProfile.fieldInnerSize() - colorProfile.fieldInnerOffset() * 2;
+        int rawSize = profile.fieldInnerSize() - profile.fieldInnerOffset() * 2;
+        int scaledSize = scale(rawSize, context);
 
-        // Draw the block as a filled rectangle
         g.fillRect(
             scale(upperLeftCorner.x, context),
             scale(upperLeftCorner.y, context),
-            scale(size, context),
-            scale(size, context)
+            scaledSize,
+            scaledSize
         );
 
-        // Restore the original color of the graphics object
         g.setColor(oldColor);
     }
 }

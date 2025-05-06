@@ -11,22 +11,30 @@ public class RobotDrawing implements Drawable<Robot> {
 
     @Override
     public void draw(Graphics g, DrawingContext<Robot> context) {
-        final Robot r = context.entity();
+        final Robot robot = context.entity();
 
-        if (r.isTurnedOff() && !context.world().isDrawTurnedOffRobots()) {
+        if (robot.isTurnedOff() && !context.world().isDrawTurnedOffRobots()) {
             return;
         }
 
-        final ColorProfile colorProfile = context.colorProfile();
-        final Point upperLeftCorner = context.upperLeftCorner();
+        final ColorProfile profile = context.colorProfile();
+        final Point upperLeft = context.upperLeftCorner();
 
-        final int directionIndex = r.getDirection().ordinal();
-        final int targetRobotImageSize = scale(colorProfile.fieldInnerSize() - colorProfile.fieldInnerOffset() * 2, context);
-        final Image robotImage = r.getRobotFamily().render(
-            targetRobotImageSize,
-            directionIndex * 90,
-            r.isTurnedOff()
+        final int rotationDegrees = robot.getDirection().ordinal() * 90;
+        final int robotSize = scale(profile.fieldInnerSize() - profile.fieldInnerOffset() * 2, context);
+
+        final Image robotImage = robot.getRobotFamily().render(
+            robotSize,
+            rotationDegrees,
+            robot.isTurnedOff()
         );
-        g.drawImage(robotImage, scale(upperLeftCorner.x, context), scale(upperLeftCorner.y, context), null);
+
+        g.drawImage(
+            robotImage,
+            scale(upperLeft.x, context),
+            scale(upperLeft.y, context),
+            null
+        );
     }
+
 }
