@@ -123,7 +123,7 @@ public record DrawingRegistry(
     private static class DefaultDrawing implements Drawable<FieldEntity> {
 
         @Override
-        public void draw(Graphics g, DrawingContext<FieldEntity> context) {
+        public void draw(Graphics g, DrawingContext<? extends FieldEntity> context) {
             final Color oldColor = g.getColor();
             final ColorProfile colorProfile = context.colorProfile();
             final Point upperLeftCorner = context.upperLeftCorner();

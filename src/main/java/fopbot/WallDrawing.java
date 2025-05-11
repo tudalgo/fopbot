@@ -10,7 +10,7 @@ import java.awt.Point;
 public class WallDrawing implements Drawable<Wall> {
 
     @Override
-    public void draw(Graphics g, DrawingContext<Wall> context) {
+    public void draw(Graphics g, DrawingContext<? extends Wall> context) {
         final Color oldColor = g.getColor();
         final ColorProfile profile = context.colorProfile();
         final Point upperLeft = context.upperLeftCorner();

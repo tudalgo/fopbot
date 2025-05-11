@@ -10,7 +10,7 @@ import java.awt.Point;
 public class BlockDrawing implements Drawable<Block> {
 
     @Override
-    public void draw(Graphics g, DrawingContext<Block> context) {
+    public void draw(Graphics g, DrawingContext<? extends Block> context) {
         final Color oldColor = g.getColor();
         final ColorProfile profile = context.colorProfile();
         final Point upperLeft = context.upperLeftCorner();

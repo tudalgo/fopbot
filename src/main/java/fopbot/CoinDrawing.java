@@ -20,7 +20,7 @@ import static fopbot.PaintUtils.getFieldBounds;
 public class CoinDrawing implements Drawable<Coin> {
 
     @Override
-    public void draw(Graphics g, DrawingContext<Coin> context) {
+    public void draw(Graphics g, DrawingContext<? extends Coin> context) {
         final Graphics2D g2d = (Graphics2D) g;
         final Coin coin = context.entity();
         final Rectangle2D fieldBounds = scale(getFieldBounds(coin, context.world()), context);
@@ -41,7 +41,7 @@ public class CoinDrawing implements Drawable<Coin> {
         g.setColor(oldColor);
     }
 
-    private void drawCoinCount(Graphics2D g2d, DrawingContext<Coin> context, int count,
+    private void drawCoinCount(Graphics2D g2d, DrawingContext<? extends Coin> context, int count,
                                Rectangle2D fieldBounds, boolean isRobotOnField) {
         final ColorProfile profile = context.colorProfile();
         final double borderWidth = scale((double) profile.fieldBorderThickness(), context);

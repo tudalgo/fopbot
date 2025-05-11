@@ -62,13 +62,22 @@ public abstract class SvgBasedDrawing<E extends FieldEntity> implements Drawable
         this.images[index] = image;
     }
 
+    public static void main(String[] args) {
+        World.setSize(10, 10);
+        Robot r = new Robot(0, 0);
+        World.setVisible(true);
+        for (int i = 0; i < World.getHeight(); i++) {
+            r.move();
+        }
+    }
+
     /**
      * Loads images based on the target size and drawing context.
      *
      * @param targetSize the size to scale the images to
      * @param context    the context used for drawing, including color profile and entity details
      */
-    protected abstract void loadImages(int targetSize, DrawingContext<E> context);
+    protected abstract void loadImages(int targetSize, DrawingContext<? extends E> context);
 
     /**
      * Retrieves the image that corresponds to the current drawing of the entity.
@@ -80,7 +89,7 @@ public abstract class SvgBasedDrawing<E extends FieldEntity> implements Drawable
     protected abstract Image getCurrentDrawingImage(E entity);
 
     @Override
-    public void draw(Graphics g, DrawingContext<E> context) {
+    public void draw(Graphics g, DrawingContext<? extends E> context) {
         ColorProfile profile = context.colorProfile();
         final int targetSize = scale(profile.fieldInnerSize() - profile.fieldInnerOffset() * 2, context);
         if (imageSize != targetSize) {

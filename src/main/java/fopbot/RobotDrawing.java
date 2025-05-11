@@ -10,7 +10,7 @@ import java.awt.Point;
 public class RobotDrawing implements Drawable<Robot> {
 
     @Override
-    public void draw(Graphics g, DrawingContext<Robot> context) {
+    public void draw(Graphics g, DrawingContext<? extends Robot> context) {
         final Robot robot = context.entity();
 
         if (robot.isTurnedOff() && !context.world().isDrawTurnedOffRobots()) {
