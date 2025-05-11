@@ -62,15 +62,6 @@ public abstract class SvgBasedDrawing<E extends FieldEntity> implements Drawable
         this.images[index] = image;
     }
 
-    public static void main(String[] args) {
-        World.setSize(10, 10);
-        Robot r = new Robot(0, 0);
-        World.setVisible(true);
-        for (int i = 0; i < World.getHeight(); i++) {
-            r.move();
-        }
-    }
-
     /**
      * Loads images based on the target size and drawing context.
      *
