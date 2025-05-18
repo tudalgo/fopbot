@@ -26,7 +26,7 @@ public interface Drawable<E extends FieldEntity> {
      *
      * @return the scaled value
      */
-    default double scale(double value, DrawingContext<? extends E> context) {
+    default double scale(double value, DrawingContext<? extends FieldEntity> context) {
         return value * context.scaleFactor();
     }
 
@@ -38,7 +38,7 @@ public interface Drawable<E extends FieldEntity> {
      *
      * @return the scaled value
      */
-    default float scale(float value, DrawingContext<? extends E> context) {
+    default float scale(float value, DrawingContext<? extends FieldEntity> context) {
         return (float) (value * context.scaleFactor());
     }
 
@@ -50,7 +50,7 @@ public interface Drawable<E extends FieldEntity> {
      *
      * @return the scaled value
      */
-    default int scale(int value, DrawingContext<? extends E> context) {
+    default int scale(int value, DrawingContext<? extends FieldEntity> context) {
         return (int) (value * context.scaleFactor());
     }
 
@@ -62,7 +62,7 @@ public interface Drawable<E extends FieldEntity> {
      *
      * @return a scaled {@link Rectangle2D} object
      */
-    default Rectangle2D scale(final Rectangle2D rect, DrawingContext<? extends E> context) {
+    default Rectangle2D scale(final Rectangle2D rect, DrawingContext<? extends FieldEntity> context) {
         double scaleFactor = context.scaleFactor();
         return new Rectangle2D.Double(
             rect.getX() * scaleFactor,
