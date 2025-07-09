@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * An event that indicates a key has been pressed in the virtual world.
  *
@@ -11,12 +13,12 @@ public final class KeyPressEvent {
     /**
      * The world in which the key press occurred.
      */
-    private final KarelWorld world;
+    private final @NotNull KarelWorld world;
 
     /**
      * The key that was pressed.
      */
-    private final Key key;
+    private final @NotNull Key key;
 
     /**
      * Constructs a new {@code KeyPressEvent} with the given world and key.
@@ -24,7 +26,7 @@ public final class KeyPressEvent {
      * @param world the world in which the key was pressed
      * @param key   the key that was pressed
      */
-    public KeyPressEvent(final KarelWorld world, final Key key) {
+    public KeyPressEvent(final @NotNull KarelWorld world, final @NotNull Key key) {
         this.world = world;
         this.key = key;
     }
@@ -34,7 +36,7 @@ public final class KeyPressEvent {
      *
      * @return the world associated with this event
      */
-    public KarelWorld getWorld() {
+    public @NotNull KarelWorld getWorld() {
         return world;
     }
 
@@ -43,7 +45,7 @@ public final class KeyPressEvent {
      *
      * @return the key associated with this event
      */
-    public Key getKey() {
+    public @NotNull Key getKey() {
         return key;
     }
 }

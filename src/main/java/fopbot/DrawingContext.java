@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -15,12 +17,12 @@ import java.awt.Rectangle;
  * @param field        the field the entity is currently on
  */
 public record DrawingContext<E extends FieldEntity>(
-    E entity,
-    KarelWorld world,
-    Rectangle bounds,
-    ColorProfile colorProfile,
+    @NotNull E entity,
+    @NotNull KarelWorld world,
+    @NotNull Rectangle bounds,
+    @NotNull ColorProfile colorProfile,
     double scaleFactor,
-    Field field
+    @NotNull Field field
 ) {
 
     /**

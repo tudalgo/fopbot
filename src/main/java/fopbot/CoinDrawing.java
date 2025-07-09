@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -20,7 +22,7 @@ import static fopbot.PaintUtils.getFieldBounds;
 public class CoinDrawing implements Drawable<Coin> {
 
     @Override
-    public void draw(Graphics g, DrawingContext<? extends Coin> context) {
+    public void draw(final @NotNull Graphics g, final @NotNull DrawingContext<? extends Coin> context) {
         final Graphics2D g2d = (Graphics2D) g;
         final Coin coin = context.entity();
         final Rectangle2D fieldBounds = scale(getFieldBounds(coin, context.world()), context);
@@ -50,8 +52,12 @@ public class CoinDrawing implements Drawable<Coin> {
      * @param fieldBounds    the bounds of the field where the coin is located
      * @param isRobotOnField true if a robot is currently on the field, false otherwise
      */
-    private void drawCoinCount(Graphics2D g2d, DrawingContext<? extends Coin> context, int count,
-                               Rectangle2D fieldBounds, boolean isRobotOnField) {
+    private void drawCoinCount(
+        final Graphics2D g2d, final DrawingContext<? extends Coin> context,
+        final int count,
+        final Rectangle2D fieldBounds, final
+        boolean isRobotOnField
+    ) {
         final ColorProfile profile = context.colorProfile();
         final double borderWidth = scale((double) profile.fieldBorderThickness(), context);
         final double padding = scale((double) profile.fieldInnerOffset(), context);

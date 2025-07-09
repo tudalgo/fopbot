@@ -125,7 +125,7 @@ public class Field {
      *
      * @param fieldColorSupplier a supplier that returns the color for the background
      */
-    public void setFieldColor(final Supplier<@Nullable Color> fieldColorSupplier) {
+    public void setFieldColor(final @NotNull Supplier<@Nullable Color> fieldColorSupplier) {
         this.fieldColorSupplier = fieldColorSupplier;
         Optional.ofNullable(world.getGuiPanel()).ifPresent(GuiPanel::updateGui);
     }
@@ -137,7 +137,7 @@ public class Field {
      *
      * @return {@code true} if an entity of the given type is present
      */
-    public boolean containsEntity(@NotNull Class<? extends FieldEntity> clazz) {
+    public boolean containsEntity(final @NotNull Class<? extends FieldEntity> clazz) {
         return entities.stream().anyMatch(clazz::isInstance);
     }
 
@@ -148,7 +148,7 @@ public class Field {
      *
      * @return {@code true} if the entity is on this field
      */
-    public boolean containsEntity(@NotNull FieldEntity entity) {
+    public boolean containsEntity(final @NotNull FieldEntity entity) {
         return entities.contains(entity);
     }
 
@@ -157,7 +157,7 @@ public class Field {
      *
      * @param entity the entity to remove
      */
-    public void removeEntity(@NotNull FieldEntity entity) {
+    public void removeEntity(final @NotNull FieldEntity entity) {
         entities.remove(entity);
     }
 
@@ -166,8 +166,8 @@ public class Field {
      *
      * @param clazz the class of the entity to remove
      */
-    public void removeEntity(@NotNull Class<? extends FieldEntity> clazz) {
-        var it = entities.iterator();
+    public void removeEntity(final @NotNull Class<? extends FieldEntity> clazz) {
+        final var it = entities.iterator();
         while (it.hasNext()) {
             if (clazz.isInstance(it.next())) {
                 it.remove();

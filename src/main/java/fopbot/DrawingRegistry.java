@@ -22,19 +22,19 @@ import java.util.Map;
  * @param order    the comparator used to define the rendering priority of field entities
  */
 public record DrawingRegistry(
-    Map<Class<? extends FieldEntity>, Drawable<?>> drawings,
-    Comparator<? super FieldEntity> order
+    @NotNull Map<Class<? extends FieldEntity>, Drawable<?>> drawings,
+    @NotNull Comparator<? super FieldEntity> order
 ) {
 
     /**
      * A fallback drawing implementation used when no specific drawable is registered for an entity class.
      */
-    public static final Drawable<FieldEntity> FALLBACK_DRAWING = new DefaultDrawing();
+    public static final @NotNull Drawable<FieldEntity> FALLBACK_DRAWING = new DefaultDrawing();
 
     /**
      * A default registry containing the standard entity-to-drawing mappings and drawing order.
      */
-    public static final DrawingRegistry DEFAULT = DrawingRegistry.builder()
+    public static final @NotNull DrawingRegistry DEFAULT = DrawingRegistry.builder()
         .addAll(
             Map.ofEntries(
                 Map.entry(Block.class, new BlockDrawing()),
@@ -45,6 +45,15 @@ public record DrawingRegistry(
         ).build(Comparator.comparingInt(DrawingRegistry::getDrawingOrder));
 
     /**
+     * Creates a new drawing registry by copying an existing one.
+     *
+     * @param parent the registry to copy
+     */
+    public DrawingRegistry(final @NotNull DrawingRegistry parent) {
+        this(new HashMap<>(parent.drawings), parent.order);
+    }
+
+    /**
      * Determines the drawing priority for a given {@link FieldEntity}.
      * Lower values are drawn first (appear behind others).
      *
@@ -52,23 +61,14 @@ public record DrawingRegistry(
      *
      * @return an integer representing the drawing priority
      */
-    private static int getDrawingOrder(final FieldEntity entity) {
+    private static int getDrawingOrder(final @NotNull FieldEntity entity) {
         return switch (entity) {
-            case Wall w -> 0;
-            case Robot r -> 1;
-            case Coin c -> 2;
-            case Block b -> 3;
+            case final Wall w -> 0;
+            case final Robot r -> 1;
+            case final Coin c -> 2;
+            case final Block b -> 3;
             default -> Integer.MAX_VALUE;
         };
-    }
-
-    /**
-     * Creates a new drawing registry by copying an existing one.
-     *
-     * @param parent the registry to copy
-     */
-    public DrawingRegistry(DrawingRegistry parent) {
-        this(new HashMap<>(parent.drawings), parent.order);
     }
 
     /**
@@ -79,7 +79,7 @@ public record DrawingRegistry(
      * @return a new {@link DrawingRegistryBuilder} pre-populated with the parent's drawings
      */
 
-    public static DrawingRegistryBuilder builder(DrawingRegistry parent) {
+    public static DrawingRegistryBuilder builder(final @NotNull DrawingRegistry parent) {
         return new DrawingRegistryBuilder(parent.drawings);
     }
 
@@ -101,7 +101,7 @@ public record DrawingRegistry(
      *
      * @return the corresponding drawable
      */
-    public Drawable<?> getDrawing(Class<? extends FieldEntity> clazz) {
+    public Drawable<?> getDrawing(final @NotNull Class<? extends FieldEntity> clazz) {
         if (drawings.containsKey(clazz)) {
             return drawings.get(clazz);
         }
@@ -123,7 +123,7 @@ public record DrawingRegistry(
     private static class DefaultDrawing implements Drawable<FieldEntity> {
 
         @Override
-        public void draw(Graphics g, DrawingContext<? extends FieldEntity> context) {
+        public void draw(final @NotNull Graphics g, final @NotNull DrawingContext<? extends FieldEntity> context) {
             final Color oldColor = g.getColor();
             final ColorProfile colorProfile = context.colorProfile();
             final Point upperLeftCorner = context.upperLeftCorner();
@@ -161,7 +161,7 @@ public record DrawingRegistry(
          *
          * @param drawings a map of {@link FieldEntity} subclasses to their corresponding {@link Drawable} instances
          */
-        public DrawingRegistryBuilder(@NotNull Map<Class<? extends FieldEntity>, Drawable<?>> drawings) {
+        public DrawingRegistryBuilder(final @NotNull Map<Class<? extends FieldEntity>, Drawable<?>> drawings) {
             this.drawings = drawings;
         }
 
@@ -180,7 +180,7 @@ public record DrawingRegistry(
          *
          * @return this builder instance after adding the drawable
          */
-        public DrawingRegistryBuilder add(Class<? extends FieldEntity> clazz, Drawable<?> drawing) {
+        public DrawingRegistryBuilder add(final @NotNull Class<? extends FieldEntity> clazz, final Drawable<?> drawing) {
             drawings.put(clazz, drawing);
             return this;
         }
@@ -192,7 +192,7 @@ public record DrawingRegistry(
          *
          * @return this builder instance after adding the drawables
          */
-        public DrawingRegistryBuilder addAll(Map<Class<? extends FieldEntity>, Drawable<?>> drawings) {
+        public DrawingRegistryBuilder addAll(final @NotNull Map<Class<? extends FieldEntity>, Drawable<?>> drawings) {
             this.drawings.putAll(drawings);
             return this;
         }
@@ -205,7 +205,7 @@ public record DrawingRegistry(
          *
          * @return a new {@link DrawingRegistry} instance containing the drawables and their drawing order
          */
-        public DrawingRegistry build(Comparator<? super FieldEntity> order) {
+        public DrawingRegistry build(final @NotNull Comparator<? super FieldEntity> order) {
             return new DrawingRegistry(drawings, order);
         }
     }

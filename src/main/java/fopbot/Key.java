@@ -176,7 +176,7 @@ public enum Key {
      *
      * @param keyCode the integer key code from {@link java.awt.event.KeyEvent}
      */
-    Key(int keyCode) {
+    Key(final int keyCode) {
         this.keyCode = keyCode;
     }
 

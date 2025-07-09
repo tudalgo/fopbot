@@ -15,7 +15,7 @@ public class Block extends FieldEntity {
      * @param x the x-coordinate of the block
      * @param y the y-coordinate of the block
      */
-    public Block(int x, int y) {
+    public Block(final int x, final int y) {
         super(x, y);
     }
 }

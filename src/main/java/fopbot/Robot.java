@@ -1,5 +1,8 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Represents a robot entity placed on the field in the virtual world which can interact with its environment.
  */
@@ -8,12 +11,12 @@ public class Robot extends FieldEntity {
     /**
      * The unique identifier of the robot.
      */
-    private String id;
+    private @Nullable String id;
 
     /**
      * The visual representation (appearance) of the robot.
      */
-    private RobotFamily robotFamily;
+    private @NotNull RobotFamily robotFamily;
 
     /**
      * The number of coins currently held by the robot.
@@ -23,7 +26,7 @@ public class Robot extends FieldEntity {
     /**
      * The direction the robot is currently facing.
      */
-    private Direction direction = Direction.UP;
+    private @NotNull Direction direction = Direction.UP;
 
     /**
      * Indicates whether to print the robot's trace after each action.
@@ -40,7 +43,7 @@ public class Robot extends FieldEntity {
     /**
      * The virtual world this robot is placed in.
      */
-    private KarelWorld world;
+    private @NotNull KarelWorld world;
 
 
     /**
@@ -49,7 +52,7 @@ public class Robot extends FieldEntity {
      * @param x the initial x-coordinate
      * @param y the initial y-coordinate
      */
-    public Robot(int x, int y) {
+    public Robot(final int x, final int y) {
         this(x, y, RobotFamily.TRIANGLE_BLUE);
     }
 
@@ -60,7 +63,7 @@ public class Robot extends FieldEntity {
      * @param y           the initial y-coordinate
      * @param robotFamily the robot's visual representation
      */
-    public Robot(int x, int y, RobotFamily robotFamily) {
+    public Robot(final int x, final int y, final @NotNull RobotFamily robotFamily) {
         super(x, y);
         setGlobalWorld();
         setRobotFamily(robotFamily);
@@ -78,7 +81,7 @@ public class Robot extends FieldEntity {
      * @param direction     the initial facing direction
      * @param numberOfCoins the initial number of coins the robot carries
      */
-    public Robot(int x, int y, Direction direction, int numberOfCoins) {
+    public Robot(final int x, final int y, final @NotNull Direction direction, final int numberOfCoins) {
         this(x, y, direction, numberOfCoins, RobotFamily.TRIANGLE_BLUE);
     }
 
@@ -91,7 +94,13 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the initial number of coins
      * @param robotFamily   the robot's appearance
      */
-    public Robot(int x, int y, Direction direction, int numberOfCoins, RobotFamily robotFamily) {
+    public Robot(
+        final int x,
+        final int y,
+        final @NotNull Direction direction,
+        final int numberOfCoins,
+        final @NotNull RobotFamily robotFamily
+    ) {
         super(x, y);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
@@ -111,7 +120,7 @@ public class Robot extends FieldEntity {
      * @param x     the x-coordinate
      * @param y     the y-coordinate
      */
-    public Robot(KarelWorld world, int x, int y) {
+    public Robot(final @NotNull KarelWorld world, final int x, final int y) {
         this(world, x, y, RobotFamily.TRIANGLE_BLUE);
     }
 
@@ -123,7 +132,7 @@ public class Robot extends FieldEntity {
      * @param y           the y-coordinate
      * @param robotFamily the robot's appearance
      */
-    public Robot(KarelWorld world, int x, int y, RobotFamily robotFamily) {
+    public Robot(final @NotNull KarelWorld world, final int x, final int y, final @NotNull RobotFamily robotFamily) {
         super(x, y);
         this.world = world;
         setRobotFamily(robotFamily);
@@ -142,7 +151,13 @@ public class Robot extends FieldEntity {
      * @param direction     the initial direction
      * @param numberOfCoins the initial number of coins
      */
-    public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins) {
+    public Robot(
+        final @NotNull KarelWorld world,
+        final int x,
+        final int y,
+        final @NotNull Direction direction,
+        final int numberOfCoins
+    ) {
         this(world, x, y, direction, numberOfCoins, RobotFamily.TRIANGLE_BLUE);
     }
 
@@ -156,7 +171,14 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the initial number of coins
      * @param robotFamily   the robot's appearance
      */
-    public Robot(KarelWorld world, int x, int y, Direction direction, int numberOfCoins, RobotFamily robotFamily) {
+    public Robot(
+        final @NotNull KarelWorld world,
+        final int x,
+        final int y,
+        final @NotNull Direction direction,
+        final int numberOfCoins,
+        final @NotNull RobotFamily robotFamily
+    ) {
         super(x, y);
         this.world = world;
         this.direction = direction;
@@ -174,7 +196,7 @@ public class Robot extends FieldEntity {
      *
      * @param robot the robot to copy
      */
-    protected Robot(Robot robot) {
+    protected Robot(final @NotNull Robot robot) {
         super(robot.getX(), robot.getY());
         this.numberOfCoins = robot.numberOfCoins;
         this.direction = robot.direction;
@@ -194,7 +216,7 @@ public class Robot extends FieldEntity {
      * @param direction     the initial direction
      * @param numberOfCoins the number of coins
      */
-    protected Robot(boolean copy, int x, int y, Direction direction, int numberOfCoins) {
+    protected Robot(final boolean copy, final int x, final int y, final @NotNull Direction direction, final int numberOfCoins) {
         super(x, y);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
@@ -229,58 +251,12 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Updates the robot’s x-coordinate internally, with full validation and redraw.
-     *
-     * @param x the new x-coordinate
-     */
-    private void setXRobot(int x) {
-        world.checkXCoordinate(x);
-        if (off) {
-            return;
-        }
-
-        int oldX = getX();
-        super.setX(x);
-
-        if (printTrace) {
-            printTrace();
-        }
-
-        world.updateRobotField(this, oldX, getY());
-        world.triggerUpdate();
-        world.sleep();
-    }
-
-    /**
-     * Updates the robot’s y-coordinate internally, with full validation and redraw.
-     *
-     * @param y the new y-coordinate
-     */
-    private void setYRobot(int y) {
-        world.checkYCoordinate(y);
-        if (off) {
-            return;
-        }
-
-        int oldY = getY();
-        super.setY(y);
-
-        if (printTrace) {
-            printTrace();
-        }
-
-        world.updateRobotField(this, getX(), oldY);
-        world.triggerUpdate();
-        world.sleep();
-    }
-
-    /**
      * Moves the robot to a new field, updating both x and y coordinates.
      *
      * @param x the new x-coordinate
      * @param y the new y-coordinate
      */
-    public void setField(int x, int y) {
+    public void setField(final int x, final int y) {
         world.trace(this, Transition.RobotAction.SET_X);
         world.trace(this, Transition.RobotAction.SET_Y);
 
@@ -306,14 +282,48 @@ public class Robot extends FieldEntity {
         world.sleep();
     }
 
+    /**
+     * Prints the robot's current state to the console in human-readable form.
+     * This is used internally when {@link #printTrace} is enabled.
+     */
+    private void printTrace() {
+        final String onOff = off ? "off" : "on";
+        final String trace = "Robot(" + this.getClass().getName() + ") is at (" + getX() + "," + getY()
+            + ") facing " + direction + " with " + numberOfCoins + " coins (Turned " + onOff + ").";
+        System.out.println(trace);
+    }
+
     @Override
-    public void setX(int x) {
+    public void setX(final int x) {
         world.trace(this, Transition.RobotAction.SET_X);
         setXRobot(x);
     }
 
+    /**
+     * Updates the robot’s x-coordinate internally, with full validation and redraw.
+     *
+     * @param x the new x-coordinate
+     */
+    private void setXRobot(final int x) {
+        world.checkXCoordinate(x);
+        if (off) {
+            return;
+        }
+
+        final int oldX = getX();
+        super.setX(x);
+
+        if (printTrace) {
+            printTrace();
+        }
+
+        world.updateRobotField(this, oldX, getY());
+        world.triggerUpdate();
+        world.sleep();
+    }
+
     @Override
-    public void setY(int y) {
+    public void setY(final int y) {
         world.trace(this, Transition.RobotAction.SET_Y);
         setYRobot(y);
     }
@@ -343,42 +353,24 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Moves the robot one field forward in the direction it is currently facing.
+     * Updates the robot’s y-coordinate internally, with full validation and redraw.
      *
-     * @throws RuntimeException if the robot cannot move forward due to a non-passable field or is out of world bounds
+     * @param y the new y-coordinate
      */
-    public void move() {
-        world.trace(this, Transition.RobotAction.MOVE);
+    private void setYRobot(final int y) {
+        world.checkYCoordinate(y);
         if (off) {
             return;
         }
 
-        if (!isFrontClear()) {
-            crash();
-        }
-
-        int oldX = getX();
-        int oldY = getY();
-        int newX = switch (direction) {
-            case UP -> oldX;
-            case LEFT -> oldX - 1;
-            case DOWN -> oldX;
-            case RIGHT -> oldX + 1;
-        };
-        int newY = switch (direction) {
-            case UP -> oldY + 1;
-            case LEFT -> oldY;
-            case DOWN -> oldY - 1;
-            case RIGHT -> oldY;
-        };
-        setXRobot(newX);
-        setYRobot(newY);
+        final int oldY = getY();
+        super.setY(y);
 
         if (printTrace) {
             printTrace();
         }
 
-        world.updateRobotField(this, oldX, oldY);
+        world.updateRobotField(this, getX(), oldY);
         world.triggerUpdate();
         world.sleep();
     }
@@ -536,16 +528,44 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Sets the number of coins the robot carries.
+     * Moves the robot one field forward in the direction it is currently facing.
      *
-     * @param coins the new coin count
-     *
-     * @throws IllegalArgumentException if the number of coins is negative
+     * @throws RuntimeException if the robot cannot move forward due to a non-passable field or is out of world bounds
      */
-    public void setNumberOfCoins(int coins) {
-        world.checkNumberOfCoins(coins);
-        world.trace(this, Transition.RobotAction.SET_NUMBER_OF_COINS);
-        this.numberOfCoins = coins;
+    public void move() {
+        world.trace(this, Transition.RobotAction.MOVE);
+        if (off) {
+            return;
+        }
+
+        if (!isFrontClear()) {
+            crash();
+        }
+
+        final int oldX = getX();
+        final int oldY = getY();
+        final int newX = switch (direction) {
+            case UP -> oldX;
+            case LEFT -> oldX - 1;
+            case DOWN -> oldX;
+            case RIGHT -> oldX + 1;
+        };
+        final int newY = switch (direction) {
+            case UP -> oldY + 1;
+            case LEFT -> oldY;
+            case DOWN -> oldY - 1;
+            case RIGHT -> oldY;
+        };
+        setXRobot(newX);
+        setYRobot(newY);
+
+        if (printTrace) {
+            printTrace();
+        }
+
+        world.updateRobotField(this, oldX, oldY);
+        world.triggerUpdate();
+        world.sleep();
     }
 
     /**
@@ -567,12 +587,16 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Sets the robot's ID.
+     * Sets the number of coins the robot carries.
      *
-     * @param id a string identifier for the robot
+     * @param coins the new coin count
+     *
+     * @throws IllegalArgumentException if the number of coins is negative
      */
-    protected void setId(String id) {
-        this.id = id;
+    public void setNumberOfCoins(final int coins) {
+        world.checkNumberOfCoins(coins);
+        world.trace(this, Transition.RobotAction.SET_NUMBER_OF_COINS);
+        this.numberOfCoins = coins;
     }
 
     /**
@@ -603,12 +627,12 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Returns the robot's visual family (its shape and color).
+     * Sets the robot's ID.
      *
-     * @return the robot's family
+     * @param id a string identifier for the robot
      */
-    public RobotFamily getRobotFamily() {
-        return robotFamily;
+    protected void setId(final @Nullable String id) {
+        this.id = id;
     }
 
     /**
@@ -618,8 +642,17 @@ public class Robot extends FieldEntity {
      * @deprecated Use {@link #getRobotFamily()} instead.
      */
     @Deprecated(since = "0.5.0")
-    public RobotFamily getFamily() {
+    public @NotNull RobotFamily getFamily() {
         return getRobotFamily();
+    }
+
+    /**
+     * Returns the robot's visual family (its shape and color).
+     *
+     * @return the robot's family
+     */
+    public @NotNull RobotFamily getRobotFamily() {
+        return robotFamily;
     }
 
     /**
@@ -627,7 +660,7 @@ public class Robot extends FieldEntity {
      *
      * @param robotFamily the new visual family of the robot
      */
-    public void setRobotFamily(RobotFamily robotFamily) {
+    public void setRobotFamily(final @NotNull RobotFamily robotFamily) {
         this.robotFamily = robotFamily;
         world.triggerUpdate();
         world.sleep();
@@ -641,17 +674,8 @@ public class Robot extends FieldEntity {
      * @deprecated Use {@link #setRobotFamily(RobotFamily)} instead.
      */
     @Deprecated(since = "0.5.0")
-    public void setFamily(RobotFamily robotFamily) {
+    public void setFamily(final @NotNull RobotFamily robotFamily) {
         setRobotFamily(robotFamily);
-    }
-
-    /**
-     * Returns the direction the robot is currently facing.
-     *
-     * @return the current {@link Direction}
-     */
-    public Direction getDirection() {
-        return direction;
     }
 
     /**
@@ -691,12 +715,12 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Enables or disables trace output for the robot.
+     * Returns the direction the robot is currently facing.
      *
-     * @param printTrace {@code true} to enable tracing, {@code false} to disable
+     * @return the current {@link Direction}
      */
-    public void setPrintTrace(boolean printTrace) {
-        this.printTrace = printTrace;
+    public @NotNull Direction getDirection() {
+        return direction;
     }
 
     /**
@@ -709,14 +733,12 @@ public class Robot extends FieldEntity {
     }
 
     /**
-     * Prints the robot's current state to the console in human-readable form.
-     * This is used internally when {@link #printTrace} is enabled.
+     * Enables or disables trace output for the robot.
+     *
+     * @param printTrace {@code true} to enable tracing, {@code false} to disable
      */
-    private void printTrace() {
-        String onOff = off ? "off" : "on";
-        String trace = "Robot(" + this.getClass().getName() + ") is at (" + getX() + "," + getY()
-            + ") facing " + direction + " with " + numberOfCoins + " coins (Turned " + onOff + ").";
-        System.out.println(trace);
+    public void setPrintTrace(final boolean printTrace) {
+        this.printTrace = printTrace;
     }
 
     @Override

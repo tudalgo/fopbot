@@ -21,7 +21,7 @@ public class World {
      *
      * @param visible if {@code true} the world will be visible on the graphical user interface
      */
-    public static void setVisible(boolean visible) {
+    public static void setVisible(final boolean visible) {
         if (visible && world == null) {
             setSize(10, 10);
         }
@@ -60,8 +60,8 @@ public class World {
      * @param width  the width of the global world
      * @param height the height of the global world
      */
-    public static void setSize(int width, int height) {
-        var newWorld = new KarelWorld(width, height);
+    public static void setSize(final int width, final int height) {
+        final var newWorld = new KarelWorld(width, height);
         if (world != null) {
             newWorld.setDelay(world.getDelay());
             newWorld.setColorProfile(world.getColorProfile());
@@ -78,7 +78,7 @@ public class World {
      *
      * @param delay the delay value in milliseconds
      */
-    public static void setDelay(int delay) {
+    public static void setDelay(final int delay) {
         if (world == null) {
             setSize(10, 10);
         }
@@ -113,7 +113,7 @@ public class World {
      * @param x the X coordinate of the horizontal wall
      * @param y the Y coordinate of the horizontal wall
      */
-    public static void placeHorizontalWall(int x, int y) {
+    public static void placeHorizontalWall(final int x, final int y) {
         if (world == null) {
             setSize(10, 10);
         }
@@ -126,7 +126,7 @@ public class World {
      * @param x the X coordinate of the vertical wall
      * @param y the Y coordinate of the vertical wall
      */
-    public static void placeVerticalWall(int x, int y) {
+    public static void placeVerticalWall(final int x, final int y) {
         if (world == null) {
             setSize(10, 10);
         }
@@ -139,7 +139,7 @@ public class World {
      * @param x the X coordinate of the block
      * @param y the Y coordinate of the block
      */
-    public static void placeBlock(int x, int y) {
+    public static void placeBlock(final int x, final int y) {
         if (world == null) {
             setSize(10, 10);
         }
@@ -155,7 +155,7 @@ public class World {
      *
      * @throws IllegalArgumentException if the number of coins is smaller than 1 or the position is invalid
      */
-    public static void putCoins(int x, int y, int numberOfCoins) throws IllegalArgumentException {
+    public static void putCoins(final int x, final int y, final int numberOfCoins) throws IllegalArgumentException {
         if (world == null) {
             setSize(10, 10);
         }
@@ -176,7 +176,7 @@ public class World {
      *
      * @param keyPressListener the key press listener
      */
-    public static void addKeyPressListener(KeyPressListener keyPressListener) {
+    public static void addKeyPressListener(final KeyPressListener keyPressListener) {
         getInputHandler().addKeyPressListener(keyPressListener);
     }
 
@@ -185,7 +185,7 @@ public class World {
      *
      * @param fieldClickListener the field click listener
      */
-    public static void addFieldClickListener(FieldClickListener fieldClickListener) {
+    public static void addFieldClickListener(final FieldClickListener fieldClickListener) {
         getInputHandler().addFieldClickListener(fieldClickListener);
     }
 

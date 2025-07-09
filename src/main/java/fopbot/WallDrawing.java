@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -10,7 +12,7 @@ import java.awt.Point;
 public class WallDrawing implements Drawable<Wall> {
 
     @Override
-    public void draw(Graphics g, DrawingContext<? extends Wall> context) {
+    public void draw(@NotNull final Graphics g, @NotNull final DrawingContext<? extends Wall> context) {
         final Color oldColor = g.getColor();
         final ColorProfile profile = context.colorProfile();
         final Point upperLeft = context.upperLeftCorner();
@@ -21,10 +23,10 @@ public class WallDrawing implements Drawable<Wall> {
 
         g.setColor(profile.getWallColor());
 
-        int x;
-        int y;
-        int width;
-        int height;
+        final int x;
+        final int y;
+        final int width;
+        final int height;
         if (context.entity().isHorizontal()) {
             x = upperLeft.x - offset * 2;
             y = upperLeft.y - offset - thickness;

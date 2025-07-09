@@ -20,7 +20,7 @@ public class Wall extends FieldEntity {
      * @param y          the y-coordinate of the wall
      * @param horizontal {@code true} if the wall is horizontal, {@code false} if vertical
      */
-    public Wall(int x, int y, boolean horizontal) {
+    public Wall(final int x, final int y, final boolean horizontal) {
         super(x, y);
         this.horizontal = horizontal;
     }

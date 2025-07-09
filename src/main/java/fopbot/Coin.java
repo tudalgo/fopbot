@@ -24,7 +24,7 @@ public class Coin extends FieldEntity {
      * @param x the x-coordinate of the coin
      * @param y the y-coordinate of the coin
      */
-    public Coin(int x, int y) {
+    public Coin(final int x, final int y) {
         super(x, y);
         this.count = DEFAULT_COUNT;
     }
@@ -36,7 +36,7 @@ public class Coin extends FieldEntity {
      * @param y     the y-coordinate of the coin
      * @param count the number of coins represented
      */
-    public Coin(int x, int y, int count) {
+    public Coin(final int x, final int y, final int count) {
         super(x, y);
         this.count = count;
     }
@@ -55,7 +55,7 @@ public class Coin extends FieldEntity {
      *
      * @param count the new coin count of this entity
      */
-    public void setCount(int count) {
+    public void setCount(final int count) {
         this.count = count;
     }
 }

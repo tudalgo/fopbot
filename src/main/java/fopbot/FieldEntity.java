@@ -23,7 +23,7 @@ public abstract class FieldEntity {
      * @param x the initial x-coordinate of this entity
      * @param y the initial y-coordinate of this entity
      */
-    public FieldEntity(int x, int y) {
+    public FieldEntity(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -33,7 +33,7 @@ public abstract class FieldEntity {
      *
      * @param x the new x-coordinate of this entity
      */
-    protected void setX(int x) {
+    protected void setX(final int x) {
         this.x = x;
     }
 
@@ -42,7 +42,7 @@ public abstract class FieldEntity {
      *
      * @param y the new y-coordinate of this entity
      */
-    protected void setY(int y) {
+    protected void setY(final int y) {
         this.y = y;
     }
 

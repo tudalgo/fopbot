@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Represents a transition that captures a robot's action within the simulation.
  *
@@ -90,14 +92,14 @@ public class Transition {
     /**
      * The type of action the robot performed.
      */
-    public RobotAction action;
+    public final @NotNull RobotAction action;
 
     /**
      * The robot that performed the action.
      *
      * <p>A copy of the original robot is stored to preserve the exact state at this step.
      */
-    public Robot robot;
+    public final @NotNull Robot robot;
 
     /**
      * Constructs a new {@code Transition} that represents a robot action at a specific moment.
@@ -105,14 +107,14 @@ public class Transition {
      * @param action the type of action performed
      * @param robot  the robot performing the action
      */
-    public Transition(RobotAction action, Robot robot) {
+    public Transition(final @NotNull RobotAction action, final @NotNull Robot robot) {
         this.action = action;
         this.robot = new Robot(robot); // capture snapshot of the robot's state
         this.step = nextStep++;
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "Transition{step=" + step + ", action=" + action + ", robot=" + robot + "}";
     }
 }

@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.EventListener;
 
 
@@ -16,6 +18,6 @@ public interface FieldHoverListener extends EventListener {
      *
      * @param field the hover event containing current and previous field information
      */
-    void onFieldHover(FieldHoverEvent field);
+    void onFieldHover(@NotNull FieldHoverEvent field);
 }
 

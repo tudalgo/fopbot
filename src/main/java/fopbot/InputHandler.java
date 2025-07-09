@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -25,104 +27,44 @@ public class InputHandler {
      * The keys that were pressed during the last frame.
      * When a key is pressed, it is added to this list after the onKeyPressed event is handled.
      */
-    private final Set<Integer> keysPressed = new HashSet<>();
+    private final @NotNull Set<Integer> keysPressed = new HashSet<>();
 
-    private final Point lastFieldHovered = new Point(-1, -1);
+    private final @NotNull Point lastFieldHovered = new Point(-1, -1);
 
     /**
      * A List of event handlers that are called when a keyboard event is fired.
      */
-    private final List<KeyListener> listeners = new ArrayList<>();
+    private final @NotNull List<KeyListener> listeners = new ArrayList<>();
 
-    private final List<KeyPressListener> keyPressListeners = new ArrayList<>();
+    private final @NotNull List<KeyPressListener> keyPressListeners = new ArrayList<>();
 
-    private final List<FieldClickListener> fieldClickListeners = new ArrayList<>();
+    private final @NotNull List<FieldClickListener> fieldClickListeners = new ArrayList<>();
 
-    private final List<FieldHoverListener> fieldHoverListeners = new ArrayList<>();
+    private final @NotNull List<FieldHoverListener> fieldHoverListeners = new ArrayList<>();
 
     /**
      * An executor service for executing input events.
      */
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-    /**
-     * Returns the input handler of the global world.
-     *
-     * @return the input handler
-     */
-    public static InputHandler getInputHandler() {
-        return World.getGlobalWorld().getInputHandler();
-    }
-
-    // --Constructors-- //
+    private final @NotNull ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /**
      * Creates a new GameInputHandler.
      *
      * @param panel The panel to handle input for.
      */
-    public InputHandler(final GuiPanel panel) {
+    public InputHandler(final @NotNull GuiPanel panel) {
         handleKeyboardInputs(panel);
         handleFieldMouseEvents(panel);
     }
 
-    // --Getters and Setters-- //
-
-    /**
-     * Gets the value of {@link #keysPressed} field.
-     *
-     * @return the value of the {@link #keysPressed} field.
-     * @see #keysPressed
-     */
-    public Set<Integer> getKeysPressed() {
-        return this.keysPressed;
-    }
-
-    // --Methods-- //
-
-    /**
-     * Adds the given event handler to the {@link #listeners} list.
-     *
-     * @param eventHandler The key to add.
-     * @see #listeners
-     */
-    public void addKeyListener(final KeyListener eventHandler) {
-        this.listeners.add(eventHandler);
-    }
-
-    /**
-     * Adds the screen listener to this input handler.
-     *
-     * @param screenListener the screen listener
-     */
-    public void addFieldClickListener(final FieldClickListener screenListener) {
-        this.fieldClickListeners.add(screenListener);
-    }
-
-    /**
-     * Adds the given key press listener to this input handler.
-     *
-     * @param listener the key press listener
-     */
-    public void addKeyPressListener(final KeyPressListener listener) {
-        this.keyPressListeners.add(listener);
-    }
-
-    /**
-     * Adds the given field hover listener to this input handler.
-     *
-     * @param listener the field hover listener
-     */
-    public void addFieldHoverListener(final FieldHoverListener listener) {
-        this.fieldHoverListeners.add(listener);
-    }
+    // --Constructors-- //
 
     /**
      * Set up the keyboard handlers for the given panel.
      *
      * @param panel The panel to handle input for.
      */
-    private void handleKeyboardInputs(final GuiPanel panel) {
+    private void handleKeyboardInputs(final @NotNull GuiPanel panel) {
         final var world = panel.world;
         panel.addKeyListener(new KeyAdapter() {
             @Override
@@ -157,19 +99,21 @@ public class InputHandler {
         });
     }
 
+    // --Getters and Setters-- //
+
     /**
-     * Checks if the given coordinates are valid.
+     * Gets the value of {@link #keysPressed} field.
      *
-     * @param x     the x-coordinate
-     * @param y     the y-coordinate
-     * @param world the world
-     * @return true if the coordinates are valid, false otherwise
+     * @return the value of the {@link #keysPressed} field.
+     * @see #keysPressed
      */
-    private boolean isValidCoordinate(final int x, final int y, final KarelWorld world) {
-        return x >= 0 && y >= 0 && x < world.getWidth() && y < world.getHeight();
+    public Set<Integer> getKeysPressed() {
+        return this.keysPressed;
     }
 
-    private void handleFieldMouseEvents(final GuiPanel panel) {
+    // --Methods-- //
+
+    private void handleFieldMouseEvents(final @NotNull GuiPanel panel) {
         final var world = panel.world;
         panel.addMouseListener(new MouseAdapter() {
 
@@ -207,11 +151,11 @@ public class InputHandler {
                 }
                 final var event = new FieldHoverEvent(
                     isValidCoordinate(pos.x, pos.y, world)
-                    ? world.getField(pos.x, pos.y)
-                    : null,
+                        ? world.getField(pos.x, pos.y)
+                        : null,
                     isValidCoordinate(lastFieldHovered.x, lastFieldHovered.y, world)
-                    ? world.getField(lastFieldHovered.x, lastFieldHovered.y)
-                    : null
+                        ? world.getField(lastFieldHovered.x, lastFieldHovered.y)
+                        : null
                 );
                 lastFieldHovered.setLocation(pos);
                 fieldHoverListeners.forEach(l -> {
@@ -226,5 +170,65 @@ public class InputHandler {
                 });
             }
         });
+    }
+
+    /**
+     * Checks if the given coordinates are valid.
+     *
+     * @param x     the x-coordinate
+     * @param y     the y-coordinate
+     * @param world the world
+     *
+     * @return true if the coordinates are valid, false otherwise
+     */
+    private boolean isValidCoordinate(final int x, final int y, final @NotNull KarelWorld world) {
+        return x >= 0 && y >= 0 && x < world.getWidth() && y < world.getHeight();
+    }
+
+    /**
+     * Returns the input handler of the global world.
+     *
+     * @return the input handler
+     */
+    public static @NotNull InputHandler getInputHandler() {
+        return World.getGlobalWorld().getInputHandler();
+    }
+
+    /**
+     * Adds the given event handler to the {@link #listeners} list.
+     *
+     * @param eventHandler The key to add.
+     *
+     * @see #listeners
+     */
+    public void addKeyListener(final @NotNull KeyListener eventHandler) {
+        this.listeners.add(eventHandler);
+    }
+
+    /**
+     * Adds the screen listener to this input handler.
+     *
+     * @param screenListener the screen listener
+     */
+    public void addFieldClickListener(final @NotNull FieldClickListener screenListener) {
+        this.fieldClickListeners.add(screenListener);
+    }
+
+    /**
+     * Adds the given key press listener to this input handler.
+     *
+     * @param listener the key press listener
+     */
+    public void addKeyPressListener(final @NotNull KeyPressListener listener) {
+        this.keyPressListeners.add(listener);
+    }
+
+    /**
+     * Adds the given field hover listener to this input handler.
+     *
+     * @param listener the field hover listener
+     */
+    public void addFieldHoverListener(final @NotNull FieldHoverListener listener) {
+        this.fieldHoverListeners.add(listener);
     }
 }

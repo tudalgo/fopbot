@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Represents an event that occurs when a field in the virtual world is clicked.
  *
@@ -10,14 +12,14 @@ public final class FieldClickEvent {
     /**
      * The field that was clicked.
      */
-    private final Field field;
+    private final @NotNull Field field;
 
     /**
      * Constructs a new {@code FieldClickEvent} for the specified field.
      *
      * @param field the field that was clicked
      */
-    public FieldClickEvent(final Field field) {
+    public FieldClickEvent(final @NotNull Field field) {
         this.field = field;
     }
 
@@ -26,7 +28,7 @@ public final class FieldClickEvent {
      *
      * @return the clicked {@link Field}
      */
-    public Field getField() {
+    public @NotNull Field getField() {
         return field;
     }
 
@@ -35,7 +37,7 @@ public final class FieldClickEvent {
      *
      * @return the {@link KarelWorld} of the clicked field
      */
-    public KarelWorld getWorld() {
+    public @NotNull KarelWorld getWorld() {
         return field.getWorld();
     }
 }

@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -25,7 +27,7 @@ public abstract class SvgBasedDrawing<E extends FieldEntity> implements Drawable
     /**
      * Array of images corresponding to different states or views of the field entity.
      */
-    private final Image[] images;
+    private final @NotNull Image[] images;
 
     /**
      * The size of the images being used for drawing, or -1 if the size is not set.
@@ -37,7 +39,7 @@ public abstract class SvgBasedDrawing<E extends FieldEntity> implements Drawable
      *
      * @param size the number of images that will be used for drawing (usually corresponding to different states)
      */
-    public SvgBasedDrawing(int size) {
+    public SvgBasedDrawing(final int size) {
         this.images = new BufferedImage[size];
     }
 
@@ -48,7 +50,7 @@ public abstract class SvgBasedDrawing<E extends FieldEntity> implements Drawable
      *
      * @return the image at the specified index
      */
-    public Image getImage(int index) {
+    public Image getImage(final int index) {
         return images[index];
     }
 
@@ -58,17 +60,25 @@ public abstract class SvgBasedDrawing<E extends FieldEntity> implements Drawable
      * @param index the index where the image will be set
      * @param image the image to set at the specified index
      */
-    protected void setImage(int index, Image image) {
+    protected void setImage(final int index, final @NotNull Image image) {
         this.images[index] = image;
     }
 
-    /**
-     * Loads images based on the target size and drawing context.
-     *
-     * @param targetSize the size to scale the images to
-     * @param context    the context used for drawing, including color profile and entity details
-     */
-    protected abstract void loadImages(int targetSize, DrawingContext<? extends E> context);
+    @Override
+    public void draw(final @NotNull Graphics g, final @NotNull DrawingContext<? extends E> context) {
+        final ColorProfile profile = context.colorProfile();
+        final int targetSize = scale(profile.fieldInnerSize() - profile.fieldInnerOffset() * 2, context);
+        if (imageSize != targetSize) {
+            loadImages(targetSize, context);
+            imageSize = targetSize;
+        }
+        final Point upperLeft = context.upperLeftCorner();
+        g.drawImage(
+            getCurrentDrawingImage(context.entity()),
+            scale(upperLeft.x, context),
+            scale(upperLeft.y, context),
+            null);
+    }
 
     /**
      * Retrieves the image that corresponds to the current drawing of the entity.
@@ -79,19 +89,11 @@ public abstract class SvgBasedDrawing<E extends FieldEntity> implements Drawable
      */
     protected abstract Image getCurrentDrawingImage(E entity);
 
-    @Override
-    public void draw(Graphics g, DrawingContext<? extends E> context) {
-        ColorProfile profile = context.colorProfile();
-        final int targetSize = scale(profile.fieldInnerSize() - profile.fieldInnerOffset() * 2, context);
-        if (imageSize != targetSize) {
-            loadImages(targetSize, context);
-            imageSize = targetSize;
-        }
-        Point upperLeft = context.upperLeftCorner();
-        g.drawImage(
-            getCurrentDrawingImage(context.entity()),
-            scale(upperLeft.x, context),
-            scale(upperLeft.y, context),
-            null);
-    }
+    /**
+     * Loads images based on the target size and drawing context.
+     *
+     * @param targetSize the size to scale the images to
+     * @param context    the context used for drawing, including color profile and entity details
+     */
+    protected abstract void loadImages(int targetSize, @NotNull DrawingContext<? extends E> context);
 }

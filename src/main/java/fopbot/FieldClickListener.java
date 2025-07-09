@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.EventListener;
 
 /**
@@ -14,5 +16,5 @@ public interface FieldClickListener extends EventListener {
      *
      * @param event the event containing information about the clicked field
      */
-    void onFieldClick(FieldClickEvent event);
+    void onFieldClick(@NotNull FieldClickEvent event);
 }

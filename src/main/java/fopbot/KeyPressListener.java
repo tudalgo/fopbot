@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.EventListener;
 
 /**
@@ -14,6 +16,6 @@ public interface KeyPressListener extends EventListener {
      *
      * @param event the event object containing details about the key press
      */
-    void onKeyPress(KeyPressEvent event);
+    void onKeyPress(@NotNull KeyPressEvent event);
 }
 
