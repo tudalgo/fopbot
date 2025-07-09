@@ -4,50 +4,51 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**
- * An enumeration of robot families.
- * A family of robots is uniquely in terms of their appearance.
+ * Represents a family of robots distinguished by their visual appearance.
+ *
+ * <p>Each robot family provides a unique style and rendering behavior
+ * based on its shape, color, and visual assets and state of the robot.
+ *
+ * @see Robot
  */
 public interface RobotFamily {
 
     /**
-     * Returns the color of this robot family.
+     * Returns the base color of this robot family.
      *
-     * @return the color of this robot family
+     * @return the {@link Color} associated with this robot family
      */
     Color getColor();
 
     /**
-     * Sets the color of this robot family.
+     * Sets the base color of this robot family.
      *
-     * @param color the new color
+     * @param color the new {@link Color} to associate with this robot family
      */
     void setColor(Color color);
 
     /**
-     * Renders a robot of this family.
+     * Renders a robot image based on the specified properties.
      *
-     * @param targetSize     the target size of the rendered image in pixels
-     * @param rotationOffset the rotation offset in degrees
-     * @param turnedOff      whether the robot is turned off
-     * @return the rendered robot
+     * @param targetSize     the desired size of the rendered image in pixels
+     * @param rotationOffset the rotation offset in degrees (e.g. 0, 90, 180, 270)
+     * @param turnedOff      {@code true} if the robot is turned off; otherwise {@code false}
+     *
+     * @return the rendered {@link BufferedImage} representing the robot
      */
-    BufferedImage render(
-        int targetSize,
-        int rotationOffset,
-        boolean turnedOff
-    );
+    BufferedImage render(int targetSize, int rotationOffset, boolean turnedOff);
 
     /**
-     * Returns the name of this robot family.
+     * Returns the internal name or identifier of this robot family.
      *
      * @return the name of this robot family
      */
     String getName();
 
-    // default Families
+    // --- Default robot families ---
 
     /**
-     * A teal square robot.
+     * A robot with a square shape and teal color.
      */
     RobotFamily SQUARE_AQUA = new SvgBasedRobotFamily(
         "SQUARE_AQUA",
@@ -55,8 +56,9 @@ public interface RobotFamily {
         "/robots/square_aqua_off.svg",
         Color.CYAN
     );
+
     /**
-     * A black square robot.
+     * A robot with a square shape and black color.
      */
     RobotFamily SQUARE_BLACK = new SvgBasedRobotFamily(
         "SQUARE_BLACK",
@@ -64,8 +66,9 @@ public interface RobotFamily {
         "/robots/square_black_off.svg",
         Color.BLACK
     );
+
     /**
-     * A blue square robot.
+     * A robot with a square shape and blue color.
      */
     RobotFamily SQUARE_BLUE = new SvgBasedRobotFamily(
         "SQUARE_BLUE",
@@ -73,8 +76,9 @@ public interface RobotFamily {
         "/robots/square_blue_off.svg",
         Color.BLUE
     );
+
     /**
-     * A brown square robot.
+     * A robot with a square shape and green color.
      */
     RobotFamily SQUARE_GREEN = new SvgBasedRobotFamily(
         "SQUARE_GREEN",
@@ -82,8 +86,9 @@ public interface RobotFamily {
         "/robots/square_green_off.svg",
         Color.GREEN
     );
+
     /**
-     * A gray square robot.
+     * A robot with a square shape and orange color.
      */
     RobotFamily SQUARE_ORANGE = new SvgBasedRobotFamily(
         "SQUARE_ORANGE",
@@ -91,8 +96,9 @@ public interface RobotFamily {
         "/robots/square_orange_off.svg",
         Color.ORANGE
     );
+
     /**
-     * A pink square robot.
+     * A robot with a square shape and purple color.
      */
     RobotFamily SQUARE_PURPLE = new SvgBasedRobotFamily(
         "SQUARE_PURPLE",
@@ -100,8 +106,9 @@ public interface RobotFamily {
         "/robots/square_purple_off.svg",
         Color.MAGENTA
     );
+
     /**
-     * A red square robot.
+     * A robot with a square shape and red color.
      */
     RobotFamily SQUARE_RED = new SvgBasedRobotFamily(
         "SQUARE_RED",
@@ -109,8 +116,9 @@ public interface RobotFamily {
         "/robots/square_red_off.svg",
         Color.RED
     );
+
     /**
-     * A white square robot.
+     * A robot with a square shape and white color.
      */
     RobotFamily SQUARE_WHITE = new SvgBasedRobotFamily(
         "SQUARE_WHITE",
@@ -118,8 +126,9 @@ public interface RobotFamily {
         "/robots/square_white_off.svg",
         Color.WHITE
     );
+
     /**
-     * A yellow square robot.
+     * A robot with a square shape and yellow color.
      */
     RobotFamily SQUARE_YELLOW = new SvgBasedRobotFamily(
         "SQUARE_YELLOW",
@@ -127,8 +136,9 @@ public interface RobotFamily {
         "/robots/square_yellow_off.svg",
         Color.YELLOW
     );
+
     /**
-     * A teal triangle robot.
+     * A robot with a triangle shape and blue color.
      */
     RobotFamily TRIANGLE_BLUE = new SvgBasedRobotFamily(
         "TRIANGLE_BLUE",
@@ -137,3 +147,4 @@ public interface RobotFamily {
         Color.BLUE
     );
 }
+

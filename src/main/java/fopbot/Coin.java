@@ -1,32 +1,40 @@
 package fopbot;
 
 /**
- * A field entity that represents coins on a graphical user interface.
+ * Represents a coin entity placed on the field in the virtual world.
+ *
+ * <p>Coins can be collected by other entities (e.g. robots), and each coin
+ * may represent a specific count or value.
  */
 public class Coin extends FieldEntity {
 
     /**
-     * The number of coins that this coin entity currently owns.
+     * The default count for a coin entity if not specified.
+     */
+    private static final int DEFAULT_COUNT = 1;
+
+    /**
+     * The number of coins represented by this entity.
      */
     private int count;
 
     /**
-     * Constructs and initializes a single coin at the specified {@code (x,y)} location.
+     * Constructs a {@code Coin} with a default count of {@value DEFAULT_COUNT} at the given coordinates.
      *
-     * @param x the X coordinate of the newly constructed coin
-     * @param y the Y coordinate of the newly constructed coin
+     * @param x the x-coordinate of the coin
+     * @param y the y-coordinate of the coin
      */
     public Coin(int x, int y) {
         super(x, y);
-        count = 1;
+        this.count = DEFAULT_COUNT;
     }
 
     /**
-     * Constructs and initializes the coins at the specified {@code (x,y)} location.
+     * Constructs a {@code Coin} with the specified count at the given coordinates.
      *
-     * @param x     the X coordinate of the newly constructed coin
-     * @param y     the Y coordinate of the newly constructed coin
-     * @param count the number of coins that should be constructed
+     * @param x     the x-coordinate of the coin
+     * @param y     the y-coordinate of the coin
+     * @param count the number of coins represented
      */
     public Coin(int x, int y, int count) {
         super(x, y);
@@ -34,18 +42,18 @@ public class Coin extends FieldEntity {
     }
 
     /**
-     * Returns the current number of coins of this {@code Coin} entity.
+     * Returns the number of coins represented by this entity.
      *
-     * @return the current number of coins of this {@code Coin} entity
+     * @return the coin count of this entity
      */
     public int getCount() {
         return count;
     }
 
     /**
-     * Sets the current number of coins of this coin entity to the specified number of coins.
+     * Sets the number of coins represented by this entity.
      *
-     * @param count the new number of coins for this coin entity
+     * @param count the new coin count of this entity
      */
     public void setCount(int count) {
         this.count = count;

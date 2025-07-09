@@ -1,15 +1,19 @@
 package fopbot;
 
+
 /**
- * A field entity that represents a block on a graphical user interface.
+ * Represents a non-passable block that fully occupies a field in the virtual world.
+ *
+ * <p>A {@code Block} prevents any entity from entering the field it occupies.</p>
  */
+
 public class Block extends FieldEntity {
 
     /**
-     * Constructs and initializes a block at the specified {@code (x,y)} location.
+     * Constructs a new {@code Block} at the specified (x, y) coordinates.
      *
-     * @param x the X coordinate of the newly constructed block
-     * @param y the Y coordinate of the newly constructed block
+     * @param x the x-coordinate of the block
+     * @param y the y-coordinate of the block
      */
     public Block(int x, int y) {
         super(x, y);

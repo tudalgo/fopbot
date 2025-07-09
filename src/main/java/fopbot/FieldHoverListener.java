@@ -2,14 +2,20 @@ package fopbot;
 
 import java.util.EventListener;
 
+
 /**
- * A {@link FieldHoverListener} is a listener for {@link FieldHoverEvent}s.
+ * Listener interface for receiving hover events over fields.
+ *
+ * <p>Implement this interface if you want to handle {@link FieldHoverEvent}s, which occur when the mouse cursor
+ * enters, moves across, or exits a field.
  */
 public interface FieldHoverListener extends EventListener {
+
     /**
-     * This method is called whenever the hovered field changes.
+     * Invoked when a hover event occurs on a field.
      *
-     * @param field the field that is currently hovered
+     * @param field the hover event containing current and previous field information
      */
     void onFieldHover(FieldHoverEvent field);
 }
+

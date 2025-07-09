@@ -1,27 +1,27 @@
 package fopbot;
 
 /**
- * This class represents a field entity on a graphical user interface and acts as a parent class of
- * every entity on the field.
+ * Represents a placeable graphical entity positioned on a field in a virtual world.
+ *
+ * <p>All placeable entities in the virtual world inherit from this class.
  */
 public abstract class FieldEntity {
 
     /**
-     * The X coordinate of this {@code FieldEntity}.
+     * The x-coordinate of this entity on the field.
      */
     private int x;
 
     /**
-     * The Y coordinate of this {@code FieldEntity}.
+     * The y-coordinate of this entity on the field.
      */
     private int y;
 
     /**
-     * Constructs and initializes a field entity at the specified {@code (x,y)} location in the
-     * coordinate space.
+     * Constructs a new {@code FieldEntity} at the specified (x, y) coordinates.
      *
-     * @param x the X coordinate of the newly constructed field entity
-     * @param y the Y coordinate of the newly constructed field entity
+     * @param x the initial x-coordinate of this entity
+     * @param y the initial y-coordinate of this entity
      */
     public FieldEntity(int x, int y) {
         this.x = x;
@@ -29,38 +29,39 @@ public abstract class FieldEntity {
     }
 
     /**
-     * Sets the X coordinate of the field entity to the specified X coordinate.
+     * Sets the x-coordinate of this entity.
      *
-     * @param x the new X coordinate for this field entity
+     * @param x the new x-coordinate of this entity
      */
     protected void setX(int x) {
         this.x = x;
     }
 
     /**
-     * Sets the Y coordinate of the field entity to the specified Y coordinate.
+     * Sets the y-coordinate of this entity.
      *
-     * @param y the new Y coordinate for this field entity
+     * @param y the new y-coordinate of this entity
      */
     protected void setY(int y) {
         this.y = y;
     }
 
     /**
-     * Returns the X coordinate of this {@code FieldEntity}.
+     * Returns the current x-coordinate of this entity.
      *
-     * @return the X coordinate of this {@code FieldEntity}
+     * @return the x-coordinate of this entity
      */
     public int getX() {
         return this.x;
     }
 
     /**
-     * Returns the Y coordinate of this {@code FieldEntity}.
+     * Returns the current y-coordinate of this entity.
      *
-     * @return the Y coordinate of this {@code FieldEntity}
+     * @return the y-coordinate of this entity
      */
     public int getY() {
         return this.y;
     }
 }
+

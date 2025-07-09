@@ -3,14 +3,17 @@ package fopbot;
 import java.util.EventListener;
 
 /**
- * A {@link KeyPressListener} is a listener for key press events registered by the {@link InputHandler}.
+ * Listener interface for receiving key press events.
+ *
+ * <p>Implement this interface to handle {@link KeyPressEvent}s triggered by keyboard input.
  */
 public interface KeyPressListener extends EventListener {
 
     /**
-     * Notifies this key press listener about the given key press event.
+     * Invoked when a key is pressed.
      *
-     * @param event the key press event
+     * @param event the event object containing details about the key press
      */
     void onKeyPress(KeyPressEvent event);
 }
+

@@ -1,98 +1,113 @@
 package fopbot;
 
 /**
- * Defines the transition of a robot with its associated action. The transition will be used to
- * trace the actions of robots.
+ * Represents a transition that captures a robot's action within the simulation.
+ *
+ * <p>A {@code Transition} records the robot, the type of action performed, and the execution step at which the action
+ * occurred. These transitions can be used to trace robot behavior for debugging or playback purposes.
  */
 public class Transition {
 
     /**
-     * Defines the traceable action that a robot can do.
+     * Enumerates the possible actions a robot can perform that are traceable.
      *
      * @see Robot
      */
     public enum RobotAction {
+
         /**
-         * The action that a robot can move.
+         * The action of moving forward.
          *
          * @see Robot#move()
          */
         MOVE,
+
         /**
-         * The action that a robot can pick up  a coin.
+         * The action of picking up a coin.
          *
          * @see Robot#pickCoin()
          */
         PICK_COIN,
+
         /**
-         * The action that a robot can put down a coin.
+         * The action of putting down a coin.
          *
          * @see Robot#putCoin()
          */
         PUT_COIN,
+
         /**
-         * The action that a robot can turn left.
+         * The action of turning left.
          *
-         * @see Robot#turnLeft() ()
+         * @see Robot#turnLeft()
          */
         TURN_LEFT,
+
         /**
-         * The action that a robot can be turned off.
+         * The action of turning the robot off.
          *
-         * @see Robot#turnOff() ()
+         * @see Robot#turnOff()
          */
         TURN_OFF,
+
         /**
-         * The action that a robot can change its number of coins.
+         * The action of setting the number of coins.
          *
          * @see Robot#setNumberOfCoins(int)
          */
         SET_NUMBER_OF_COINS,
+
         /**
-         * The action that a robot can change its X coordinate.
+         * The action of setting the X-coordinate.
          *
          * @see Robot#setX(int)
          */
         SET_X,
+
         /**
-         * The action that a robot can change its Y coordinate.
+         * The action of setting the Y-coordinate.
          *
          * @see Robot#setY(int)
          */
         SET_Y,
+
         /**
-         * The action only used for the last robot state, no change.
+         * No action. Used as a placeholder for the final robot state.
          */
-        NONE,
+        NONE
     }
 
     /**
-     * The execution count, which indicates the next available execution count.
+     * Global execution counter, used to assign step numbers to transitions.
      */
     private static int nextStep = 0;
+
     /**
-     * The execution number when the robot action was executed.
+     * The step number at which the robot performed the action.
      */
     public final int step;
+
     /**
-     * The robot action of this transition.
+     * The type of action the robot performed.
      */
     public RobotAction action;
+
     /**
-     * The robot that executed the action.
+     * The robot that performed the action.
+     *
+     * <p>A copy of the original robot is stored to preserve the exact state at this step.
      */
     public Robot robot;
 
     /**
-     * Constructs and initializes a field entity at the specified {@code (x,y)} location in the
-     * coordinate space.
+     * Constructs a new {@code Transition} that represents a robot action at a specific moment.
      *
-     * @param action the action of the robot  of the newly constructed transition
-     * @param robot  the robot that executed the action of the newly constructed transition
+     * @param action the type of action performed
+     * @param robot  the robot performing the action
      */
     public Transition(RobotAction action, Robot robot) {
         this.action = action;
-        this.robot = new Robot(robot);
+        this.robot = new Robot(robot); // capture snapshot of the robot's state
         this.step = nextStep++;
     }
 
@@ -101,3 +116,4 @@ public class Transition {
         return "Transition{step=" + step + ", action=" + action + ", robot=" + robot + "}";
     }
 }
+

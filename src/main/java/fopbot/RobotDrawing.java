@@ -36,5 +36,4 @@ public class RobotDrawing implements Drawable<Robot> {
             null
         );
     }
-
 }

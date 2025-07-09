@@ -3,15 +3,16 @@ package fopbot;
 import java.util.EventListener;
 
 /**
- * A {@link FieldClickListener} is a listener for {@link FieldClickEvent}s.
+ * Listener interface for handling clicks on fields in the virtual world.
+ *
+ * <p>Implement this interface to respond to field click events via the {@link #onFieldClick(FieldClickEvent)} method.
  */
 public interface FieldClickListener extends EventListener {
 
-
     /**
-     * Notifies this field click listener about the given field click event.
+     * Invoked when a field in the virtual world is clicked.
      *
-     * @param event the field click event
+     * @param event the event containing information about the clicked field
      */
     void onFieldClick(FieldClickEvent event);
 }

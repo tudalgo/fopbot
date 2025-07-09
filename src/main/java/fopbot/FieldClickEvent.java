@@ -1,36 +1,42 @@
 package fopbot;
 
 /**
- * A {@link FieldClickEvent} represents a click on a field.
+ * Represents an event that occurs when a field in the virtual world is clicked.
+ *
+ * <p>This event provides access to the clicked {@link Field} as well as the {@link KarelWorld} the field belongs to.
  */
 public final class FieldClickEvent {
 
+    /**
+     * The field that was clicked.
+     */
     private final Field field;
 
     /**
-     * Constructs a {@link FieldClickEvent} with the given field.
+     * Constructs a new {@code FieldClickEvent} for the specified field.
      *
-     * @param field the field
+     * @param field the field that was clicked
      */
     public FieldClickEvent(final Field field) {
         this.field = field;
     }
 
     /**
-     * Returns the clicked field.
+     * Returns the field that was clicked.
      *
-     * @return the field
+     * @return the clicked {@link Field}
      */
     public Field getField() {
         return field;
     }
 
     /**
-     * Returns the world of the clicked field.
+     * Returns the world to which the clicked field belongs.
      *
-     * @return the world
+     * @return the {@link KarelWorld} of the clicked field
      */
     public KarelWorld getWorld() {
         return field.getWorld();
     }
 }
+

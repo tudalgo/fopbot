@@ -57,13 +57,6 @@ public class RobotTrace implements Iterable<Transition> {
         return transitions;
     }
 
-    @Override
-    public String toString() {
-        return "RobotTrace{"
-            + "transitions=" + transitions
-            + '}';
-    }
-
     /**
      * Traces the specified robot with its associated action.
      *
@@ -74,4 +67,12 @@ public class RobotTrace implements Iterable<Transition> {
         transitions.add(new Transition(robotAction, r));
         World.getGlobalWorld().checkActionLimit();
     }
+
+    @Override
+    public String toString() {
+        return "RobotTrace{"
+            + "transitions=" + transitions
+            + '}';
+    }
+
 }

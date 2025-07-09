@@ -523,7 +523,7 @@ public class KarelWorld {
      *
      * @throws IllegalArgumentException if the coordinates of the entity are out of bounds
      */
-    public void placeEntity(FieldEntity entity) {
+    public void placeFieldEntity(FieldEntity entity) {
         int x = entity.getX();
         int y = entity.getY();
         checkXCoordinate(x);
@@ -542,7 +542,7 @@ public class KarelWorld {
      *
      * @throws IllegalArgumentException if the coordinates are out of bounds
      */
-    public void removeEntity(int x, int y, Predicate<? super FieldEntity> filter) {
+    public void removeFieldEntity(int x, int y, Predicate<? super FieldEntity> filter) {
         checkXCoordinate(x);
         checkYCoordinate(y);
         var it = fields[y][x].getEntities().iterator();
@@ -562,8 +562,8 @@ public class KarelWorld {
      * @param y     the y-coordinate of the field
      * @param clazz the class of the {@link FieldEntity} to remove
      */
-    public void removeEntity(int x, int y, Class<? extends FieldEntity> clazz) {
-        removeEntity(x, y, e -> e.getClass() == clazz);
+    public void removeFieldEntity(int x, int y, Class<? extends FieldEntity> clazz) {
+        removeFieldEntity(x, y, e -> e.getClass() == clazz);
     }
 
     /**
@@ -573,13 +573,13 @@ public class KarelWorld {
      *
      * @throws IllegalArgumentException if the coordinates of the entity are out of bounds
      */
-    public void removeEntity(FieldEntity entity) {
+    public void removeFieldEntity(FieldEntity entity) {
         int x = entity.getX();
         int y = entity.getY();
         checkXCoordinate(x);
         checkYCoordinate(y);
         Field field = fields[y][x];
-        if (field.contains(entity)) {
+        if (field.containsEntity(entity)) {
             field.removeEntity(entity);
             triggerUpdate();
         }

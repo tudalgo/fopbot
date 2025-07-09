@@ -45,5 +45,4 @@ public class WallDrawing implements Drawable<Wall> {
 
         g.setColor(oldColor);
     }
-
 }
