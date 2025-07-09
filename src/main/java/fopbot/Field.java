@@ -66,6 +66,52 @@ public class Field {
     }
 
     /**
+     * Returns {@code true} if this field contains an instance of the specified {@link FieldEntity} class.
+     *
+     * @param clazz the class of the {@link FieldEntity} to check for
+     *
+     * @return {@code true} if an entity of the specified class is present; {@code false} otherwise
+     */
+    public boolean contains(Class<? extends FieldEntity> clazz) {
+        return entities.stream().anyMatch(clazz::isInstance);
+    }
+
+    /**
+     * Returns {@code true} if this field contains the specified {@link FieldEntity}.
+     *
+     * @param entity the {@link FieldEntity} to check for
+     *
+     * @return {@code true} if the entity is present; {@code false} otherwise
+     */
+    public boolean contains(FieldEntity entity) {
+        return entities.contains(entity);
+    }
+
+    /**
+     * Removes the specified {@link FieldEntity} from this field.
+     *
+     * @param entity the {@link FieldEntity} to remove
+     */
+    public void removeEntity(FieldEntity entity) {
+        entities.remove(entity);
+    }
+
+    /**
+     * Removes the first instance of the specified {@link FieldEntity} class from this field.
+     *
+     * @param clazz the class of the {@link FieldEntity} to remove
+     */
+    public void removeEntity(Class<? extends FieldEntity> clazz) {
+        var it = entities.iterator();
+        while (it.hasNext()) {
+            if (clazz.isInstance(it.next())) {
+                it.remove();
+                break;
+            }
+        }
+    }
+
+    /**
      * Sets the background color of this {@link Field} to the color provided by the specified
      * {@link Supplier}.
      * <p>If the specified {@link Supplier} returns {@code null}, the background color of this {@link Field}

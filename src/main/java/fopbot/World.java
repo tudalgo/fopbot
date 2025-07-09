@@ -64,6 +64,10 @@ public class World {
         var newWorld = new KarelWorld(width, height);
         if (world != null) {
             newWorld.setDelay(world.getDelay());
+            newWorld.setColorProfile(world.getColorProfile());
+            newWorld.setDrawingRegistry(world.getDrawingRegistry());
+            newWorld.setActionLimit(world.getActionLimit());
+            newWorld.setDrawTurnedOffRobots(world.isDrawTurnedOffRobots());
         }
         world = newWorld;
         global = true;
@@ -148,6 +152,7 @@ public class World {
      * @param x             the X coordinate of the coins to place
      * @param y             the Y coordinate of the coins to place
      * @param numberOfCoins the number of coins to place
+     *
      * @throws IllegalArgumentException if the number of coins is smaller than 1 or the position is invalid
      */
     public static void putCoins(int x, int y, int numberOfCoins) throws IllegalArgumentException {
@@ -199,6 +204,9 @@ public class World {
      * @return an instance of the global world
      */
     public static KarelWorld getGlobalWorld() {
+        if (world == null) {
+            setSize(10, 10);
+        }
         return world;
     }
 }
