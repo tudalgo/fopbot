@@ -42,7 +42,7 @@ dependencies {
 }
 
 tasks.withType<DokkaTask>().configureEach {
-    moduleName.set("FOPBot")
+    moduleName.set("fopbot")
     dokkaSourceSets.configureEach {
         includes.from("Module.md")
         jdkVersion.set(21)
