@@ -7,8 +7,11 @@ public class World {
 
     /**
      * The state of whether a global world exists.
+     *
+     * @deprecated This field is no longer needed, as the global world is always created when needed.
      */
-    private static boolean global = false;
+    @Deprecated(since = "0.8.2", forRemoval = true)
+    private static boolean global = true;
 
     /**
      * The global world on which entities can be placed.
@@ -22,10 +25,7 @@ public class World {
      * @param visible if {@code true} the world will be visible on the graphical user interface
      */
     public static void setVisible(final boolean visible) {
-        if (visible && world == null) {
-            setSize(10, 10);
-        }
-        world.setVisible(visible);
+        getGlobalWorld().setVisible(visible);
     }
 
     /**
@@ -35,10 +35,7 @@ public class World {
      * @return the height of the global {@code World}.
      */
     public static int getHeight() {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        return world.getHeight();
+        return getGlobalWorld().getHeight();
     }
 
     /**
@@ -48,10 +45,7 @@ public class World {
      * @return the width of the global {@code World}.
      */
     public static int getWidth() {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        return world.getWidth();
+        return getGlobalWorld().getWidth();
     }
 
     /**
@@ -62,6 +56,7 @@ public class World {
      */
     public static void setSize(final int width, final int height) {
         final var newWorld = new KarelWorld(width, height);
+        // Copy settings from the previous world if it exists
         if (world != null) {
             newWorld.setDelay(world.getDelay());
             newWorld.setColorProfile(world.getColorProfile());
@@ -70,7 +65,6 @@ public class World {
             newWorld.setDrawTurnedOffRobots(world.isDrawTurnedOffRobots());
         }
         world = newWorld;
-        global = true;
     }
 
     /**
@@ -79,10 +73,7 @@ public class World {
      * @param delay the delay value in milliseconds
      */
     public static void setDelay(final int delay) {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        world.setDelay(delay);
+        getGlobalWorld().setDelay(delay);
     }
 
     /**
@@ -91,20 +82,14 @@ public class World {
      * @return the current delay value
      */
     public static int getDelay() {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        return world.getDelay();
+        return getGlobalWorld().getDelay();
     }
 
     /**
      * Resets the world by creating a new global world and thus indirectly removes all entities.
      */
     public static void reset() {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        world.reset();
+        getGlobalWorld().reset();
     }
 
     /**
@@ -114,10 +99,7 @@ public class World {
      * @param y the Y coordinate of the horizontal wall
      */
     public static void placeHorizontalWall(final int x, final int y) {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        world.placeHorizontalWall(x, y);
+        getGlobalWorld().placeHorizontalWall(x, y);
     }
 
     /**
@@ -127,10 +109,7 @@ public class World {
      * @param y the Y coordinate of the vertical wall
      */
     public static void placeVerticalWall(final int x, final int y) {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        world.placeVerticalWall(x, y);
+        getGlobalWorld().placeVerticalWall(x, y);
     }
 
     /**
@@ -140,10 +119,7 @@ public class World {
      * @param y the Y coordinate of the block
      */
     public static void placeBlock(final int x, final int y) {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        world.placeBlock(x, y);
+        getGlobalWorld().placeBlock(x, y);
     }
 
     /**
@@ -156,10 +132,7 @@ public class World {
      * @throws IllegalArgumentException if the number of coins is smaller than 1 or the position is invalid
      */
     public static void putCoins(final int x, final int y, final int numberOfCoins) throws IllegalArgumentException {
-        if (world == null) {
-            setSize(10, 10);
-        }
-        world.putCoins(x, y, numberOfCoins);
+        getGlobalWorld().putCoins(x, y, numberOfCoins);
     }
 
     /**
@@ -193,7 +166,9 @@ public class World {
      * Returns {@code true} if a global world exists.
      *
      * @return {@code true} if a global world exists
+     * @deprecated No longer needed, as the global world is always created when needed.
      */
+    @Deprecated(since = "0.8.2", forRemoval = true)
     protected static boolean isGlobal() {
         return global;
     }

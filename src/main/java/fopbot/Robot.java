@@ -9,6 +9,21 @@ import org.jetbrains.annotations.Nullable;
 public class Robot extends FieldEntity {
 
     /**
+     * The default direction the robot faces when created.
+     */
+    private static final @NotNull Direction DEFAULT_DIRECTION = Direction.UP;
+
+    /**
+     * The default number of coins a robot starts with.
+     */
+    private static final int DEFAULT_COINS = 0;
+
+    /**
+     * The default visual representation of the robot.
+     */
+    private static final @NotNull RobotFamily DEFAULT_ROBOT_FAMILY = RobotFamily.TRIANGLE_BLUE;
+
+    /**
      * The unique identifier of the robot.
      */
     private @Nullable String id;
@@ -26,7 +41,7 @@ public class Robot extends FieldEntity {
     /**
      * The direction the robot is currently facing.
      */
-    private @NotNull Direction direction = Direction.UP;
+    private @NotNull Direction direction = DEFAULT_DIRECTION;
 
     /**
      * Indicates whether to print the robot's trace after each action.
@@ -53,7 +68,7 @@ public class Robot extends FieldEntity {
      * @param y the initial y-coordinate
      */
     public Robot(final int x, final int y) {
-        this(x, y, RobotFamily.TRIANGLE_BLUE);
+        this(x, y, DEFAULT_ROBOT_FAMILY);
     }
 
     /**
@@ -64,13 +79,7 @@ public class Robot extends FieldEntity {
      * @param robotFamily the robot's visual representation
      */
     public Robot(final int x, final int y, final @NotNull RobotFamily robotFamily) {
-        super(x, y);
-        setGlobalWorld();
-        setRobotFamily(robotFamily);
-
-        world.checkXCoordinate(x);
-        world.checkYCoordinate(y);
-        world.addRobot(this);
+        this(World.getGlobalWorld(), x, y, DEFAULT_DIRECTION, DEFAULT_COINS, robotFamily);
     }
 
     /**
@@ -82,7 +91,7 @@ public class Robot extends FieldEntity {
      * @param numberOfCoins the initial number of coins the robot carries
      */
     public Robot(final int x, final int y, final @NotNull Direction direction, final int numberOfCoins) {
-        this(x, y, direction, numberOfCoins, RobotFamily.TRIANGLE_BLUE);
+        this(x, y, direction, numberOfCoins, DEFAULT_ROBOT_FAMILY);
     }
 
     /**
@@ -101,16 +110,7 @@ public class Robot extends FieldEntity {
         final int numberOfCoins,
         final @NotNull RobotFamily robotFamily
     ) {
-        super(x, y);
-        this.numberOfCoins = numberOfCoins;
-        this.direction = direction;
-        setGlobalWorld();
-        setRobotFamily(robotFamily);
-
-        world.checkXCoordinate(x);
-        world.checkYCoordinate(y);
-        world.checkNumberOfCoins(numberOfCoins);
-        world.addRobot(this);
+        this(World.getGlobalWorld(), x, y, direction, numberOfCoins, robotFamily);
     }
 
     /**
@@ -121,7 +121,7 @@ public class Robot extends FieldEntity {
      * @param y     the y-coordinate
      */
     public Robot(final @NotNull KarelWorld world, final int x, final int y) {
-        this(world, x, y, RobotFamily.TRIANGLE_BLUE);
+        this(world, x, y, DEFAULT_ROBOT_FAMILY);
     }
 
     /**
@@ -133,13 +133,7 @@ public class Robot extends FieldEntity {
      * @param robotFamily the robot's appearance
      */
     public Robot(final @NotNull KarelWorld world, final int x, final int y, final @NotNull RobotFamily robotFamily) {
-        super(x, y);
-        this.world = world;
-        setRobotFamily(robotFamily);
-
-        world.checkXCoordinate(x);
-        world.checkYCoordinate(y);
-        world.addRobot(this);
+        this(world, x, y, DEFAULT_DIRECTION, DEFAULT_COINS, robotFamily);
     }
 
     /**
@@ -158,7 +152,7 @@ public class Robot extends FieldEntity {
         final @NotNull Direction direction,
         final int numberOfCoins
     ) {
-        this(world, x, y, direction, numberOfCoins, RobotFamily.TRIANGLE_BLUE);
+        this(world, x, y, direction, numberOfCoins, DEFAULT_ROBOT_FAMILY);
     }
 
     /**
@@ -183,6 +177,7 @@ public class Robot extends FieldEntity {
         this.world = world;
         this.direction = direction;
         this.numberOfCoins = numberOfCoins;
+        this.robotFamily = robotFamily;
         setRobotFamily(robotFamily);
 
         world.checkXCoordinate(x);
@@ -209,8 +204,9 @@ public class Robot extends FieldEntity {
 
     /**
      * Internal constructor for copying configuration manually.
+     * Used to make a copy of a roboto without visual representation.
      *
-     * @param copy          unused flag for constructor overloading
+     * @param copy          flag indicating if this is a copy operation
      * @param x             the x-coordinate
      * @param y             the y-coordinate
      * @param direction     the initial direction
@@ -220,21 +216,6 @@ public class Robot extends FieldEntity {
         super(x, y);
         this.numberOfCoins = numberOfCoins;
         this.direction = direction;
-    }
-
-    /**
-     * Sets the {@link KarelWorld} instance the robot is assigned to,
-     * using the globally initialized world if available.
-     *
-     * @throws RuntimeException if no global world has been initialized
-     */
-    private void setGlobalWorld() {
-        if (World.isGlobal()) {
-            this.world = World.getGlobalWorld();
-        } else {
-            System.err.println("No global world initialized! Cannot create robot!");
-            throw new RuntimeException("No global world initialized! Cannot create robot!");
-        }
     }
 
     /**
