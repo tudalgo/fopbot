@@ -3,7 +3,7 @@ package fopbot;
 /**
  * A wrapper of a {@code KarelWorld} which represents a global world.
  */
-public class World {
+public final class World {
 
     /**
      * The state of whether a global world exists.
@@ -17,6 +17,13 @@ public class World {
      * The global world on which entities can be placed.
      */
     private static KarelWorld world;
+
+    /**
+     * Don't let anyone instantiate this class.
+     * Since there is only one global world, it is not necessary to instantiate this class.
+     */
+    private World() {
+    }
 
     /**
      * Sets the visibility of the world to the specified visibility value. If no global world exists,
