@@ -1,6 +1,7 @@
 package fopbot;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -13,22 +14,22 @@ public class SvgBasedRobotFamily implements RobotFamily {
     /**
      * The name of this {@link RobotFamily}.
      */
-    private final String name;
+    private final @NotNull String name;
 
     /**
      * The path to the SVG image of the robot when it is turned on.
      */
-    private final String svgPathOn;
+    private final @NotNull String svgPathOn;
 
     /**
      * The path to the SVG image of the robot when it is turned off.
      */
-    private final String svgPathOff;
+    private final @NotNull String svgPathOff;
 
     /**
      * The color of this {@link RobotFamily}.
      */
-    private final Color color;
+    private final @NotNull Color color;
 
     /**
      * The size of the last rendered image.
@@ -50,7 +51,24 @@ public class SvgBasedRobotFamily implements RobotFamily {
     /**
      * The images of the robot in all four rotations and turned on and off.
      */
-    private final BufferedImage[] images = new BufferedImage[8];
+    private final @NotNull BufferedImage[] images = new BufferedImage[8];
+
+    /**
+     * Creates a new {@link SvgBasedRobotFamily} with a rotation offset of 0.
+     *
+     * @param name       the name of the robot family
+     * @param svgPathOn  the path to the SVG image of the robot when it is turned on
+     * @param svgPathOff the path to the SVG image of the robot when it is turned off
+     * @param color      the color of the robot family
+     */
+    public SvgBasedRobotFamily(
+        final @NotNull String name,
+        final @NotNull String svgPathOn,
+        final @NotNull String svgPathOff,
+        final @NotNull Color color
+    ) {
+        this(name, svgPathOn, svgPathOff, color, 0, 0);
+    }
 
     /**
      * Creates a new {@link SvgBasedRobotFamily}.
@@ -63,10 +81,10 @@ public class SvgBasedRobotFamily implements RobotFamily {
      * @param rotationOffsetOff the base rotation of the "off" images from the SVG file
      */
     public SvgBasedRobotFamily(
-        final String name,
-        final String svgPathOn,
-        final String svgPathOff,
-        final Color color,
+        final @NotNull String name,
+        final @NotNull String svgPathOn,
+        final @NotNull String svgPathOff,
+        final @NotNull Color color,
         final int rotationOffsetOn,
         final int rotationOffsetOff
     ) {
@@ -78,25 +96,8 @@ public class SvgBasedRobotFamily implements RobotFamily {
         this.rotationOffsetOff = rotationOffsetOff;
     }
 
-    /**
-     * Creates a new {@link SvgBasedRobotFamily} with a rotation offset of 0.
-     *
-     * @param name       the name of the robot family
-     * @param svgPathOn  the path to the SVG image of the robot when it is turned on
-     * @param svgPathOff the path to the SVG image of the robot when it is turned off
-     * @param color      the color of the robot family
-     */
-    public SvgBasedRobotFamily(
-        final String name,
-        final String svgPathOn,
-        final String svgPathOff,
-        final Color color
-    ) {
-        this(name, svgPathOn, svgPathOff, color, 0, 0);
-    }
-
     @Override
-    public void setColor(final Color color) {
+    public void setColor(final @NotNull Color color) {
         throw new UnsupportedOperationException("SVG based RobotFamilies do not support color changes.");
     }
 
@@ -105,6 +106,7 @@ public class SvgBasedRobotFamily implements RobotFamily {
      *
      * @param rotationOffset the rotation offset in degrees. Rounds to the multiple of 90 degrees.
      * @param turnedOff      whether the robot is turned off
+     *
      * @return the correct image
      */
     public BufferedImage getImage(final int rotationOffset, final boolean turnedOff) {

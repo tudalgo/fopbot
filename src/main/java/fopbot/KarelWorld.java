@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PrimitiveIterator;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.swing.JFrame;
@@ -80,6 +81,13 @@ public class KarelWorld {
     private ColorProfile colorProfile = ColorProfile.DEFAULT;
 
     /**
+     * The {@link DrawingRegistry} used for configuring the drawing order and associated drawables for different field
+     * entities.
+     * This registry determines how field entities are drawn, including their order and appearance.
+     */
+    private DrawingRegistry drawingRegistry = DrawingRegistry.DEFAULT;
+
+    /**
      * The graphical user interface window on which the FOP Bot world panel is visible.
      */
     private JFrame guiFrame;
@@ -94,11 +102,13 @@ public class KarelWorld {
      */
     private boolean drawTurnedOffRobots = true;
 
+
     /**
      * Constructs and initializes a world with the specified size.
      *
      * @param width  the width of the newly constructed world
      * @param height the height of the newly constructed world
+     *
      * @throws RuntimeException if the world size is smaller than one
      */
     public KarelWorld(final int width, final int height) {
@@ -136,6 +146,7 @@ public class KarelWorld {
      * Validates that the number of coins is not negative.
      *
      * @param numberOfCoins the number of coins to check
+     *
      * @throws IllegalArgumentException if the number of coins is negative
      */
     protected void checkNumberOfCoins(final int numberOfCoins) {
@@ -148,6 +159,7 @@ public class KarelWorld {
      * Validates if the specified X coordinate is within the world.
      *
      * @param x the X coordinate to validate
+     *
      * @throws IllegalArgumentException if the X coordinate is outside the world borders
      */
     protected void checkXCoordinate(final int x) {
@@ -160,6 +172,7 @@ public class KarelWorld {
      * Validates if the specified Y coordinate is within the world.
      *
      * @param y the Y coordinate to validate
+     *
      * @throws IllegalArgumentException if the Y coordinate is outside the world borders
      */
     protected void checkYCoordinate(final int y) {
@@ -239,6 +252,7 @@ public class KarelWorld {
      *
      * @param x the X coordinate of the field.
      * @param y the Y coordinate of the field.
+     *
      * @return the field of this world at the specified coordinate
      */
     public Field getField(final int x, final int y) {
@@ -258,6 +272,7 @@ public class KarelWorld {
      * Returns the previous robot tracing of the specified robot.
      *
      * @param robot the robot to retrieve its tracing
+     *
      * @return the previous robot tracing of the specified robot
      */
     public RobotTrace getTrace(final Robot robot) {
@@ -302,6 +317,7 @@ public class KarelWorld {
      * @param x     the X coordinate to check with the robot X coordinate
      * @param y     the Y coordinate to check with the robot Y coordinate
      * @param robot the robot to check with the coordinate
+     *
      * @return {@code true} if the specified robot is located at the specified coordinate
      */
     protected boolean isAnotherRobotInField(final int x, final int y, final Robot robot) {
@@ -314,6 +330,7 @@ public class KarelWorld {
      *
      * @param x the X coordinate to check
      * @param y the Y coordinate to check
+     *
      * @return {@code true} if a block is at the specified coordinate
      */
     protected boolean isBlockInField(final int x, final int y) {
@@ -326,6 +343,7 @@ public class KarelWorld {
      *
      * @param x the X coordinate to check
      * @param y the Y coordinate to check
+     *
      * @return {@code true} if at least one coin is on the specified coordinate
      */
     protected boolean isCoinInField(final int x, final int y) {
@@ -381,6 +399,7 @@ public class KarelWorld {
      * @param x          the X coordinate to check
      * @param y          the Y coordinate to check
      * @param horizontal if {@code true} check its horizontal orientation
+     *
      * @return {@code true} if the specified wall and its orientation are on the specified field
      */
     protected boolean isWallInField(final int x, final int y, final boolean horizontal) {
@@ -394,6 +413,7 @@ public class KarelWorld {
      *
      * @param x the X coordinate to pick up the coin
      * @param y the Y coordinate to pick up the coin
+     *
      * @return {@code true} if a coin was removed at the specified coordinate after this call
      */
     protected boolean pickCoin(final int x, final int y) {
@@ -473,6 +493,7 @@ public class KarelWorld {
      * @param x             the X coordinate of the coin
      * @param y             the Y coordinate of the coin
      * @param numberOfCoins the number of coins to place
+     *
      * @throws IllegalArgumentException if the number of coins is smaller than 1 or the position is invalid
      */
     public void putCoins(final int x, final int y, final int numberOfCoins) throws IllegalArgumentException {
@@ -494,6 +515,75 @@ public class KarelWorld {
         final Coin c = new Coin(x, y, numberOfCoins);
         fields[y][x].getEntities().add(c);
         triggerUpdate();
+    }
+
+    /**
+     * Places a {@link FieldEntity} on the field at the specified coordinates.
+     *
+     * @param entity the {@link FieldEntity} to be placed on the field
+     *
+     * @throws IllegalArgumentException if the coordinates of the entity are out of bounds
+     */
+    public void placeFieldEntity(final FieldEntity entity) {
+        final int x = entity.getX();
+        final int y = entity.getY();
+        checkXCoordinate(x);
+        checkYCoordinate(y);
+        fields[y][x].getEntities().add(entity);
+        triggerUpdate();
+    }
+
+    /**
+     * Removes the first {@link FieldEntity} from the field at the specified coordinates.
+     *
+     * @param x     the x-coordinate of the field
+     * @param y     the y-coordinate of the field
+     * @param clazz the class of the {@link FieldEntity} to remove
+     */
+    public void removeFieldEntity(final int x, final int y, final Class<? extends FieldEntity> clazz) {
+        removeFieldEntity(x, y, e -> e.getClass() == clazz);
+    }
+
+    /**
+     * Removes the first {@link FieldEntity} from the field at the specified coordinates
+     * that matches the given filter.
+     *
+     * @param x      the x-coordinate of the field
+     * @param y      the y-coordinate of the field
+     * @param filter a {@link Predicate} to filter which entity to remove
+     *
+     * @throws IllegalArgumentException if the coordinates are out of bounds
+     */
+    public void removeFieldEntity(final int x, final int y, final Predicate<? super FieldEntity> filter) {
+        checkXCoordinate(x);
+        checkYCoordinate(y);
+        final var it = fields[y][x].getEntities().iterator();
+        while (it.hasNext()) {
+            if (filter.test(it.next())) {
+                it.remove();
+                triggerUpdate();
+                return;
+            }
+        }
+    }
+
+    /**
+     * Removes the specified {@link FieldEntity} from the field.
+     *
+     * @param entity the {@link FieldEntity} to be removed from the field
+     *
+     * @throws IllegalArgumentException if the coordinates of the entity are out of bounds
+     */
+    public void removeFieldEntity(final FieldEntity entity) {
+        final int x = entity.getX();
+        final int y = entity.getY();
+        checkXCoordinate(x);
+        checkYCoordinate(y);
+        final Field field = fields[y][x];
+        if (field.containsEntity(entity)) {
+            field.removeEntity(entity);
+            triggerUpdate();
+        }
     }
 
     /**
@@ -666,6 +756,7 @@ public class KarelWorld {
      *
      * @param x the x coordinate of the field
      * @param y the y coordinate of the field
+     *
      * @return the color of the field at the specified coordinates or {@code null} if no color is set
      */
     public @Nullable Color getFieldColor(final int x, final int y) {
@@ -735,6 +826,29 @@ public class KarelWorld {
     public ColorProfile getColorProfile() {
         return colorProfile;
     }
+
+    /**
+     * Retrieves the current {@link DrawingRegistry} that is used for configuring the drawing order
+     * and the associated drawables for different field entities.
+     *
+     * @return the current {@link DrawingRegistry} instance
+     */
+    public DrawingRegistry getDrawingRegistry() {
+        return drawingRegistry;
+    }
+
+    /**
+     * Sets a new {@link DrawingRegistry} for configuring the drawing order
+     * and the associated drawables for different field entities.
+     * This method triggers an update to reflect the new configuration.
+     *
+     * @param drawingRegistry the new {@link DrawingRegistry} instance to be set
+     */
+    public void setDrawingRegistry(final DrawingRegistry drawingRegistry) {
+        this.drawingRegistry = drawingRegistry;
+        triggerUpdate();
+    }
+
 
     /**
      * Sets the {@link ColorProfile} that is used to draw the world to the given value.

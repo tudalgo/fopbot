@@ -2,24 +2,18 @@ package fopbot;
 
 import com.jthemedetecor.OsThemeDetector;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
@@ -30,9 +24,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.imageio.ImageIO;
@@ -40,8 +34,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import static fopbot.PaintUtils.getBoardSize;
-import static fopbot.PaintUtils.getFieldBounds;
-import static fopbot.PaintUtils.getUpperLeftCornerInField;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
@@ -274,70 +266,30 @@ public class GuiPanel extends JPanel {
      * Draws all {@code FieldEntity} objects on the graphical user interface.
      *
      * @param g the {@code Graphics} context in which to paint
-     * @see #drawBoard(Graphics)
-     * @see #drawCoin(Coin, Graphics, boolean)
-     * @see #drawBlock(Block, Graphics)
-     * @see #drawWall(Wall, Graphics)
-     * @see #drawRobot(Robot, Graphics)
      */
-    protected void draw(final Graphics g) {
+    protected void draw(final @NotNull Graphics g) {
         drawBoard(g);
-
-        final List<Field> fields = world.getFields();
-        for (final Field f : fields) {
-            // collect different entity types for layering
-            final List<FieldEntity> entities = f.getEntities();
-            final List<Robot> robots = new LinkedList<>();
-            final List<Coin> coins = new LinkedList<>();
-            final List<Block> blocks = new LinkedList<>();
-            final List<Wall> walls = new LinkedList<>();
-
-            for (final FieldEntity ce : entities) {
-                if (ce instanceof final Robot r) {
-                    robots.add(r);
-                    continue;
-                }
-                if (ce instanceof final Coin c) {
-                    coins.add(c);
-                    continue;
-                }
-                if (ce instanceof final Block b) {
-                    blocks.add(b);
-                    continue;
-                }
-                if (ce instanceof final Wall w) {
-                    walls.add(w);
-                    continue;
-                }
-                System.err.println("Could not draw FieldEntity of Type: " + ce.getClass().getName());
-            }
-
-            // draw coins, but only if no robot is on the same field. If there is, we have to draw the coin later
-            if (robots.isEmpty()) {
-                for (final Coin c : coins) {
-                    drawCoin(c, g, false);
-                }
-            }
-
-            for (final Block b : blocks) {
-                drawBlock(b, g);
-            }
-
-            for (final Wall w : walls) {
-                drawWall(w, g);
-            }
-
-            for (final Robot r : robots) {
-                drawRobot(r, g);
-            }
-
-            // draw coins, but only if a robot is on the same field
-            if (!robots.isEmpty()) {
-                for (final Coin c : coins) {
-                    drawCoin(c, g, true);
-                }
-            }
-        }
+        final var config = world.getDrawingRegistry();
+        final var drawingOrder = config.order();
+        final Rectangle bounds = getBounds();
+        final ColorProfile colorProfile = getColorProfile();
+        world.getFields().forEach(field -> {
+            final List<FieldEntity> sorted = new ArrayList<>(field.getEntities());
+            sorted.sort(drawingOrder);
+            sorted.forEach(entity -> {
+                final DrawingContext<FieldEntity> context = new DrawingContext<>(
+                    entity,
+                    world,
+                    bounds,
+                    colorProfile,
+                    scaleFactor,
+                    field
+                );
+                @SuppressWarnings("unchecked") final Drawable<FieldEntity> drawable =
+                    (Drawable<FieldEntity>) config.getDrawing(entity.getClass());
+                drawable.draw(g, context);
+            });
+        });
     }
 
     /**
@@ -423,231 +375,6 @@ public class GuiPanel extends JPanel {
     }
 
     /**
-     * Draws the specified {@code Robot} on the graphical user interface.
-     *
-     * @param r the {@code Robot} to draw
-     * @param g the {@code Graphics} context in which to paint
-     */
-    protected void drawRobot(final Robot r, final Graphics g) {
-        if (r.isTurnedOff() && !world.isDrawTurnedOffRobots()) {
-            return;
-        }
-        final Point upperLeft = getUpperLeftCornerInField(r, world);
-
-        final int directionIndex = r.getDirection().ordinal();
-
-        final int targetRobotImageSize = scale(getColorProfile().fieldInnerSize() - getColorProfile().fieldInnerOffset() * 2);
-
-        final Image robotImage = r.getRobotFamily().render(
-            targetRobotImageSize,
-            directionIndex * 90,
-            r.isTurnedOff()
-        );
-        g.drawImage(robotImage, scale(upperLeft.x), scale(upperLeft.y), null);
-
-        final Color cBackup = g.getColor();
-
-        g.setColor(cBackup);
-    }
-
-    /**
-     * Create A shape with the desired Text and the desired width.
-     *
-     * @param g2d             the specified Graphics context to draw the font with
-     * @param width           the desired text width
-     * @param borderWidth     the border width to account for
-     * @param text            the string to display
-     * @param f               the font used for drawing the string
-     * @param scaleEvenIfFits whether to scale the text even if it fits in the desired width
-     * @return The Shape of the outline
-     */
-    public Shape scaleTextToWidth(
-        final Graphics2D g2d,
-        final double width,
-        final double borderWidth,
-        final String text,
-        final Font f,
-        final boolean scaleEvenIfFits
-    ) {
-        // Get current size
-        final Rectangle bounds = getBounds();
-
-        // Store current g2d Configuration
-        final Font oldFont = g2d.getFont();
-
-        // graphics configuration
-        g2d.setFont(f);
-
-        // Prepare Shape creation
-        final TextLayout tl = new TextLayout(text, f, g2d.getFontRenderContext());
-        final Rectangle2D fontBounds = f.createGlyphVector(
-            g2d.getFontRenderContext(),
-            text
-        ).getVisualBounds();
-
-        // Calculate scale Factor
-        final double factor = (width - borderWidth) / fontBounds.getWidth();
-
-        if (!scaleEvenIfFits && factor >= 1) {
-            // Restore graphics configuration
-            g2d.setFont(oldFont);
-            return tl.getOutline(null);
-        }
-
-        // Transform
-        final AffineTransform tf = new AffineTransform();
-        tf.scale(factor, factor);
-
-        // Center
-        tf.translate(
-            bounds.getCenterX() / factor - fontBounds.getCenterX(),
-            bounds.getCenterY() / factor - fontBounds.getCenterY()
-        );
-        final Shape outline = tl.getOutline(tf);
-
-        // Restore graphics configuration
-        g2d.setFont(oldFont);
-        return outline;
-    }
-
-    /**
-     * Draws the specified {@code Coin} on the graphical user interface.
-     *
-     * @param c           the {@code Coin} to draw
-     * @param g           the {@code Graphics} context in which to paint
-     * @param evadeRobots whether to evade robots. Enable this if a robot is on the same field as the coin
-     */
-    protected void drawCoin(final Coin c, final Graphics g, final boolean evadeRobots) {
-        final Color cBackup = g.getColor();
-        final var g2d = (Graphics2D) g;
-        final var text = Integer.toString(c.getCount());
-
-        final Rectangle2D fieldBounds = scale(getFieldBounds(c, world));
-        g.setColor(getColorProfile().getCoinColor());
-        if (!evadeRobots) {
-            g2d.fill(
-                new Ellipse2D.Double(
-                    fieldBounds.getX(),
-                    fieldBounds.getY(),
-                    fieldBounds.getWidth(),
-                    fieldBounds.getHeight()
-                )
-            );
-        }
-
-        // draw the count of the coin in the middle of the coin
-        final double borderWidth = scale((double) getColorProfile().fieldBorderThickness());
-        final double padding = scale((double) getColorProfile().fieldInnerOffset());
-        final double wantedSize = evadeRobots ? scale(20d) : fieldBounds.getWidth();
-        final Point2D wantedCenter =
-            evadeRobots ? new Point2D.Double(
-                fieldBounds.getMaxX() - wantedSize / 2d,
-                fieldBounds.getY() + wantedSize / 2d
-            ) : new Point2D.Double(
-                fieldBounds.getCenterX(),
-                fieldBounds.getCenterY()
-            );
-
-        final var scaledText = scaleTextToWidth(
-            g2d,
-            wantedSize,
-            borderWidth + padding,
-            text,
-            g.getFont().deriveFont((float) scale(16d)),
-            false
-        );
-        // center text
-        final var at = new AffineTransform();
-        at.translate(
-            wantedCenter.getX() - scaledText.getBounds2D().getCenterX(),
-            wantedCenter.getY() - scaledText.getBounds2D().getCenterY()
-        );
-        final var textShape = at.createTransformedShape(scaledText);
-
-        if (evadeRobots) {
-            // draw white box background
-            g.setColor(getColorProfile().getCoinColor());
-            g2d.fill(
-                new Ellipse2D.Double(
-                    wantedCenter.getX() - wantedSize / 2d,
-                    wantedCenter.getY() - wantedSize / 2d,
-                    wantedSize,
-                    wantedSize
-                )
-            );
-            g.setColor(Color.BLACK);
-            final var oldStroke = g2d.getStroke();
-            g2d.setStroke(new BasicStroke(scale(2)));
-            g2d.draw(
-                new Ellipse2D.Double(
-                    wantedCenter.getX() - wantedSize / 2d,
-                    wantedCenter.getY() - wantedSize / 2d,
-                    wantedSize,
-                    wantedSize
-                )
-            );
-            g2d.setStroke(oldStroke);
-            g.setColor(Color.BLACK);
-        }
-        // draw the string
-        g.setColor(Color.BLACK);
-        g2d.fill(textShape);
-
-        g.setColor(cBackup);
-    }
-
-    /**
-     * Draws the specified {@code Block} on the graphical user interface.
-     *
-     * @param b the {@code Block} to draw
-     * @param g the {@code Graphics} context in which to paint
-     */
-    protected void drawBlock(final Block b, final Graphics g) {
-        final Color cBackup = g.getColor();
-
-        final Point upperLeft = getUpperLeftCornerInField(b, world);
-        g.setColor(getColorProfile().getBlockColor());
-        final int size = getColorProfile().fieldInnerSize() - getColorProfile().fieldInnerOffset() * 2;
-        g.fillRect(scale(upperLeft.x), scale(upperLeft.y), scale(size), scale(size));
-
-        g.setColor(cBackup);
-    }
-
-    /**
-     * Draws the specified {@code Wall} on the graphical user interface.
-     *
-     * @param w the {@code Wall} to draw
-     * @param g the {@code Graphics} context in which to paint
-     */
-    protected void drawWall(final Wall w, final Graphics g) {
-        final Color cBackup = g.getColor();
-        g.setColor(getColorProfile().getWallColor());
-
-        final Point upperLeft = getUpperLeftCornerInField(w, world);
-        if (w.isHorizontal()) {
-            final int x = upperLeft.x - getColorProfile().fieldInnerOffset() * 2;
-            final int y = upperLeft.y - getColorProfile().fieldInnerOffset() - getColorProfile().fieldBorderThickness();
-            g.fillRect(
-                scale(x),
-                scale(y),
-                scale(getColorProfile().fieldInnerSize() + getColorProfile().fieldInnerOffset() * 2),
-                scale(getColorProfile().fieldBorderThickness())
-            );
-        } else {
-            final int x = upperLeft.x - getColorProfile().fieldInnerOffset() + getColorProfile().fieldInnerSize();
-            final int y = upperLeft.y - getColorProfile().fieldInnerOffset() * 2;
-            g.fillRect(
-                scale(x),
-                scale(y),
-                scale(getColorProfile().fieldBorderThickness()),
-                scale(getColorProfile().fieldInnerSize() + getColorProfile().fieldInnerOffset() * 2)
-            );
-        }
-
-        g.setColor(cBackup);
-    }
-
-    /**
      * Updates the content of the graphical user interface.
      */
     public void updateGui() {
@@ -673,6 +400,7 @@ public class GuiPanel extends JPanel {
      * Scales the given value with the current scale factor.
      *
      * @param value the value to scale
+     *
      * @return the scaled value
      */
     public double scale(final double value) {
@@ -683,6 +411,7 @@ public class GuiPanel extends JPanel {
      * Scales the given value with the current scale factor.
      *
      * @param value the value to scale
+     *
      * @return the scaled value
      */
     public float scale(final float value) {
@@ -693,6 +422,7 @@ public class GuiPanel extends JPanel {
      * Scales the given value with the current scale factor.
      *
      * @param value the value to scale
+     *
      * @return the scaled value
      */
     public int scale(final int value) {
@@ -703,6 +433,7 @@ public class GuiPanel extends JPanel {
      * Returns a new {@link Rectangle2D} that is a scaled version of the given {@link Rectangle2D}.
      *
      * @param rect the {@link Rectangle2D} to scale
+     *
      * @return the scaled {@link Rectangle2D}
      */
     public Rectangle2D scale(final Rectangle2D rect) {

@@ -3,19 +3,28 @@ package fopbot;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A {@link FieldHoverEvent} represents a hover over a field.
+ * An event representing a hover action over a field in the virtual world.
+ *
+ * <p>This event captures the field currently being hovered and the field that was hovered previously,
+ * if any.
  */
 public class FieldHoverEvent {
 
+    /**
+     * The field currently being hovered, or {@code null} if the cursor left the world.
+     */
     private final @Nullable Field field;
 
+    /**
+     * The field that was previously hovered, or {@code null} if there was none.
+     */
     private final @Nullable Field previousField;
 
     /**
-     * Constructs a {@link FieldHoverEvent} with the given field.
+     * Constructs a new {@code FieldHoverEvent} with the current and previous hovered fields.
      *
-     * @param field the field
-     * @param previousField the previously hovered field
+     * @param field         the currently hovered field, may be {@code null}
+     * @param previousField the previously hovered field, may be {@code null}
      */
     public FieldHoverEvent(final @Nullable Field field, final @Nullable Field previousField) {
         this.field = field;
@@ -23,20 +32,21 @@ public class FieldHoverEvent {
     }
 
     /**
-     * Returns the hovered field.
+     * Returns the currently hovered field.
      *
-     * @return the field
+     * @return the current field, or {@code null} if none
      */
     public @Nullable Field getField() {
         return field;
     }
 
     /**
-     * Returns the previously hovered field, or null if there was none.
+     * Returns the previously hovered field.
      *
-     * @return the field
+     * @return the previous field, or {@code null} if none
      */
     public @Nullable Field getPreviousField() {
         return previousField;
     }
 }
+

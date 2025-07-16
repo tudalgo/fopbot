@@ -1,5 +1,6 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
@@ -9,101 +10,75 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
- * A single field in a 2D world where field entities can be placed.
- *
- * @see FieldEntity
+ * A 2D field in a virtual world that can contain various entities ({@link FieldEntity}).
  */
 public class Field {
 
     /**
-     * Contains all entities that are on this field.
+     * The virtual world this field belongs to.
      */
-    private final List<FieldEntity> entities;
+    private final @NotNull KarelWorld world;
 
-    // Lambda that provides color
-    private Supplier<@Nullable Color> fieldColorSupplier = () -> null;
-
-    private final KarelWorld world;
-
+    /**
+     * The x-coordinate of this field in the virtual world.
+     */
     private final int x;
 
+    /**
+     * The y-coordinate of this field in the virtual world.
+     */
     private final int y;
 
     /**
-     * Constructs a field with the given coordinate and no entities on it.
-     *
-     * @param world the world
-     * @param x     the x-coordinate
-     * @param y     the x-coordinate
+     * The entities currently placed on this field.
      */
-    public Field(final KarelWorld world, final int x, final int y) {
-        entities = new LinkedList<>();
+    private final @NotNull List<FieldEntity> entities;
+
+    /**
+     * A supplier that provides the background color of this field.
+     */
+    private Supplier<@Nullable Color> fieldColorSupplier = () -> null;
+
+    /**
+     * Constructs a field at the given coordinates in the specified world.
+     *
+     * @param world the world this field belongs to
+     * @param x     the x-coordinate of this field
+     * @param y     the y-coordinate of this field
+     */
+    public Field(final @NotNull KarelWorld world, final int x, final int y) {
+        this.entities = new LinkedList<>();
         this.world = world;
         this.x = x;
         this.y = y;
     }
 
     /**
-     * Constructs a field with the given coordinate and the specified entities on it.
+     * Constructs a field with predefined entities at the given coordinates in the specified world.
      *
-     * @param world    the world
-     * @param x        the x-coordinate
-     * @param y        the x-coordinate
-     * @param entities the entities
+     * @param world    the world this field belongs to
+     * @param x        the x-coordinate of this field
+     * @param y        the y-coordinate of this field
+     * @param entities a list of entities to be placed on the field
      */
-    public Field(final KarelWorld world, final int x, final int y, final List<FieldEntity> entities) {
+    public Field(final @NotNull KarelWorld world, final int x, final int y, final @NotNull List<FieldEntity> entities) {
         this(world, x, y);
         this.entities.addAll(entities);
     }
 
     /**
-     * Returns the entities that are on this field.
+     * Returns the world this field belongs to.
      *
-     * @return the entities that are on this field
+     * @return the world instance
      */
-    public List<FieldEntity> getEntities() {
-        return entities;
-    }
-
-    /**
-     * Sets the background color of this {@link Field} to the color provided by the specified
-     * {@link Supplier}.
-     * <p>If the specified {@link Supplier} returns {@code null}, the background color of this {@link Field}
-     * will be reset to the default color.</p>
-     * <p>Use this method to set the background color of this {@link Field} dynamically.</p>
-     *
-     * @param fieldColorSupplier the {@link Supplier} that provides the background color of this {@link Field}
-     *                           or {@code null} to reset the background color to the default color
-     */
-    public void setFieldColor(final Supplier<@Nullable Color> fieldColorSupplier) {
-        this.fieldColorSupplier = fieldColorSupplier;
-        Optional.ofNullable(world.getGuiPanel()).ifPresent(GuiPanel::updateGui);
-    }
-
-    /**
-     * Sets the background color of this {@link Field} to the specified color.
-     * <p>If the specified color is {@code null}, the background color of this {@link Field}
-     * will be reset to the default color.</p>
-     *
-     * @param fieldColor the new background color of this {@link Field}
-     */
-    public void setFieldColor(final @Nullable Color fieldColor) {
-        setFieldColor(() -> fieldColor);
-    }
-
-    /**
-     * Returns the background color of this {@link Field}.
-     *
-     * @return the background color of this {@link Field}
-     */
-    public @Nullable Color getFieldColor() {
-        return fieldColorSupplier.get();
+    public @NotNull KarelWorld getWorld() {
+        return world;
     }
 
     /**
      * Returns the x-coordinate of this field.
      *
-     * @return the x-coordinate.
+     * @return the x-coordinate
      */
     public int getX() {
         return x;
@@ -119,11 +94,85 @@ public class Field {
     }
 
     /**
-     * Returns the world of this field.
+     * Returns the list of entities currently on this field.
      *
-     * @return the world
+     * @return the list of entities
      */
-    public KarelWorld getWorld() {
-        return world;
+    public @NotNull List<FieldEntity> getEntities() {
+        return entities;
+    }
+
+    /**
+     * Returns the current background color of this field.
+     *
+     * @return the field color, or {@code null} if none is set
+     */
+    public @Nullable Color getFieldColor() {
+        return fieldColorSupplier.get();
+    }
+
+    /**
+     * Sets a background color for this field.
+     *
+     * @param fieldColor the color to be used as background
+     */
+    public void setFieldColor(final @Nullable Color fieldColor) {
+        setFieldColor(() -> fieldColor);
+    }
+
+    /**
+     * Sets a background color for this field.
+     *
+     * @param fieldColorSupplier a supplier that returns the color for the background
+     */
+    public void setFieldColor(final @NotNull Supplier<@Nullable Color> fieldColorSupplier) {
+        this.fieldColorSupplier = fieldColorSupplier;
+        Optional.ofNullable(world.getGuiPanel()).ifPresent(GuiPanel::updateGui);
+    }
+
+    /**
+     * Checks whether this field contains any entity of the given class type.
+     *
+     * @param clazz the class to check for
+     *
+     * @return {@code true} if an entity of the given type is present
+     */
+    public boolean containsEntity(final @NotNull Class<? extends FieldEntity> clazz) {
+        return entities.stream().anyMatch(clazz::isInstance);
+    }
+
+    /**
+     * Checks whether this field contains the specified entity.
+     *
+     * @param entity the entity to check
+     *
+     * @return {@code true} if the entity is on this field
+     */
+    public boolean containsEntity(final @NotNull FieldEntity entity) {
+        return entities.contains(entity);
+    }
+
+    /**
+     * Removes the specified entity from this field.
+     *
+     * @param entity the entity to remove
+     */
+    public void removeEntity(final @NotNull FieldEntity entity) {
+        entities.remove(entity);
+    }
+
+    /**
+     * Removes the first entity on this field that is an instance of the given class.
+     *
+     * @param clazz the class of the entity to remove
+     */
+    public void removeEntity(final @NotNull Class<? extends FieldEntity> clazz) {
+        final var it = entities.iterator();
+        while (it.hasNext()) {
+            if (clazz.isInstance(it.next())) {
+                it.remove();
+                break;
+            }
+        }
     }
 }

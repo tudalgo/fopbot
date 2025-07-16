@@ -1,7 +1,5 @@
 package fopbot;
 
-import java.util.Arrays;
-
 /**
  * Defines the (viewing) direction that an entity can have.
  */

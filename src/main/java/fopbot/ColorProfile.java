@@ -1,6 +1,7 @@
 package fopbot;
 
 import lombok.Builder;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
@@ -33,21 +34,21 @@ import java.util.function.BiFunction;
  */
 @Builder(toBuilder = true)
 public record ColorProfile(
-    Color backgroundColorLight,
-    Color backgroundColorDark,
-    Color fieldColorLight,
-    Color fieldColorDark,
+    @NotNull Color backgroundColorLight,
+    @NotNull Color backgroundColorDark,
+    @NotNull Color fieldColorLight,
+    @NotNull Color fieldColorDark,
     @Nullable BiFunction<ColorProfile, Point, Color> customFieldColorPattern,
-    Color outerBorderColorLight,
-    Color outerBorderColorDark,
-    Color innerBorderColorLight,
-    Color innerBorderColorDark,
-    Color wallColorLight,
-    Color wallColorDark,
-    Color coinColorLight,
-    Color coinColorDark,
-    Color blockColorLight,
-    Color blockColorDark,
+    @NotNull Color outerBorderColorLight,
+    @NotNull Color outerBorderColorDark,
+    @NotNull Color innerBorderColorLight,
+    @NotNull Color innerBorderColorDark,
+    @NotNull Color wallColorLight,
+    @NotNull Color wallColorDark,
+    @NotNull Color coinColorLight,
+    @NotNull Color coinColorDark,
+    @NotNull Color blockColorLight,
+    @NotNull Color blockColorDark,
     int fieldInnerSize,
     int fieldBorderThickness,
     int fieldOuterBorderThickness,
@@ -57,7 +58,7 @@ public record ColorProfile(
     /**
      * The default color profile.
      */
-    public static ColorProfile DEFAULT = ColorProfile.builder()
+    public static @NotNull ColorProfile DEFAULT = ColorProfile.builder()
         .fieldInnerSize(60)
         .fieldBorderThickness(4)
         .fieldOuterBorderThickness(4)
@@ -94,7 +95,7 @@ public record ColorProfile(
      *
      * @return the background color of the world
      */
-    public Color getBackgroundColor() {
+    public @NotNull Color getBackgroundColor() {
         return isDarkMode() ? backgroundColorDark : backgroundColorLight;
     }
 
@@ -104,7 +105,7 @@ public record ColorProfile(
      * @param fieldPosition the position of the field
      * @return the default background color for {@link Field}s
      */
-    public Color getFieldColor(final Point fieldPosition) {
+    public @NotNull Color getFieldColor(final Point fieldPosition) {
         return customFieldColorPattern != null
                ? customFieldColorPattern.apply(this, fieldPosition)
                : (isDarkMode() ? fieldColorDark : fieldColorLight);
@@ -115,7 +116,7 @@ public record ColorProfile(
      *
      * @return the color of the outer border
      */
-    public Color getOuterBorderColor() {
+    public @NotNull Color getOuterBorderColor() {
         return isDarkMode() ? outerBorderColorDark : outerBorderColorLight;
     }
 
@@ -124,7 +125,7 @@ public record ColorProfile(
      *
      * @return the color of the inner border
      */
-    public Color getInnerBorderColor() {
+    public @NotNull Color getInnerBorderColor() {
         return isDarkMode() ? innerBorderColorDark : innerBorderColorLight;
     }
 
@@ -133,7 +134,7 @@ public record ColorProfile(
      *
      * @return the color of {@link Wall}s
      */
-    public Color getWallColor() {
+    public @NotNull Color getWallColor() {
         return isDarkMode() ? wallColorDark : wallColorLight;
     }
 
@@ -142,7 +143,7 @@ public record ColorProfile(
      *
      * @return the color of {@link Coin}s
      */
-    public Color getCoinColor() {
+    public @NotNull Color getCoinColor() {
         return isDarkMode() ? coinColorDark : coinColorLight;
     }
 
@@ -151,7 +152,7 @@ public record ColorProfile(
      *
      * @return the color of {@link Block}s
      */
-    public Color getBlockColor() {
+    public @NotNull Color getBlockColor() {
         return isDarkMode() ? blockColorDark : blockColorLight;
     }
 }
