@@ -2,6 +2,7 @@ package fopbot;
 
 import com.jthemedetecor.OsThemeDetector;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -266,17 +267,17 @@ public class GuiPanel extends JPanel {
      *
      * @param g the {@code Graphics} context in which to paint
      */
-    protected void draw(final Graphics g) {
+    protected void draw(final @NotNull Graphics g) {
         drawBoard(g);
-        var config = world.getDrawingRegistry();
-        var drawingOrder = config.order();
-        Rectangle bounds = getBounds();
-        ColorProfile colorProfile = getColorProfile();
+        final var config = world.getDrawingRegistry();
+        final var drawingOrder = config.order();
+        final Rectangle bounds = getBounds();
+        final ColorProfile colorProfile = getColorProfile();
         world.getFields().forEach(field -> {
-            List<FieldEntity> sorted = new ArrayList<>(field.getEntities());
+            final List<FieldEntity> sorted = new ArrayList<>(field.getEntities());
             sorted.sort(drawingOrder);
             sorted.forEach(entity -> {
-                DrawingContext<FieldEntity> context = new DrawingContext<>(
+                final DrawingContext<FieldEntity> context = new DrawingContext<>(
                     entity,
                     world,
                     bounds,
@@ -284,8 +285,8 @@ public class GuiPanel extends JPanel {
                     scaleFactor,
                     field
                 );
-                @SuppressWarnings("unchecked")
-                Drawable<FieldEntity> drawable = (Drawable<FieldEntity>) config.getDrawing(entity.getClass());
+                @SuppressWarnings("unchecked") final Drawable<FieldEntity> drawable =
+                    (Drawable<FieldEntity>) config.getDrawing(entity.getClass());
                 drawable.draw(g, context);
             });
         });

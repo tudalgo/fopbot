@@ -1,6 +1,7 @@
 package fopbot;
 
 import fopbot.Transition.RobotAction;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ public class RobotTrace implements Iterable<Transition> {
     /**
      * The transitions contain the analysis * or tracing of the actions of robots.
      */
-    private List<Transition> transitions = new ArrayList<>();
+    private @NotNull List<Transition> transitions = new ArrayList<>();
 
     /**
      * Constructs and initializes robot trace with the specified trace as previous traces of the
@@ -24,7 +25,7 @@ public class RobotTrace implements Iterable<Transition> {
      *
      * @param robotTrace the previous traces of the constructed robot trace
      */
-    public RobotTrace(RobotTrace robotTrace) {
+    public RobotTrace(final @NotNull RobotTrace robotTrace) {
         this.transitions = new ArrayList<>(robotTrace.getTransitions());
     }
 
@@ -34,9 +35,13 @@ public class RobotTrace implements Iterable<Transition> {
     public RobotTrace() {
     }
 
-    @Override
-    public Iterator<Transition> iterator() {
-        return transitions.iterator();
+    /**
+     * Returns the previous transitions of this trace.
+     *
+     * @return the previous transitions of this trace
+     */
+    public @NotNull List<Transition> getTransitions() {
+        return transitions;
     }
 
     /**
@@ -44,24 +49,13 @@ public class RobotTrace implements Iterable<Transition> {
      *
      * @param transitions the new transitions for this trace
      */
-    public void setTransitions(List<Transition> transitions) {
+    public void setTransitions(final @NotNull List<Transition> transitions) {
         this.transitions = transitions;
     }
 
-    /**
-     * Returns the previous transitions of this trace.
-     *
-     * @return the previous transitions of this trace
-     */
-    public List<Transition> getTransitions() {
-        return transitions;
-    }
-
     @Override
-    public String toString() {
-        return "RobotTrace{"
-            + "transitions=" + transitions
-            + '}';
+    public @NotNull Iterator<Transition> iterator() {
+        return transitions.iterator();
     }
 
     /**
@@ -70,8 +64,16 @@ public class RobotTrace implements Iterable<Transition> {
      * @param r           the robot to trace
      * @param robotAction the action of the robot
      */
-    public void trace(Robot r, RobotAction robotAction) {
+    public void trace(final @NotNull Robot r, final @NotNull RobotAction robotAction) {
         transitions.add(new Transition(robotAction, r));
         World.getGlobalWorld().checkActionLimit();
     }
+
+    @Override
+    public @NotNull String toString() {
+        return "RobotTrace{"
+            + "transitions=" + transitions
+            + '}';
+    }
+
 }

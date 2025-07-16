@@ -2,7 +2,7 @@ import org.jetbrains.dokka.DokkaConfiguration.Visibility
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
-import java.net.URL
+import java.net.URI
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -42,13 +42,13 @@ dependencies {
 }
 
 tasks.withType<DokkaTask>().configureEach {
-    moduleName.set("FOPBot")
+    moduleName.set("fopbot")
     dokkaSourceSets.configureEach {
         includes.from("Module.md")
         jdkVersion.set(21)
         sourceLink {
             localDirectory.set(projectDir.resolve("src"))
-            remoteUrl.set(URL("https://github.com/tudalgo/fopbot/tree/master/src"))
+            remoteUrl.set(URI("https://github.com/tudalgo/fopbot/tree/master/src").toURL())
             remoteLineSuffix.set("#L")
         }
         perPackageOption {

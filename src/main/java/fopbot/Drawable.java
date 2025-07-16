@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -26,7 +28,7 @@ public interface Drawable<E extends FieldEntity> {
      *
      * @return the scaled value
      */
-    default double scale(double value, DrawingContext<? extends FieldEntity> context) {
+    default double scale(final double value, final @NotNull DrawingContext<? extends FieldEntity> context) {
         return value * context.scaleFactor();
     }
 
@@ -38,7 +40,7 @@ public interface Drawable<E extends FieldEntity> {
      *
      * @return the scaled value
      */
-    default float scale(float value, DrawingContext<? extends FieldEntity> context) {
+    default float scale(final float value, final @NotNull DrawingContext<? extends FieldEntity> context) {
         return (float) (value * context.scaleFactor());
     }
 
@@ -50,7 +52,7 @@ public interface Drawable<E extends FieldEntity> {
      *
      * @return the scaled value
      */
-    default int scale(int value, DrawingContext<? extends FieldEntity> context) {
+    default int scale(final int value, final @NotNull DrawingContext<? extends FieldEntity> context) {
         return (int) (value * context.scaleFactor());
     }
 
@@ -62,7 +64,10 @@ public interface Drawable<E extends FieldEntity> {
      *
      * @return a scaled {@link Rectangle2D} object
      */
-    default Rectangle2D scale(final Rectangle2D rect, DrawingContext<? extends FieldEntity> context) {
+    default Rectangle2D scale(
+        final @NotNull Rectangle2D rect,
+        final @NotNull DrawingContext<? extends FieldEntity> context
+    ) {
         double scaleFactor = context.scaleFactor();
         return new Rectangle2D.Double(
             rect.getX() * scaleFactor,
@@ -87,13 +92,13 @@ public interface Drawable<E extends FieldEntity> {
      * @return a scaled {@link Shape} representing the text outline
      */
     default Shape scaleTextToWidth(
-        Graphics2D g2d,
-        Rectangle bounds,
-        double width,
-        double borderWidth,
-        String text,
-        Font f,
-        boolean scaleEvenIfFits
+        final @NotNull Graphics2D g2d,
+        final @NotNull Rectangle bounds,
+        final double width,
+        final double borderWidth,
+        final @NotNull String text,
+        final @NotNull Font f,
+        final boolean scaleEvenIfFits
     ) {
         // Store current g2d Configuration
         final Font oldFont = g2d.getFont();
@@ -139,5 +144,5 @@ public interface Drawable<E extends FieldEntity> {
      * @param g       the graphics object on which to draw
      * @param context the context containing information about the entity and drawing environment
      */
-    void draw(Graphics g, DrawingContext<? extends E> context);
+    void draw(@NotNull Graphics g, @NotNull DrawingContext<? extends E> context);
 }

@@ -102,6 +102,7 @@ public class KarelWorld {
      */
     private boolean drawTurnedOffRobots = true;
 
+
     /**
      * Constructs and initializes a world with the specified size.
      *
@@ -523,13 +524,24 @@ public class KarelWorld {
      *
      * @throws IllegalArgumentException if the coordinates of the entity are out of bounds
      */
-    public void placeEntity(FieldEntity entity) {
-        int x = entity.getX();
-        int y = entity.getY();
+    public void placeFieldEntity(final FieldEntity entity) {
+        final int x = entity.getX();
+        final int y = entity.getY();
         checkXCoordinate(x);
         checkYCoordinate(y);
         fields[y][x].getEntities().add(entity);
         triggerUpdate();
+    }
+
+    /**
+     * Removes the first {@link FieldEntity} from the field at the specified coordinates.
+     *
+     * @param x     the x-coordinate of the field
+     * @param y     the y-coordinate of the field
+     * @param clazz the class of the {@link FieldEntity} to remove
+     */
+    public void removeFieldEntity(final int x, final int y, final Class<? extends FieldEntity> clazz) {
+        removeFieldEntity(x, y, e -> e.getClass() == clazz);
     }
 
     /**
@@ -542,10 +554,10 @@ public class KarelWorld {
      *
      * @throws IllegalArgumentException if the coordinates are out of bounds
      */
-    public void removeEntity(int x, int y, Predicate<? super FieldEntity> filter) {
+    public void removeFieldEntity(final int x, final int y, final Predicate<? super FieldEntity> filter) {
         checkXCoordinate(x);
         checkYCoordinate(y);
-        var it = fields[y][x].getEntities().iterator();
+        final var it = fields[y][x].getEntities().iterator();
         while (it.hasNext()) {
             if (filter.test(it.next())) {
                 it.remove();
@@ -556,30 +568,19 @@ public class KarelWorld {
     }
 
     /**
-     * Removes the first {@link FieldEntity} from the field at the specified coordinates.
-     *
-     * @param x     the x-coordinate of the field
-     * @param y     the y-coordinate of the field
-     * @param clazz the class of the {@link FieldEntity} to remove
-     */
-    public void removeEntity(int x, int y, Class<? extends FieldEntity> clazz) {
-        removeEntity(x, y, e -> e.getClass() == clazz);
-    }
-
-    /**
      * Removes the specified {@link FieldEntity} from the field.
      *
      * @param entity the {@link FieldEntity} to be removed from the field
      *
      * @throws IllegalArgumentException if the coordinates of the entity are out of bounds
      */
-    public void removeEntity(FieldEntity entity) {
-        int x = entity.getX();
-        int y = entity.getY();
+    public void removeFieldEntity(final FieldEntity entity) {
+        final int x = entity.getX();
+        final int y = entity.getY();
         checkXCoordinate(x);
         checkYCoordinate(y);
-        Field field = fields[y][x];
-        if (field.contains(entity)) {
+        final Field field = fields[y][x];
+        if (field.containsEntity(entity)) {
             field.removeEntity(entity);
             triggerUpdate();
         }
@@ -843,7 +844,7 @@ public class KarelWorld {
      *
      * @param drawingRegistry the new {@link DrawingRegistry} instance to be set
      */
-    public void setDrawingRegistry(DrawingRegistry drawingRegistry) {
+    public void setDrawingRegistry(final DrawingRegistry drawingRegistry) {
         this.drawingRegistry = drawingRegistry;
         triggerUpdate();
     }

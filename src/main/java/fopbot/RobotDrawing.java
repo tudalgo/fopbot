@@ -1,5 +1,7 @@
 package fopbot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -10,7 +12,7 @@ import java.awt.Point;
 public class RobotDrawing implements Drawable<Robot> {
 
     @Override
-    public void draw(Graphics g, DrawingContext<? extends Robot> context) {
+    public void draw(@NotNull final Graphics g, @NotNull final DrawingContext<? extends Robot> context) {
         final Robot robot = context.entity();
 
         if (robot.isTurnedOff() && !context.world().isDrawTurnedOffRobots()) {
@@ -36,5 +38,4 @@ public class RobotDrawing implements Drawable<Robot> {
             null
         );
     }
-
 }
