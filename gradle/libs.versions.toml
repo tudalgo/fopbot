@@ -2,7 +2,7 @@
 dokka = "2.0.0"
 
 [libraries]
-annotations = { module = "org.jetbrains:annotations", version = "26.0.2" }
+annotations = { module = "org.jetbrains:annotations", version = "26.0.2-1" }
 dokkaKotlinAsJavaPlugin = { module = "org.jetbrains.dokka:kotlin-as-java-plugin", version.ref = "dokka" }
 dokkaVersioningPlugin = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
 dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
