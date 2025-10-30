@@ -13,6 +13,6 @@ jSystemThemeDetector = { module = "com.github.Dansoftowner:jSystemThemeDetector"
 slf4jSimple = "org.slf4j:slf4j-simple:2.0.17"
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.2.0" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.2.21" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 style = { id = "org.sourcegrade.style", version = "3.0.0" }
