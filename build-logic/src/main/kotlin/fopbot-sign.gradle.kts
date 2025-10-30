@@ -10,3 +10,7 @@ extensions.configure<PublishingExtension> {
         }
     }
 }
+
+signing {
+    useGpgCmd()
+}
